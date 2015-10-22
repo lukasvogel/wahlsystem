@@ -19,9 +19,9 @@
 				\item Direktmandate by party
 				\item Each vote has to be stored separately but can be aggregated on Wahlkreis-level for faster analysis.
 			\end{itemize}
-		\item Comparation to former elections
+		\item Comparison to former elections
 			\begin{itemize}
-				\item Compare results of current elections to former lections, especially those from 2009 and 2013
+				\item Compare results of current elections to former elections, especially those from 2009 and 2013
 				\item Votes from former elections are not kept.
 			\end{itemize}
 		\item Voting
@@ -33,13 +33,13 @@
 	\section*{Nonfunctional Requirements}
 	
 	\begin{description}
-		\item[Performance] Voting, evaluation and analysis has to happen in near realtime.
-		\item[Scalability] The system must handle the votes of 60 Million Wahlberechtigte on election day. 
-		After the election has closed, the system has to present analytics in realtime to all interested citizens.
-		\item[Information privacy] The personal information of all voters and candidates has to be secure under all circumstances.
-		\item[Robustness] Loss of power, hardware or software crashes must not lead to a loss of votes.
-		\item[Safety] The system has to be safe from intrusion. Only Wahlberechtigte are allowed to vote. They may vote exactly once per election.
-		\item[Compliance] The system has to be compliant with the Bundeswahlger\"ateverordnung (BWahlGV) .
+		\item[Performance] Voting, evaluation and analysis has to happen in near real-time. Acceptance criteria \ref{perf}
+		\item[Scalability] The system must handle the votes of 60 Million Wahlberechtigte on election day. Acceptance criteria \ref{scala}
+		After the election has closed, the system has to present analytics in real-time to all interested citizens.Acceptance criteria \ref{ana}
+		\item[Information privacy] The personal information of all voters and candidates has to be secure under all circumstances. Acceptance criteria \ref{privacy}
+		\item[Robustness] Loss of power, hardware or software crashes must not lead to a loss of votes. Acceptance criteria \ref{rob}
+		\item[Safety] The system has to be safe from intrusion. Only Wahlberechtigte are allowed to vote. They may vote exactly once per election. Acceptance criteria \ref{safe}
+		\item[Compliance] The system has to be compliant with the Bundeswahlger\"ateverordnung (BWahlGV) . Acceptance criteria \ref{comp}
 	\end{description}
 	
 	\section*{User Interface}
@@ -48,7 +48,7 @@
 		\item Voting
 			\begin{itemize}
 				\item Only one vote per person allowed
-				\item The first vote and/or the second vote can be marked as invalid indiviudally.
+				\item The first vote and/or the second vote can be marked as invalid individually.
 				\item Order of first and second vote not specified
 				\item Neutral presentation of all options (i.e. no default values)
 			\end{itemize}
@@ -59,20 +59,20 @@
 	\end{itemize}
 	
 	\section*{Acceptance Criteria}
-	\begin{itemize}
-		\item All functional requirements are fulfilled.
-		\item Scalability
+	\begin{enumerate}
+		\item \labell{fuctio} All functional requirements are fulfilled.
+		\item  \labell{scala} Scalability
 			\begin{itemize}
 				\item An input of 150 million votes can be handled in 12 hours.
 				\item After voting has ended:100 million analyses can be shown over the next 6 hours. 
 			\end{itemize} 
-		\item Performance
+		\item  \labell{perf} Performance
 			\begin{itemize}
 				\item Vote has to be registered in less than 20 seconds
 				\item Calculation of the current election status in less than 10 minutes
-				\item A webpage, showing the current election status has to be served in less than 20 seconds.
+				\item A web-page, showing the current election status has to be served in less than 20 seconds.
 			\end{itemize}
-		\item Robustness
+		\item  \labell{rob} Robustness
 			\begin{itemize}
 				\item No votes are lost after power loss, resetting the system.
 			\end{itemize}
