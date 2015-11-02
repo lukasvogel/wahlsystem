@@ -1,3 +1,17 @@
+DROP TABLE DirectMandates CASCADE;
+DROP TABLE VotedOn CASCADE;
+DROP TABLE Listenplatz CASCADE;
+DROP TABLE Landesliste;
+DROP TABLE Zweitstimme;
+DROP TABLE Erststimme;
+DROP TABLE Candidate;
+DROP TABLE Party;
+DROP TABLE Voter;
+DROP TABLE Wahlkreis;
+DROP TABLE Bundesland;
+DROP TABLE Election;
+
+
 CREATE TABLE Election
       (
         ID          INTEGER PRIMARY KEY,
@@ -13,7 +27,7 @@ CREATE TABLE Bundesland
 CREATE TABLE Wahlkreis
       (
         ID          INTEGER PRIMARY KEY,
-        Name        VARCHAR(60) NOT NULL,
+        Name        VARCHAR(150) NOT NULL,
         Bundesland  INTEGER NOT NULL REFERENCES Bundesland
       );
 
