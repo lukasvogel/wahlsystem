@@ -14,43 +14,43 @@ DROP TABLE Election;
 
 CREATE TABLE Election
       (
-        ID          INTEGER PRIMARY KEY,
+        ID          SERIAL PRIMARY KEY,
         Date        DATE NOT NULL
       );
 
 CREATE TABLE Bundesland
       (
-        ID          INTEGER PRIMARY KEY,
+        ID          SERIAL PRIMARY KEY,
         Name        VARCHAR(30) NOT NULL
       );
 
 CREATE TABLE Wahlkreis
       (
-        ID          INTEGER PRIMARY KEY,
+        ID          SERIAL PRIMARY KEY,
         Name        VARCHAR(150) NOT NULL,
         Bundesland  INTEGER NOT NULL REFERENCES Bundesland
       );
 
 CREATE TABLE Voter
       (
-        ID          INTEGER PRIMARY KEY,
+        ID          SERIAL PRIMARY KEY,
         FirstName   VARCHAR(60) NOT NULL,
         LastName    VARCHAR(60) NOT NULL,
-        Birthday    DATE NOT NULL,
-        Adress      VARCHAR(100) NOT NULL,
+        BirthYear    SMALLINT NOT NULL,
+        Address      VARCHAR(100) NOT NULL,
         Gender      CHAR(1) NOT NULL,
         Wahlkreis   INTEGER NOT NULL REFERENCES Wahlkreis
       );
 
 CREATE TABLE Party
       (
-        ID          INTEGER PRIMARY KEY,
+        ID          SERIAL PRIMARY KEY,
         Name        VARCHAR(30) NOT NULL
       );
 
 CREATE TABLE Candidate
       (
-        ID          INTEGER PRIMARY KEY REFERENCES Voter,
+        ID          SERIAL PRIMARY KEY REFERENCES Voter,
         Profession  VARCHAR(30) NOT NULL,
         Party       INTEGER REFERENCES Party
       );
@@ -73,7 +73,7 @@ CREATE TABLE Zweitstimme
 
 CREATE TABLE Landesliste
       (
-        ID          INTEGER PRIMARY KEY,
+        ID          SERIAL PRIMARY KEY,
         Party       INTEGER NOT NULL REFERENCES Party,
         Election    INTEGER NOT NULL REFERENCES Election,
         Bundesland  INTEGER NOT NULL REFERENCES Bundesland
