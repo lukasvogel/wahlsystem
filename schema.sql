@@ -1,4 +1,4 @@
-DROP TABLE DirectMandates CASCADE;
+DROP TABLE DirectMandate CASCADE;
 DROP TABLE VotedOn CASCADE;
 DROP TABLE Listenplatz CASCADE;
 DROP TABLE Landesliste;
@@ -94,10 +94,11 @@ CREATE TABLE VotedOn
         PRIMARY KEY (Election,Voter)
       );
 
-CREATE TABLE DirectMandates
+CREATE TABLE DirectMandate
       (
         Election    INTEGER NOT NULL REFERENCES Election,
         Candidate   INTEGER NOT NULL REFERENCES Candidate,
         Wahlkreis   INTEGER NOT NULL REFERENCES Wahlkreis,
+        Party       INTEGER REFERENCES Party,
         PRIMARY KEY (Election,Candidate,Wahlkreis)
       );

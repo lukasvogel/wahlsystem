@@ -53,6 +53,7 @@ def main():
     addLandeslisten('data/Wahlbewerber2013/wahlbewerber_mit_platz.csv')
     addLandeslisten('data/Daten_2005_2009/wahlbewerber2009_mod.csv')
     addCandidates('data/Wahlbewerber2013/wahlbewerber_mit_platz.csv')
+    addCandidates('data/Daten_2005_2009/wahlbewerber2009_mod.csv')
 
     cur.close()
     conn.close()
@@ -156,8 +157,7 @@ def addLandeslisten(csvfile):
 def addCandidates(csvfile):
     print("Inserting Candidates from file " + csvfile )
 
-    for candidate in extractValues(csvfile,['Nachname','Vorname','Jahrgang','Kandidatennummer','Wahlkreis','Partei','Wahltermin','Listenplatz','Bundesland']):
-        id = candidate['Kandidatennummer']
+    for candidate in extractValues(csvfile,['Nachname','Vorname','Jahrgang','Wahlkreis','Partei','Wahltermin','Listenplatz','Bundesland']):
         lastname = candidate['Nachname']
         firstname = candidate['Vorname']
         wahltermin = datetime.datetime.strptime(candidate['Wahltermin'],"%Y-%m-%d")
@@ -178,20 +178,46 @@ def addCandidates(csvfile):
         electionID = cur.fetchone()
 
         # Each candidate is also a voter, so insert voter-tuple first
-        cur.execute("""INSERT INTO voter(id,firstname,lastname,birthyear,address,gender,wahlkreis)
-                        VALUES (%s,%s,%s,%s,%s,%s,%s)""",(id,firstname,lastname,birthyear,address,gender,wahlkreis))
+        # we assume that (firstname,lastname,birthyear) is unique for all candidates
+        cur.execute("""INSERT INTO voter(firstname,lastname,birthyear,address,gender,wahlkreis)
+                        SELECT %(fn)s,%(ln)s,%(by)s,%(address)s,%(gender)s,%(wahlkreis)s
+                        WHERE NOT EXISTS (SELECT *
+                                          FROM voter v
+                                          WHERE v.firstname = %(fn)s
+                                          AND v.lastname = %(ln)s
+                                          AND v.birthyear = %(by)s)
+                        RETURNING id""",
+                        {'fn' : firstname, 'ln' : lastname, 'by' : birthyear,
+                         'address' : address, 'gender' : gender, 'wahlkreis' : wahlkreis})
 
-        # insert candidate and connect to his party if he has one
-        if partyID == None:
-            cur.execute("INSERT INTO candidate(id,profession) VALUES (%s,%s)",(id,"")) #TODO: Profession unbekannt
-        else:
-            cur.execute("INSERT INTO candidate(id,profession,party) VALUES (%s,%s,%s)",(id,"",partyID[0]))
+
+        # Id is the id of the inserted voter
+        cID = cur.fetchone()
+
+        # If we have no ID, i.e. the candidate already existed, we get the ID of the existing candidate
+        if cID == None:
+            cur.execute("""SELECT *
+                              FROM voter v
+                              WHERE v.firstname = %s
+                              AND v.lastname = %s
+                              AND v.birthyear = %s""",(firstname,lastname,birthyear))
+            cID = cur.fetchone()
+
+
+        # insert candidate, only if he isn't already inserted
+        cur.execute("""INSERT INTO candidate(id,profession)
+                     SELECT %(id)s,%(profession)s
+                     WHERE NOT EXISTS (SELECT * FROM candidate c WHERE c.id = %(id)s )""",{'id' : cID[0], 'profession' : ""}) #TODO: Profession unbekannt
+
 
         # check whether candidate wants to win a direct mandate as well
         if candidate['Wahlkreis'] != "":
             # if we know of the corresponding election, we add the direct mandate of the candidate
             if electionID != None:
-                cur.execute("INSERT INTO DirectMandates VALUES (%s,%s,%s)",(int(electionID[0]),id,wahlkreis))
+                if partyID != None:
+                    cur.execute("INSERT INTO DirectMandate VALUES (%s,%s,%s,%s)",(int(electionID[0]),cID[0],wahlkreis,int(partyID[0])))
+                else:
+                    cur.execute("INSERT INTO DirectMandate VALUES (%s,%s,%s)",(int(electionID[0]),cID[0],wahlkreis))
             else: raise Error("a direct mandate couldn't be added, the database is missing an election key")
 
         # check whether candidate is on a landesliste
@@ -210,7 +236,7 @@ def addCandidates(csvfile):
                 ListID = cur.fetchone()
 
                 if ListID != None:
-                    cur.execute("INSERT INTO listenplatz VALUES (%s,%s,%s)",(ListID[0],id,candidate['Listenplatz']))
+                    cur.execute("INSERT INTO listenplatz VALUES (%s,%s,%s)",(ListID[0],cID[0],candidate['Listenplatz']))
                 else: raise Error("a listenplatz couldn't be added, the database is missing a landesliste")
             else: raise Error("a listenplatz couldn't be added, the database is missing an election/party/bundesland")
 
