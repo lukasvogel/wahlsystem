@@ -36,7 +36,7 @@ CREATE TABLE Voter
         ID          SERIAL PRIMARY KEY,
         FirstName   VARCHAR(60) NOT NULL,
         LastName    VARCHAR(60) NOT NULL,
-        BirthYear    SMALLINT NOT NULL,
+        BirthDate    DATE NOT NULL,
         Address      VARCHAR(100) NOT NULL,
         Gender      CHAR(1) NOT NULL,
         Wahlkreis   INTEGER NOT NULL REFERENCES Wahlkreis
@@ -50,9 +50,10 @@ CREATE TABLE Party
 
 CREATE TABLE Candidate
       (
-        ID          SERIAL PRIMARY KEY REFERENCES Voter,
-        Profession  VARCHAR(30) NOT NULL,
-        Party       INTEGER REFERENCES Party
+        ID          SERIAL PRIMARY KEY,
+        FirstName   VARCHAR(60) NOT NULL,
+        LastName    VARCHAR(60) NOT NULL,
+        BirthYear   SMALLINT NOT NULL
       );
 
 CREATE TABLE Erststimme

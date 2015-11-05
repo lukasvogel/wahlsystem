@@ -161,14 +161,8 @@ def addCandidates(csvfile):
         lastname = candidate['Nachname']
         firstname = candidate['Vorname']
         wahltermin = datetime.datetime.strptime(candidate['Wahltermin'],"%Y-%m-%d")
-        birthyear = int(candidate['Jahrgang']) #TODO: DOKU SCHEMADEFINITION UPDATEN: date -> smallint für birthyear
-        if candidate['Wahlkreis'] == "":
-            wahlkreis = 1 #TODO: WAHLKREISE MANCHMAL UNBEKANNT
-        else:
-            wahlkreis = int(candidate['Wahlkreis'])
-        address = '' #TODO: DO WE KNOW THE ADDRESS?
-        gender = '?' #TODO: DO WE KNOW THE GENDER?
-
+        birthyear = int(candidate['Jahrgang'])
+        wahlkreis = candidate['Wahlkreis']
         # Get the Party-ID of the voter (if one exists)
         cur.execute("SELECT id FROM party WHERE name=%s",(candidate['Partei'],))
         partyID = cur.fetchone() # ugly, but all party names in sample-db are unique
@@ -177,41 +171,32 @@ def addCandidates(csvfile):
         cur.execute("SELECT id FROM election WHERE date=%s",(wahltermin,))
         electionID = cur.fetchone()
 
-        # Each candidate is also a voter, so insert voter-tuple first
-        # we assume that (firstname,lastname,birthyear) is unique for all candidates
-        cur.execute("""INSERT INTO voter(firstname,lastname,birthyear,address,gender,wahlkreis)
-                        SELECT %(fn)s,%(ln)s,%(by)s,%(address)s,%(gender)s,%(wahlkreis)s
-                        WHERE NOT EXISTS (SELECT *
-                                          FROM voter v
-                                          WHERE v.firstname = %(fn)s
-                                          AND v.lastname = %(ln)s
-                                          AND v.birthyear = %(by)s)
-                        RETURNING id""",
-                        {'fn' : firstname, 'ln' : lastname, 'by' : birthyear,
-                         'address' : address, 'gender' : gender, 'wahlkreis' : wahlkreis})
-
-
-        # Id is the id of the inserted voter
-        cID = cur.fetchone()
-
-        # If we have no ID, i.e. the candidate already existed, we get the ID of the existing candidate
-        if cID == None:
-            cur.execute("""SELECT *
-                              FROM voter v
-                              WHERE v.firstname = %s
-                              AND v.lastname = %s
-                              AND v.birthyear = %s""",(firstname,lastname,birthyear))
-            cID = cur.fetchone()
 
 
         # insert candidate, only if he isn't already inserted
-        cur.execute("""INSERT INTO candidate(id,profession)
-                     SELECT %(id)s,%(profession)s
-                     WHERE NOT EXISTS (SELECT * FROM candidate c WHERE c.id = %(id)s )""",{'id' : cID[0], 'profession' : ""}) #TODO: Profession unbekannt
+        cur.execute("""INSERT INTO candidate(firstname,lastname,birthyear)
+                        SELECT %(fn)s,%(ln)s,%(by)s
+                        WHERE NOT EXISTS (SELECT *
+                                          FROM candidate c
+                                          WHERE c.firstname = %(fn)s
+                                          AND c.lastname = %(ln)s
+                                          AND c.birthyear = %(by)s)
+                        RETURNING id""",
+                        {'fn' : firstname, 'ln' : lastname, 'by' : birthyear})
+
+        cID = cur.fetchone()
+
+        if cID == None:
+            cur.execute("""SELECT id FROM candidate c  WHERE c.firstname = %(fn)s
+                                                      AND c.lastname = %(ln)s
+                                                      AND c.birthyear = %(by)s""",
+                        {'fn' : firstname, 'ln' : lastname, 'by' : birthyear})
+
+            cID = cur.fetchone()
 
 
         # check whether candidate wants to win a direct mandate as well
-        if candidate['Wahlkreis'] != "":
+        if wahlkreis != "":
             # if we know of the corresponding election, we add the direct mandate of the candidate
             if electionID != None:
                 if partyID != None:
