@@ -58,7 +58,7 @@ CREATE TABLE Candidate
 
 CREATE TABLE Erststimme
       (
-        ID          INTEGER PRIMARY KEY,
+        ID          SERIAL PRIMARY KEY,
         isInvalid   BOOLEAN NOT NULL,
         Candidate   INTEGER REFERENCES Candidate,
         Wahlkreis   INTEGER REFERENCES Wahlkreis
@@ -66,7 +66,7 @@ CREATE TABLE Erststimme
 
 CREATE TABLE Zweitstimme
       (
-        ID          INTEGER PRIMARY KEY,
+        ID          SERIAL PRIMARY KEY,
         isInvalid   BOOLEAN NOT NULL,
         Party       INTEGER REFERENCES Party,
         Wahlkreis   INTEGER REFERENCES Wahlkreis
