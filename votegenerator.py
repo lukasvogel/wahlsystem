@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
 import psycopg2
 import csv
 import datetime
+import sys
 from faker import Factory
 
 ### CONNECT TO POSTGRESQL ###
-conn = psycopg2.connect("dbname=wahlsystem user=postgres")
+conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
 cur = conn.cursor()
 
 cur.execute("DELETE FROM Erststimme")
@@ -14,11 +16,17 @@ cur.execute("DELETE FROM VotedOn")
 conn.commit()
 faker = Factory.create('de_DE')
 
-def main():
-    addVotes('data/kerg_modified_unicode.csv',2)
+def main(argv):
+    WToPopulate = 0;
+    if len (argv) == 2:
+        WToPopulate = int(argv[1]);
+        print ("Will only populate Wahlkreis: " + str(WToPopulate)) 
+    addVotes('data/kerg_modified_unicode.csv',2, WToPopulate)
 
 
-def addVotes(fileName, electionID):
+def addVotes(fileName, electionID, WahlkreisID):
+
+
 
     with open(fileName) as file:
         file.seek(0)
@@ -28,6 +36,9 @@ def addVotes(fileName, electionID):
 
         for row in freader:
             curWkID = row['WahlkreisNr']
+            if WahlkreisID != 0 and int(curWkID) != WahlkreisID:
+                print ("Skipping Walkreis: " + str (curWkID) )
+                continue
             for party, amount in row.items():
 
                 if party.endswith('Prev'):
@@ -38,15 +49,16 @@ def addVotes(fileName, electionID):
                     print("Generating " + amount + " voters for wahlkreis: " + curWkID)
 
                     voter = []
+		    votedOn = []
                     for i in range(1,int(amount)):
-                        #voter.append((faker.first_name(),faker.last_name(),faker.date_time_between(start_date="-100y", end_date="-26y"),faker.address(),'?',curWkID))
-                        voter.append(("fn","ln","1991-01-01","addr","?",curWkID))
+                        voter.append((faker.first_name(),faker.last_name(),faker.date_time_between(start_date="-100y", end_date="-26y"),faker.address(),'?',curWkID))
+                        #voter.append(("fn","ln","1991-01-01","addr","?",curWkID))
+			votedOn.append(())
                     records_list_template = ','.join(['%s'] * len(voter))
                     insert_query = 'INSERT INTO Voter(FirstName,LastName,BirthDate,Address,Gender,Wahlkreis) VALUES {0}'.format(records_list_template)
                     cur.execute(insert_query, voter)
 
                     conn.commit()
-
 
                 elif party.startswith('Invalid_S1'):
 
@@ -130,4 +142,6 @@ def addVotes(fileName, electionID):
 
                         conn.commit()
 
-if  __name__ =='__main__': main()
+
+if  __name__ =='__main__': main( sys.argv )
+conn.close()

@@ -103,3 +103,5 @@ CREATE TABLE DirectMandate
         Party       INTEGER REFERENCES Party,
         PRIMARY KEY (Election,Candidate,Wahlkreis)
       );
+
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";

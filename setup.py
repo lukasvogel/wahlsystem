@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import psycopg2
 import csv
 import datetime
@@ -22,7 +23,7 @@ BLShortcuts = { 'BW' : 'Baden-Württemberg',
                  'TH' : 'Thüringen'}
 
 ### CONNECT TO POSTGRESQL ###
-conn = psycopg2.connect("dbname=wahlsystem user=postgres")
+conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
 cur = conn.cursor()
 
 
