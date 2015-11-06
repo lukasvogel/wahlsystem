@@ -21,9 +21,8 @@ def main():
 def addVotes(fileName, electionID):
 
     with open(fileName) as file:
-        dialect = csv.Sniffer().sniff(file.read(1024))
         file.seek(0)
-        freader = csv.DictReader(file,dialect=dialect)
+        freader = csv.DictReader(file,delimiter=",")
 
         curWkID = 0
 
