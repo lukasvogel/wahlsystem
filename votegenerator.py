@@ -20,7 +20,7 @@ def main(argv):
     WToPopulate = 0;
     if len (argv) == 2:
         WToPopulate = int(argv[1]);
-        print ("Will only populate Wahlkreis: " + str(WToPopulate)) 
+        print ("Will only populate Wahlkreis: " + str(WToPopulate))
     addVotes('data/kerg_modified_unicode.csv',2, WToPopulate)
 
 
@@ -42,7 +42,6 @@ def addVotes(fileName, electionID, WahlkreisID):
             voters = int(row["Voters"])
             voted = int(row["Voted"])
             print("Generating " + str(voters) + " voters for wahlkreis: " + curWkID)
-            print("Generating " + str(voted) + " votedOn relationships for wahlkreis: " + curWkID)
 
             voter = []
             votedOn = []
@@ -55,6 +54,9 @@ def addVotes(fileName, electionID, WahlkreisID):
             ids = cur.fetchall()
             conn.commit()
 
+            print("Generating " + str(voted) + " votedOn relationships for wahlkreis: " + curWkID)
+
+
             for i in range(0,voted - 1):
                 votedOn.append((electionID,ids[i]));
             records_list_template = ','.join(['%s'] * len(votedOn))
@@ -62,6 +64,20 @@ def addVotes(fileName, electionID, WahlkreisID):
             cur.execute(insert_query,votedOn)
 
             conn.commit()
+
+            curUebrige = row['Übrige_S1']
+
+            print("Generating" + curUebrige + " votes for party less candidate in wahlkreis: " + curWkID)
+
+
+            cur.execute('SELECT id FROM directmandate d WHERE d.party IS NULL and d.wahlkreis = %s',(curWkID,))
+            luckyGuy = cur.fetchone()[0];
+
+
+            uebrigeVotes = []
+            for i in range(0,int(curUebrige)):
+                uebrigeVotes.append((True,luckyGuy,curWkID,electionID))
+
 
             for party, amount in row.items():
 
@@ -75,10 +91,10 @@ def addVotes(fileName, electionID, WahlkreisID):
                     invalid = []
 
                     for i in range(1,int(amount)):
-                        invalid.append((True,None,curWkID))
+                        invalid.append((True,None,curWkID,electionID))
 
                     records_list_template = ','.join(['%s'] * len(invalid))
-                    insert_query = 'INSERT INTO ERSTSTIMME(isInvalid,Candidate,Wahlkreis) VALUES {0}'.format(records_list_template)
+                    insert_query = 'INSERT INTO ERSTSTIMME(isInvalid,Candidate,Wahlkreis,election) VALUES {0}'.format(records_list_template)
                     cur.execute(insert_query, invalid)
 
                     conn.commit()
@@ -90,10 +106,10 @@ def addVotes(fileName, electionID, WahlkreisID):
                     invalid = []
 
                     for i in range(1,int(amount)):
-                        invalid.append((True,None,curWkID))
+                        invalid.append((True,None,curWkID,electionID))
 
                     records_list_template = ','.join(['%s'] * len(invalid))
-                    insert_query = 'INSERT INTO Zweitstimme(isInvalid,Party,Wahlkreis) VALUES {0}'.format(records_list_template)
+                    insert_query = 'INSERT INTO Zweitstimme(isInvalid,Party,Wahlkreis,election) VALUES {0}'.format(records_list_template)
                     cur.execute(insert_query, invalid)
 
                     conn.commit()
@@ -124,10 +140,10 @@ def addVotes(fileName, electionID, WahlkreisID):
 
                         erststimmen = []
                         for i in range(1,int(amount)):
-                            erststimmen.append((False,cID,curWkID))
+                            erststimmen.append((False,cID,curWkID,electionID))
 
                         records_list_template = ','.join(['%s'] * len(erststimmen))
-                        insert_query = 'INSERT INTO ERSTSTIMME(isInvalid,Candidate,Wahlkreis) VALUES {0}'.format(records_list_template)
+                        insert_query = 'INSERT INTO ERSTSTIMME(isInvalid,Candidate,Wahlkreis,election) VALUES {0}'.format(records_list_template)
                         cur.execute(insert_query, erststimmen)
 
                         conn.commit()
@@ -142,10 +158,10 @@ def addVotes(fileName, electionID, WahlkreisID):
 
                         zweitstimmen = []
                         for i in range(1,int(row[(party[:-3] + '_S2')])):
-                            zweitstimmen.append((False,pID[0],curWkID))
+                            zweitstimmen.append((False,pID[0],curWkID,electionID))
 
                         records_list_template = ','.join(['%s'] * len(zweitstimmen))
-                        insert_query = 'INSERT INTO Zweitstimme(isInvalid,Party,Wahlkreis) VALUES {0}'.format(records_list_template)
+                        insert_query = 'INSERT INTO Zweitstimme(isInvalid,Party,Wahlkreis,election) VALUES {0}'.format(records_list_template)
                         cur.execute(insert_query, zweitstimmen)
 
                         conn.commit()
