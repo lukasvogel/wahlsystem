@@ -39,6 +39,25 @@ def addVotes(fileName, electionID, WahlkreisID):
             if WahlkreisID != 0 and int(curWkID) != WahlkreisID:
                 print ("Skipping Walkreis: " + str (curWkID) )
                 continue
+
+
+            print("Generating" + curUebrige + " votes for party less candidate in wahlkreis: " + curWkID)
+
+            cur.execute('SELECT candidate FROM directmandate d WHERE d.party IS NULL and d.wahlkreis = %s',(curWkID,))
+            luckyGuy = cur.fetchone()[0]; #TODO: Distribute votes fairly if multiple partyless candidates per wk
+
+
+            uebrigeVotes = []
+            for i in range(0,int(curUebrige)):
+                uebrigeVotes.append((True,luckyGuy,curWkID,electionID))
+
+            records_list_template = ','.join(['%s'] * len(invalid))
+            insert_query = 'INSERT INTO ERSTSTIMME(isInvalid,Candidate,Wahlkreis,election) VALUES {0}'.format(records_list_template)
+            cur.execute(insert_query, invalid)
+            conn.commit()
+
+
+
             voters = int(row["Voters"])
             voted = int(row["Voted"])
             print("Generating " + str(voters) + " voters for wahlkreis: " + curWkID)
@@ -67,16 +86,6 @@ def addVotes(fileName, electionID, WahlkreisID):
 
             curUebrige = row['Übrige_S1']
 
-            print("Generating" + curUebrige + " votes for party less candidate in wahlkreis: " + curWkID)
-
-
-            cur.execute('SELECT id FROM directmandate d WHERE d.party IS NULL and d.wahlkreis = %s',(curWkID,))
-            luckyGuy = cur.fetchone()[0];
-
-
-            uebrigeVotes = []
-            for i in range(0,int(curUebrige)):
-                uebrigeVotes.append((True,luckyGuy,curWkID,electionID))
 
 
             for party, amount in row.items():
@@ -88,7 +97,7 @@ def addVotes(fileName, electionID, WahlkreisID):
 
                     print("Generating " + amount + " invalid erststimmen for wahlkreis: " + curWkID)
 
-                    invalid = []
+                    invali= []
 
                     for i in range(1,int(amount)):
                         invalid.append((True,None,curWkID,electionID))
