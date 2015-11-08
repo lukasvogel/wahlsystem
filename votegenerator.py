@@ -11,8 +11,8 @@ cur = conn.cursor()
 
 cur.execute("DELETE FROM Erststimme")
 cur.execute("DELETE FROM Zweitstimme")
-cur.execute("DELETE FROM Voter")
 cur.execute("DELETE FROM VotedOn")
+cur.execute("DELETE FROM Voter")
 conn.commit()
 faker = Factory.create('de_DE')
 
@@ -39,26 +39,34 @@ def addVotes(fileName, electionID, WahlkreisID):
             if WahlkreisID != 0 and int(curWkID) != WahlkreisID:
                 print ("Skipping Walkreis: " + str (curWkID) )
                 continue
+            voters = int(row["Voters"])
+            voted = int(row["Voted"])
+            print("Generating " + str(voters) + " voters for wahlkreis: " + curWkID)
+            print("Generating " + str(voted) + " votedOn relationships for wahlkreis: " + curWkID)
+
+            voter = []
+            votedOn = []
+            for i in range(1,voters):
+                voter.append((faker.first_name(),faker.last_name(),faker.date_time_between(start_date="-100y", end_date="-26y"),faker.address(),'?',curWkID))
+                #voter.append(("fn","ln","1991-01-01","addr","?",curWkID))
+            records_list_template = ','.join(['%s'] * len(voter))
+            insert_query = 'INSERT INTO Voter(FirstName,LastName,BirthDate,Address,Gender,Wahlkreis) VALUES {0} RETURNING id; '.format(records_list_template)
+            cur.execute(insert_query,voter)
+            ids = cur.fetchall()
+            conn.commit()
+
+            for i in range(0,voted - 1):
+                votedOn.append((electionID,ids[i]));
+            records_list_template = ','.join(['%s'] * len(votedOn))
+            insert_query = 'INSERT INTO votedon(election,voter) VALUES {0}'.format(records_list_template)
+            cur.execute(insert_query,votedOn)
+
+            conn.commit()
+
             for party, amount in row.items():
 
-                if party.endswith('Prev'):
+                if party.endswith('Prev') or party == 'Voters' or party == 'Voted':
                     continue
-
-                if party == 'Voters':
-
-                    print("Generating " + amount + " voters for wahlkreis: " + curWkID)
-
-                    voter = []
-		    votedOn = []
-                    for i in range(1,int(amount)):
-                        voter.append((faker.first_name(),faker.last_name(),faker.date_time_between(start_date="-100y", end_date="-26y"),faker.address(),'?',curWkID))
-                        #voter.append(("fn","ln","1991-01-01","addr","?",curWkID))
-			votedOn.append(())
-                    records_list_template = ','.join(['%s'] * len(voter))
-                    insert_query = 'INSERT INTO Voter(FirstName,LastName,BirthDate,Address,Gender,Wahlkreis) VALUES {0}'.format(records_list_template)
-                    cur.execute(insert_query, voter)
-
-                    conn.commit()
 
                 elif party.startswith('Invalid_S1'):
 
