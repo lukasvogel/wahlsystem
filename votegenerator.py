@@ -9,10 +9,7 @@ from faker import Factory
 conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
 cur = conn.cursor()
 
-cur.execute("DELETE FROM Erststimme")
-cur.execute("DELETE FROM Zweitstimme")
-cur.execute("DELETE FROM VotedOn")
-cur.execute("DELETE FROM Voter")
+cur.execute("TRUNCATE Erststimme,zweitstimme,Voter,VotedOn")
 conn.commit()
 faker = Factory.create('de_DE')
 
