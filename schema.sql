@@ -2,8 +2,8 @@ DROP TABLE IF EXISTS DirectMandate CASCADE;
 DROP TABLE IF EXISTS VotedOn CASCADE;
 DROP TABLE IF EXISTS Listenplatz CASCADE;
 DROP TABLE IF EXISTS Landesliste;
-DROP TABLE IF EXISTS Zweitstimme;
-DROP TABLE IF EXISTS Erststimme;
+DROP TABLE IF EXISTS Zweitstimme CASCADE;
+DROP TABLE IF EXISTS Erststimme CASCADE;
 DROP TABLE IF EXISTS Candidate;
 DROP TABLE IF EXISTS Party;
 DROP TABLE IF EXISTS Voter;
@@ -106,4 +106,25 @@ CREATE TABLE DirectMandate
         PRIMARY KEY (Election,Candidate,Wahlkreis)
       );
 
+CREATE MATERIALIZED VIEW erststimme_results AS
+	(
+	SELECT candidate, wahlkreis,election, COUNT(*) FROM erststimme
+	GROUP BY candidate,wahlkreis,election
+	ORDER BY election, wahlkreis ASC
+	);
+
+CREATE UNIQUE INDEX  erststimme_results_id on erststimme_results (candidate,election);
+
+
+CREATE MATERIALIZED VIEW zweitstimme_results AS
+        (
+        SELECT Party,wahlkreis,election, COUNT(*) FROM Zweitstimme
+        GROUP BY Party,wahlkreis,election
+        ORDER BY election, wahlkreis ASC
+        );
+
+CREATE UNIQUE INDEX  zweeitstimme_results_id on zweitstimme_results (Party,election);
+
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";
+
+
