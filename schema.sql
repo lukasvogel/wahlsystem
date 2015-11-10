@@ -124,7 +124,7 @@ CREATE MATERIALIZED VIEW zweitstimme_results AS
 
 CREATE UNIQUE INDEX  zweitstimme_results_id on zweitstimme_results (Party,election);
 
-/* GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse"; */
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";
 
 CREATE OR REPLACE FUNCTION nats(numeric)
   RETURNS SETOF numeric AS
