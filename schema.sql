@@ -124,5 +124,75 @@ CREATE MATERIALIZED VIEW zweitstimme_results AS
 
 CREATE UNIQUE INDEX  zweeitstimme_results_id on zweitstimme_results (Party,election);
 
-	GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";
 
+
+CREATE OR REPLACE FUNCTION generate_erststimmen(
+    isinvalid boolean,
+    pname character varying,
+    wkid integer,
+    eid integer,
+    count integer)
+  RETURNS void AS
+$BODY$
+DECLARE
+cID	integer;
+BEGIN
+  SELECT d.Candidate INTO cID
+  FROM directmandate d, party p
+  WHERE d.party = p.id
+    AND d.wahlkreis = wkID
+    AND d.election = eID
+    AND p.name = pName;
+
+  FOR i IN 1..count LOOP
+    INSERT INTO erststimme(isInvalid,Candidate,Wahlkreis,Election)
+    VALUES(isInvalid,cID,wkID,eID);
+  END LOOP;
+END;$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION generate_erststimmen(boolean, character varying, integer, integer, integer)
+  OWNER TO postgres;
+
+
+CREATE OR REPLACE FUNCTION generate_voters(
+      wkid integer,
+      count integer)
+    RETURNS void AS
+  $BODY$BEGIN
+    FOR i IN 1..count LOOP
+      INSERT INTO voter(FirstName,LastName,BirthDate,Address,Gender,Wahlkreis)
+      VALUES('FN','LN','1900-01-01','AD','?',wkid);
+    END LOOP;
+  END;$BODY$
+    LANGUAGE plpgsql VOLATILE
+    COST 100;
+  ALTER FUNCTION generate_voters(integer, integer)
+    OWNER TO postgres;
+
+
+    CREATE OR REPLACE FUNCTION generate_zweitstimmen(
+        isinvalid boolean,
+        pname character varying,
+        wkid integer,
+        eid integer,
+        count integer)
+      RETURNS void AS
+    $BODY$
+    DECLARE
+    pID	integer;
+    BEGIN
+      SELECT p.id INTO pID
+        FROM party p
+      WHERE p.Name = pName;
+
+      FOR i IN 1..count LOOP
+        INSERT INTO zweitstimme(isInvalid,Party,Wahlkreis,Election)
+        VALUES(isInvalid,pID,wkID,eID);
+      END LOOP;
+    END;$BODY$
+      LANGUAGE plpgsql VOLATILE
+      COST 100;
+    ALTER FUNCTION generate_zweitstimmen(boolean, character varying, integer, integer, integer)
+      OWNER TO postgres;
