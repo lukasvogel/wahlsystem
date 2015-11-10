@@ -122,10 +122,46 @@ CREATE MATERIALIZED VIEW zweitstimme_results AS
         ORDER BY election, wahlkreis ASC
         );
 
-CREATE UNIQUE INDEX  zweeitstimme_results_id on zweitstimme_results (Party,election);
+CREATE UNIQUE INDEX  zweitstimme_results_id on zweitstimme_results (Party,election);
 
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";
+/* GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse"; */
 
+CREATE OR REPLACE FUNCTION nats(numeric)
+  RETURNS SETOF numeric AS
+$BODY$
+DECLARE
+    i NUMERIC;
+BEGIN
+    FOR i IN 0..$1 loop
+        RETURN NEXT i;
+    END loop;
+    RETURN;
+END;
+$BODY$
+  LANGUAGE plpgsql IMMUTABLE STRICT
+  COST 100
+  ROWS 100000;
+ALTER FUNCTION nats(numeric)
+  OWNER TO postgres;
+
+
+
+CREATE OR REPLACE FUNCTION generate_voters(
+   wkid integer,
+   count integer)
+ RETURNS void AS
+$BODY$
+DECLARE
+ BirthDate Date;
+BEGIN
+   BirthDate := to_date('1900-01-01','YYYY-MM-DD');
+   INSERT INTO voter(FirstName,LastName,BirthDate,Address,Gender,Wahlkreis)
+  (SELECT R.* FROM (VALUES('FN','LN',BirthDate,'AD','?',wkid)) as R, nats(count));
+END;$BODY$
+ LANGUAGE plpgsql VOLATILE
+ COST 100;
+ALTER FUNCTION generate_voters(integer, integer)
+ OWNER TO postgres;
 
 CREATE OR REPLACE FUNCTION generate_erststimmen(
     isinvalid boolean,
@@ -145,10 +181,8 @@ BEGIN
     AND d.election = eID
     AND p.name = pName;
 
-  FOR i IN 1..count LOOP
-    INSERT INTO erststimme(isInvalid,Candidate,Wahlkreis,Election)
-    VALUES(isInvalid,cID,wkID,eID);
-  END LOOP;
+  INSERT INTO erststimme(isInvalid,Candidate,Wahlkreis,Election)
+	(SELECT R.* FROM (VALUES(isInvalid,cID,wkID,eID)) as R, nats(count));
 END;$BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
@@ -156,43 +190,27 @@ ALTER FUNCTION generate_erststimmen(boolean, character varying, integer, integer
   OWNER TO postgres;
 
 
-CREATE OR REPLACE FUNCTION generate_voters(
-      wkid integer,
-      count integer)
-    RETURNS void AS
-  $BODY$BEGIN
-    FOR i IN 1..count LOOP
-      INSERT INTO voter(FirstName,LastName,BirthDate,Address,Gender,Wahlkreis)
-      VALUES('FN','LN','1900-01-01','AD','?',wkid);
-    END LOOP;
-  END;$BODY$
-    LANGUAGE plpgsql VOLATILE
-    COST 100;
-  ALTER FUNCTION generate_voters(integer, integer)
-    OWNER TO postgres;
 
+CREATE OR REPLACE FUNCTION generate_zweitstimmen(
+       isinvalid boolean,
+       pname character varying,
+       wkid integer,
+       eid integer,
+       count integer)
+     RETURNS void AS
+   $BODY$
+   DECLARE
+   pID	integer;
+   BEGIN
+     SELECT p.id INTO pID
+       FROM party p
+     WHERE p.Name = pName;
 
-    CREATE OR REPLACE FUNCTION generate_zweitstimmen(
-        isinvalid boolean,
-        pname character varying,
-        wkid integer,
-        eid integer,
-        count integer)
-      RETURNS void AS
-    $BODY$
-    DECLARE
-    pID	integer;
-    BEGIN
-      SELECT p.id INTO pID
-        FROM party p
-      WHERE p.Name = pName;
+INSERT INTO zweitstimme(isInvalid,Party,Wahlkreis,Election)
+     	(SELECT R.* FROM (VALUES(isInvalid,pID,wkID,eID)) as R, nats(count));
 
-      FOR i IN 1..count LOOP
-        INSERT INTO zweitstimme(isInvalid,Party,Wahlkreis,Election)
-        VALUES(isInvalid,pID,wkID,eID);
-      END LOOP;
-    END;$BODY$
-      LANGUAGE plpgsql VOLATILE
-      COST 100;
-    ALTER FUNCTION generate_zweitstimmen(boolean, character varying, integer, integer, integer)
-      OWNER TO postgres;
+END;$BODY$
+     LANGUAGE plpgsql VOLATILE
+     COST 100;
+   ALTER FUNCTION generate_zweitstimmen(boolean, character varying, integer, integer, integer)
+     OWNER TO postgres;
