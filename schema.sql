@@ -107,22 +107,26 @@ CREATE TABLE DirectMandate
 
 CREATE MATERIALIZED VIEW erststimme_results AS
 	(
-	SELECT candidate, wahlkreis,election, COUNT(*) FROM erststimme
+	SELECT candidate, wahlkreis,election, COUNT(*)
+  FROM erststimme
+  WHERE isInvalid = FALSE
 	GROUP BY candidate,wahlkreis,election
 	ORDER BY election, wahlkreis ASC
 	);
 
-CREATE UNIQUE INDEX  erststimme_results_id on erststimme_results (candidate,election);
+CREATE UNIQUE INDEX  erststimme_results_id on erststimme_results (candidate,election,wahlkreis);
 
 
 CREATE MATERIALIZED VIEW zweitstimme_results AS
         (
-        SELECT Party,wahlkreis,election, COUNT(*) FROM Zweitstimme
+        SELECT Party,wahlkreis,election, COUNT(*)
+        FROM Zweitstimme
+        WHERE isInvalid = FALSE
         GROUP BY Party,wahlkreis,election
         ORDER BY election, wahlkreis ASC
         );
 
-CREATE UNIQUE INDEX  zweitstimme_results_id on zweitstimme_results (Party,election);
+CREATE UNIQUE INDEX  zweitstimme_results_id on zweitstimme_results (Party,election,wahlkreis);
 
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";
 
@@ -132,8 +136,27 @@ $BODY$
 DECLARE
     i NUMERIC;
 BEGIN
-    FOR i IN 0..$1 loop
+    FOR i IN 1..$1 loop
         RETURN NEXT i;
+    END loop;
+    RETURN;
+END;
+$BODY$
+  LANGUAGE plpgsql IMMUTABLE STRICT
+  COST 100
+  ROWS 100000;
+ALTER FUNCTION nats(numeric)
+  OWNER TO postgres;
+
+
+CREATE OR REPLACE FUNCTION lague_coeff(numeric)
+  RETURNS SETOF numeric AS
+$BODY$
+DECLARE
+    i NUMERIC;
+BEGIN
+    FOR i IN 1..$1 loop
+        RETURN NEXT i - .5;
     END loop;
     RETURN;
 END;
