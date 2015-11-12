@@ -36,9 +36,19 @@ def main():
 
     f = open('schema.sql','r')
     setupSQL = f.read()
+    cur.execute(setupSQL)
     f.close
 
-    cur.execute(setupSQL)
+    f = open('voteinsertion.sql','r')
+    voteinsertion = f.read()
+    cur.execute(voteinsertion)
+    f.close
+
+    f = open('election_algorithm.sql','r')
+    elecalg = f.read()
+    cur.execute(elecalg)
+    f.close
+
 
     ### FILLING DATABASE ###
     print("Initializing Bundesländer and Wahlkreise")
