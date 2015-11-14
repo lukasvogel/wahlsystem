@@ -44,7 +44,7 @@ def addVotes(fileName, electionID, WahlkreisID):
                 # in postgres function generate_erststimmen
                 
                 print("Generating " + curUebrige + " votes for a partyless candidate in wahlkreis " + curWkID )
-                cur.execute("SELECT * FROM generate_erststimmen(%s,%s,%s,%s,%s)",(False,None,curWkID,electionID,int(curUebrige)))
+                cur.execute("SELECT * FROM generate_uebrige(%s,%s,%s)",(curWkID,electionID,int(curUebrige )))
                 conn.commit()
 
 

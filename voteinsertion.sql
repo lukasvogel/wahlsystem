@@ -86,3 +86,44 @@ END;$BODY$
      COST 100;
    ALTER FUNCTION generate_zweitstimmen(boolean, character varying, integer, integer, integer)
      OWNER TO postgres;
+
+
+-- Function: generate_erststimmen(boolean, character varying, integer, integer, integer)
+
+-- DROP FUNCTION generate_erststimmen(boolean, character varying, integer, integer, integer);
+
+CREATE OR REPLACE FUNCTION generate_uebrige(
+    wkid integer,
+    eid integer,
+    count integer)
+  RETURNS void AS
+$BODY$
+DECLARE
+cIDs		integer[];
+cID		integer;
+candidates	integer;
+BEGIN
+  SELECT d.Candidate INTO cIDs
+  FROM directmandate d
+  WHERE d.party is NULL
+    AND d.wahlkreis = wkID
+    AND d.election = eID;
+
+  candidates = array_length(cIDs, 1);
+
+  IF candidates > 0 THEN
+    FOR i in 0..candidates
+    INSERT INTO erststimme (isInvalid,Candidate,Wahlkreis,Election) 
+      (SELECT R.* FROM (VALUES(FALSE,cIDs[i],wkID,eID)) as R, nats(count / candidates));
+    END LOOP;
+  
+    INSERT INTO erststimme (isInvalid,Candidate,Wahlkreis,Election) 
+      (SELECT R.* FROM (VALUES(FALSE,cIDs[0],wkID,eID)) as R, nats(count % candidates));
+  END IF;
+
+END;$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION generate_erststimmen(boolean, character varying, integer, integer, integer)
+  OWNER TO postgres;
+
