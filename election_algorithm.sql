@@ -265,7 +265,7 @@ with votesbyparty as
 
     total_num_seats as ( /* the corrected number of seats per party*/
 	select vp.party,
-  (case when (vp.votes*1.00/2 > totalvotes) then round(totalvotes.votes/(d.bundesdivisor*2),0)+1 /* Mehrheitsklausel */
+  (case when (vp.votes*1.00/2 > totalvotes.votes) then round(totalvotes.votes/(d.bundesdivisor*2),0)+1 /* Mehrheitsklausel */
                                          else  round(vp.votes/d.bundesdivisor,0) end ) seats
 	from votesbyparty vp, parties_in_bundestag ib, bundesdivisor d, (select sum(votes) as votes from votes_bundesland) totalvotes
 	where vp.party = ib.party
