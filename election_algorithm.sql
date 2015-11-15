@@ -144,7 +144,7 @@ END
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION partydivisor(integer[], integer[], integer)
+ALTER FUNCTION find_partydivisor(integer[], integer[], integer)
   OWNER TO postgres;
 
 
