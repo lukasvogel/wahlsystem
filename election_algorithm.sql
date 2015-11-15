@@ -301,3 +301,5 @@ and bm.candidate = c.id
 and bm.party = p.id
 order by lastname
 )
+
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";
