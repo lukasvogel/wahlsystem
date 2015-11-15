@@ -194,7 +194,7 @@ with votesbyparty as
   select party
   from votesbyparty v, party p
   where v.party = p.id
-  and b.isMinorityParty /* all minority parties are exempt from the 5% clause */
+  and p.isMinorityParty /* all minority parties are exempt from the 5% clause */
 	),
 
     votes_bundesland as ( /* votes per bundesland and party */
