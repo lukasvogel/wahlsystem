@@ -52,11 +52,12 @@ def addVotes(fileName, electionID, WahlkreisID):
             if curWkID not in voters_total:
                  voters_total[curWkID] =0
             voters = int(row["Voters"])
+			voted = int(row["Voted"])
             if (voters > voters_total[curWkID]):
                 voters = voters - voters_total[curWkID]
                 print("Generating " + str(voters) + " voters for wahlkreis: " + curWkID)
 
-                cur.execute("SELECT * FROM generate_voters(%s,%s)",(curWkID,voters))
+                cur.execute("SELECT * FROM generate_voters(%s,%s,%s,%s)",(curWkID,electionID, voters, voted))
                 conn.commit()
                 voters_total[curWkID] += voters
 

@@ -18,20 +18,41 @@ ALTER FUNCTION nats(numeric)
 
 CREATE OR REPLACE FUNCTION generate_voters(
    wkid integer,
-   count integer)
+   election integer,
+   count integer,
+   haveVoted integer
+   )
  RETURNS void AS
 $BODY$
 DECLARE
  BirthDate Date;
 BEGIN
    BirthDate := to_date('1900-01-01','YYYY-MM-DD');
-   INSERT INTO voter(FirstName,LastName,BirthDate,Address,Gender,Wahlkreis)
-  (SELECT R.* FROM (VALUES('FN','LN',BirthDate,'AD','?',wkid)) as R, nats(count));
+   If count > haveVoted THEN
+	   INSERT INTO voter(FirstName,LastName,BirthDate,Address,Gender,Wahlkreis,FirstValidElection, LastVotedOn, LastValidElection)
+	  (
+		(SELECT R.* FROM (VALUES('FN','LN',BirthDate,'AD','?',wkid,election,election,NULL)) as R, nats(haveVoted) )
+		  UNION ALL 
+		(SELECT R.* FROM (VALUES('FN','LN',BirthDate,'AD','?',wkid,election,NULL,NULL)) as R, nats(count-haveVoted) )
+	  );
+	ELSE 
+	INSERT INTO voter(FirstName,LastName,BirthDate,Address,Gender,Wahlkreis,FirstValidElection,LastVotedOn, LastValidElection) 
+	  (SELECT R.* FROM (VALUES('FN','LN',BirthDate,'AD','?',wkid,election,NULL,NULL)) as R, nats(count) );
+
+	   UPDATE voter SET LastVotedOn=election
+	   WHERE id IN (
+	       SELECT id FROM (
+		   SELECT id FROM voter 
+		   LIMIT haveVoted
+	       ) tmp
+	   );	  
+	  
+	END IF;
 END;$BODY$
  LANGUAGE plpgsql VOLATILE
  COST 100;
-ALTER FUNCTION generate_voters(integer, integer)
- OWNER TO postgres;
+ALTER FUNCTION generate_voters(integer, integer, integer, integer)
+ OWNER TO postgres;;
 
 
 
