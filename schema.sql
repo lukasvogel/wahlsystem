@@ -38,9 +38,9 @@ CREATE TABLE Voter
         BirthDate    		DATE NOT NULL,
         Address     		VARCHAR(100) NOT NULL,
         Gender      		CHAR(1) NOT NULL,
-        Wahlkreis   		INTEGER NOT NULL REFERENCES Wahlkreis
-		FirstValidElection 	INTEGER NOT NULL REFERENCES Election
-		LastValidElection	INTEGER REFERENCES Election
+        Wahlkreis   		INTEGER NOT NULL REFERENCES Wahlkreis,
+		FirstValidElection 	INTEGER NOT NULL REFERENCES Election,
+		LastValidElection	INTEGER REFERENCES Election,
 		LastVotedOn			INTEGER REFERENCES Election
       );
 
