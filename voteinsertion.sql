@@ -124,7 +124,7 @@ cIDs		integer[];
 cID		integer;
 candidates	integer;
 BEGIN
-  SELECT d.Candidate INTO cIDs
+  SELECT array_agg(d.Candidate) INTO cIDs
   FROM directmandate d
   WHERE d.party is NULL
     AND d.wahlkreis = wkID
