@@ -37,7 +37,7 @@ BEGIN
 	  );
 	ELSE 
 	INSERT INTO voter(FirstName,LastName,BirthDate,Address,Gender,Wahlkreis,FirstValidElection,LastVotedOn, LastValidElection) 
-	  (SELECT R.* FROM (VALUES('FN','LN',BirthDate,'AD','?',wkid,election,NULL,NULL)) as R, nats(count) );
+	  (SELECT R.* FROM (VALUES('FN','LN',BirthDate,'AD','?',wkid,election,NULL::integer,NULL::integer)) as R, nats(count) );
 
 	   UPDATE voter SET LastVotedOn=election
 	   WHERE id IN (
