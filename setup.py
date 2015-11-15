@@ -136,11 +136,11 @@ def addParties(csvfile):
     for party in extractValues(csvfile,['Partei']):
         name = party['Partei']
         if name != '':
-            cur.execute("""INSERT INTO party(name)
-                            SELECT %s
+            cur.execute("""INSERT INTO party(name,isMinorityParty)
+                           (SELECT %s, %s
                             WHERE NOT EXISTS (
-                                SELECT * FROM party p WHERE p.name = %s)
-                             """, (name,name))
+                                SELECT * FROM party p WHERE p.name = %s)) 
+                             """, (name,False,name))
     conn.commit()
 
 def addLandeslisten(csvfile):

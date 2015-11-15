@@ -39,16 +39,16 @@ CREATE TABLE Voter
         Address     		VARCHAR(100) NOT NULL,
         Gender      		CHAR(1) NOT NULL,
         Wahlkreis   		INTEGER NOT NULL REFERENCES Wahlkreis,
-		FirstValidElection 	INTEGER NOT NULL REFERENCES Election,
-		LastValidElection	INTEGER REFERENCES Election,
-		LastVotedOn			INTEGER REFERENCES Election
+        FirstValidElection 	INTEGER NOT NULL REFERENCES Election,
+        LastValidElection	INTEGER REFERENCES Election,
+        LastVotedOn			INTEGER REFERENCES Election
       );
 
 CREATE TABLE Party
       (
         ID          	SERIAL PRIMARY KEY,
         Name        	VARCHAR(30) NOT NULL,
-		isMinorityParty BOOLEAN NOT NULL
+        isMinorityParty BOOLEAN NOT NULL
       );
 
 CREATE TABLE Candidate
