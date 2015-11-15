@@ -133,7 +133,7 @@ BEGIN
   candidates = array_length(cIDs, 1);
 
   IF candidates > 0 THEN
-    FOR i in 0..candidates
+    FOR i in 0..candidates LOOP
     INSERT INTO erststimme (isInvalid,Candidate,Wahlkreis,Election) 
       (SELECT R.* FROM (VALUES(FALSE,cIDs[i],wkID,eID)) as R, nats(count / candidates));
     END LOOP;
