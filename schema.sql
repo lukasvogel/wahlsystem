@@ -46,8 +46,9 @@ CREATE TABLE Voter
 
 CREATE TABLE Party
       (
-        ID          SERIAL PRIMARY KEY,
-        Name        VARCHAR(30) NOT NULL
+        ID          	SERIAL PRIMARY KEY,
+        Name        	VARCHAR(30) NOT NULL,
+		isMinorityParty BOOLEAN NOT NULL
       );
 
 CREATE TABLE Candidate
