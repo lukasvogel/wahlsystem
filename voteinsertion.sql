@@ -31,9 +31,9 @@ BEGIN
    If count > haveVoted THEN
 	   INSERT INTO voter(FirstName,LastName,BirthDate,Address,Gender,Wahlkreis,FirstValidElection, LastVotedOn, LastValidElection)
 	  (
-		(SELECT R.* FROM (VALUES('FN','LN',BirthDate,'AD','?',wkid,election,election,NULL)) as R, nats(haveVoted) )
+		(SELECT R.* FROM (VALUES('FN','LN',BirthDate,'AD','?',wkid,election,election,NULL::integer)) as R, nats(haveVoted) )
 		  UNION ALL 
-		(SELECT R.* FROM (VALUES('FN','LN',BirthDate,'AD','?',wkid,election,NULL,NULL)) as R, nats(count-haveVoted) )
+		(SELECT R.* FROM (VALUES('FN','LN',BirthDate,'AD','?',wkid,election,NULL::integer,NULL::integer)) as R, nats(count - haveVoted) )
 	  );
 	ELSE 
 	INSERT INTO voter(FirstName,LastName,BirthDate,Address,Gender,Wahlkreis,FirstValidElection,LastVotedOn, LastValidElection) 
@@ -133,7 +133,7 @@ BEGIN
   candidates = array_length(cIDs, 1);
 
   IF candidates > 0 THEN
-    FOR i in 0..candidates
+    FOR i in 0..candidates LOOP
     INSERT INTO erststimme (isInvalid,Candidate,Wahlkreis,Election) 
       (SELECT R.* FROM (VALUES(FALSE,cIDs[i],wkID,eID)) as R, nats(count / candidates));
     END LOOP;
