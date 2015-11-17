@@ -258,7 +258,7 @@ with votesbyparty as
     ),
 
     bundesdivisor as ( /* the amount of votes needed to get one seat */
-	select min(vp.votes / (m.minsitze - 0.5)) as bundesdivisor
+	select round(min(vp.votes / (m.minsitze - 0.5)),2) as bundesdivisor /* truncate because of possible floating point errors TODO: reason about this carefully! :) */
 	from least_num_seats m, votesbyparty vp
 	where m.party = vp.party
     ),
