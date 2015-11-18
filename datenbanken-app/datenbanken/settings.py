@@ -79,6 +79,7 @@ DATABASES = {
         'NAME': 'wahlsystem',
         'USER': 'postgres',
         'HOST': 'localhost',
+	'PASSWORD' : 'Password01',
         'PORT': ''  # default
     }
 }
