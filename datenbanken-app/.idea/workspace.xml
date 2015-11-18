@@ -2,65 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59e042f5-1ffd-4955-814c-828ca86d9e56" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/Wahlschema.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/Wahlschema.vsdx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung1/u01_loesung.pdf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung1/u01_loesung.synctex.gz" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung2/u02_loesung.pdf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung3/CandidateList.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung3/HomePage.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung3/Results.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung3/VotingGUI.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung3/Wahlkreis.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung3/u03_loesung.pdf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung3/u03_loesung.synctex.gz" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung5/description_algorithm.pdf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/datenbanken.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/datenbanken/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/datenbanken/settings.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/datenbanken/urls.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/datenbanken/wsgi.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/manage.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/bundestag_overview.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/wahlkreis.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wahlanalyse/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wahlanalyse/admin.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wahlanalyse/migrations/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wahlanalyse/models.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wahlanalyse/tests.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wahlanalyse/urls.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/wahlanalyse/views.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung1/u01_loesung.aux" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung1/u01_loesung.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung1/u01_loesung.tex" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung2/u02_loesung.tex" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung3/mock-ups.ep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung3/u03_loesung.aux" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung3/u03_loesung.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung3/u03_loesung.tex" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../documentation/uebung5/description_algorithm.tex" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../Wahlschema.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../Wahlschema.vsdx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../uebung1/u01_loesung.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../uebung1/u01_loesung.tex" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../uebung2/u02_loesung.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../uebung2/u02_loesung.tex" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../uebung3/CandidateList.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../uebung3/HomePage.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../uebung3/Results.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../uebung3/VotingGUI.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../uebung3/Wahlkreis.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../uebung3/mock-ups.ep" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../uebung3/u03_loesung.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../uebung3/u03_loesung.tex" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../uebung5/description_algorithm.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../uebung5/description_algorithm.tex" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wahlanalyse/models.py" afterPath="$PROJECT_DIR$/wahlanalyse/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wahlanalyse/views.py" afterPath="$PROJECT_DIR$/wahlanalyse/views.py" />
     </list>
     <ignored path="datenbanken.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -85,11 +29,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/datenbanken/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.46486485">
+            <state vertical-scroll-proportion="0.0">
               <caret line="75" column="13" selection-start-line="75" selection-start-column="13" selection-end-line="75" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="manage.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/manage.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -99,9 +53,22 @@
         <entry file="file://$PROJECT_DIR$/wahlanalyse/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="29" column="34" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="34" />
+              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
+                <marker date="1447867319228" expanded="true" signature="400:439" placeholder="SELECT * FRO..wahlkreis..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/wahlanalyse/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.45310014">
+              <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+              <folding>
+                <marker date="1447866971867" expanded="true" signature="315:617" placeholder="SELECT mb.fi..members_of_bundestag_2013..." />
               </folding>
             </state>
           </provider>
@@ -120,8 +87,8 @@
       <file leaf-file-name="bundestag_overview.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/bundestag_overview.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.0">
-              <caret line="24" column="31" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
+            <state vertical-scroll-proportion="-9.375">
+              <caret line="15" column="32" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -163,9 +130,9 @@
         <option value="$PROJECT_DIR$/templates/walhkreis.html" />
         <option value="$PROJECT_DIR$/wahlanalyse/urls.py" />
         <option value="$PROJECT_DIR$/templates/wahlkreis.html" />
-        <option value="$PROJECT_DIR$/wahlanalyse/views.py" />
         <option value="$PROJECT_DIR$/templates/bundestag_overview.html" />
         <option value="$PROJECT_DIR$/wahlanalyse/models.py" />
+        <option value="$PROJECT_DIR$/wahlanalyse/views.py" />
       </list>
     </option>
   </component>
@@ -219,6 +186,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="datenbanken-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datenbanken" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="datenbanken-app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wahlanalyse" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -501,19 +482,19 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31092438" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="manage.py@datenbanken" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997773" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31092438" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -546,6 +527,7 @@
           <caret line="29" column="34" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="34" />
           <folding>
             <element signature="e#0#50#0" expanded="true" />
+            <marker date="1447867319228" expanded="true" signature="400:439" placeholder="SELECT * FRO..wahlkreis..." />
           </folding>
         </state>
       </provider>
@@ -573,13 +555,6 @@
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/manage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13777268">
-          <caret line="9" column="29" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -620,10 +595,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wahlanalyse/models.py">
+    <entry file="file://$PROJECT_DIR$/datenbanken/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="75" column="13" selection-start-line="75" selection-start-column="13" selection-end-line="75" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/bundestag_overview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.375">
+          <caret line="15" column="32" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/wahlkreis.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.75">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -640,34 +640,21 @@
     <entry file="file://$PROJECT_DIR$/wahlanalyse/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="29" column="34" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="34" />
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding>
             <element signature="e#0#50#0" expanded="true" />
+            <marker date="1447867319228" expanded="true" signature="400:439" placeholder="SELECT * FRO..wahlkreis..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/wahlkreis.html">
+    <entry file="file://$PROJECT_DIR$/wahlanalyse/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.75">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/bundestag_overview.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.0">
-          <caret line="24" column="31" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datenbanken/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46486485">
-          <caret line="75" column="13" selection-start-line="75" selection-start-column="13" selection-end-line="75" selection-end-column="13" />
-          <folding />
+        <state vertical-scroll-proportion="0.45310014">
+          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+          <folding>
+            <marker date="1447866971867" expanded="true" signature="315:617" placeholder="SELECT mb.fi..members_of_bundestag_2013..." />
+          </folding>
         </state>
       </provider>
     </entry>

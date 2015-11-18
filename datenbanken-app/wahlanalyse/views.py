@@ -1,10 +1,15 @@
 from django.template import RequestContext, loader
 from django.http import HttpResponse
+
+from .models import Bundestag_Members
+
 import psycopg2
 
 conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres")
 cur = conn.cursor()
 conn.autocommit = True
+
+bm = Bundestag_Members()
 
 def index(request):
     return HttpResponse("Hallo, Welt!")
@@ -25,14 +30,10 @@ def wk_detail(request, wk_id):
 
 
 def bundestag_overview(request):
-    cur.execute("""SELECT mb.firstname, mb.lastname, mb.party, mb.bundesland, dw.wahlkreis
-          FROM members_of_bundestag_2013 mb LEFT JOIN directmandate_winners dw ON mb.id = dw.candidate AND dw.election = 2
-          ORDER BY mb.lastname""")
-    members = cur.fetchall();
 
     template = loader.get_template('bundestag_overview.html')
     context = RequestContext(request, {
-        'members' : members,
+        'members' : bm.getMembers(2),
     })
 
     return HttpResponse(template.render(context))
