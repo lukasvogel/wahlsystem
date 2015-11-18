@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Bundestagsabgeordnete 2013</title>
+</head>
+<body>
+<h1>Bundestagsabgeordnete 2013</h1>
+{% if members %}
+    <table>
+        <th>Vorname</th>
+        <th>Nachname</th>
+        <th>Partei</th>
+        <th>Bundesland</th>
+        <th>Wahlkreis</th>
+        {% for member in members %}
+            <tr>
+                {% for field in member %}
+                    {% if field != None %}
+                        <td>
+                            <a href="/wahlanalyse/wk/{{ field }}">{{ field }}</a>
+                        </td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+{% else %}
+    <p>Keine Bundestagsmitglieder vorhanden!</p>
+
+{% endif %}
+</body>
+</html>
+
+
+
+
