@@ -5,7 +5,7 @@ from .models import Bundestag_Members
 
 import psycopg2
 
-conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres")
+conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
 cur = conn.cursor()
 conn.autocommit = True
 
