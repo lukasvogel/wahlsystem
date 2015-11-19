@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+
+
+{% block breadcrumbs %} {{ block.super }} » Abgeordnete {% endblock breadcrumbs %}
+{% block content %}
+
+        <div class="page-header">
+        <h1>Abgeordnete im Bundestag 2013</h1>
+    </div>
+    {% if members %}
+        <div class="table-responsive">
+            <table style="width: auto;" class="table table-bordered table-striped">
+                <tr>
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                    <th>Partei</th>
+                    <th>Bundesland</th>
+                    <th>Wahlkreis</th>
+                </tr>
+                {% for member in members %}
+                    <tr>
+                        <td>{{ member.firstname }}</td>
+                        <td>{{ member.lastname }}</td>
+                        <td>{{ member.party }}</td>
+                        <td>{{ member.bundesland }}</td>
+
+                        {% if member.wk_id != None %}
+                            <td><a href="/wahlanalyse/wk/{{ member.wk_id }}">{{ member.wk_name }}</a></td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% else %}
+        <p>Keine Bundestagsmitglieder vorhanden!</p>
+
+    {% endif %}
+
+
+{% endblock content %}
+
+
+
+
+
+

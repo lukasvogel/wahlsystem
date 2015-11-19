@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block breadcrumbs %}
+    {{ block.super }} {{ wk_id }}
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+    <div class="panel panel-default">
+        <div id="chart_overview" class="panel-body"
+             style="width:100%"></div>
+    </div>
+
+
+    {% if parties %}
+        <div class="table-responsive">
+            <table style="width: auto;" class="table table-bordered table-striped">
+                <tr>
+                    <th>Partei</th>
+                    <th>Sitze</th>
+                </tr>
+                {% for party in parties %}
+                    <tr>
+                        <td>{{ party.name }}</td>
+                        <td>{{ party.y }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% else %}
+        <p>Keine Parteien vorhanden!</p>
+
+    {% endif %}
+
+
+    <script type="text/javascript">
+
+
+        specification = {
+            chart: {
+                renderTo: 'chart_panel',
+                plotBackgroundColor: null,
+                plotBorderWidth: 0,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Bundestag 2013',
+                align: 'center',
+                verticalAlign: 'middle',
+                y: 60
+            },
+            plotOptions: {
+                pie: {
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    },
+                    startAngle: -90,
+                    endAngle: 90,
+                    center: ['50%', '75%'],
+                    allowPointSelect: true
+
+                }
+            }
+        };
+
+        json_data = $.getJSON('{% url 'chart_as_json' %}', function (data) {
+            specification['series'] = data;
+
+            $('#chart_overview').highcharts(specification)
+        });
+
+        specification['series'] = json_data;
+
+    </script>
+
+{% endblock content %}

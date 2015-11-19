@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Ergebnisse für Wahlkreis {{ wk_id }}</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+
+{% block breadcrumbs %} {{ block.super }} » <a href = "/wahlanalyse/wk">Wahlkreise</a> » {{ wk_id }}{% endblock %}
+
+ {% block content %}
+<br \>
+     <br \>
+     <br \>
+     <br \>
 <strong>ID:</strong> {{ wk_id }} <br \>
 <strong>Name:</strong> {{ wk_name }} <br \>
 
-</body>
-</html>
+
+{% endblock %}

@@ -1,39 +1,56 @@
-from django.template import RequestContext, loader
+from django.template import RequestContext
+from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import Bundestag_Members
+import json
 
-import psycopg2
+from .models import BundestagMembers
+from .models import Wahlkreise
+from .models import Overview
 
-conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
-cur = conn.cursor()
-conn.autocommit = True
+bm = BundestagMembers()
+wk = Wahlkreise()
+ov = Overview()
 
-bm = Bundestag_Members()
 
 def index(request):
-    return HttpResponse("Hallo, Welt!")
+    context = RequestContext(request)
+
+    return render(request, 'overview.html', context)
+
+
+def overview(request):
+
+    context = RequestContext(request, {
+        'parties' : ov.get_composition(2)
+    })
+
+
+
+    return render(request, 'overview.html', context)
+
 
 
 def wk_detail(request, wk_id):
 
-    cur.execute("SELECT * FROM wahlkreis w WHERE w.id = %s", (wk_id,))
-    members = cur.fetchone();
+    context = RequestContext(request, wk.get_info(wk_id))
 
-    template = loader.get_template('wahlkreis.html')
-    context = RequestContext(request, {
-        'wk_id' : wk_id,
-        'wk_name' : members[1]
-    })
-
-    return HttpResponse(template.render(context))
+    return render(request,'wahlkreis.html', context)
 
 
 def bundestag_overview(request):
 
-    template = loader.get_template('bundestag_overview.html')
     context = RequestContext(request, {
-        'members' : bm.getMembers(2),
+        'members' : bm.get_members(2),
     })
 
-    return HttpResponse(template.render(context))
+    return render(request, 'abgeordnete.html', context)
+
+
+def chart_as_json(request):
+    data = ov.get_composition(2)
+    series = [{'data' : data,
+               'name' : 'Sitze',
+              'type' : 'pie',
+              'innerSize' : '50%'}]
+    return HttpResponse(json.dumps(series), content_type='application/json')
