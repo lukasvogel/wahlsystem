@@ -50,6 +50,12 @@ def main():
     f.close
 
 
+    f = open('wahlkreis_analysis.sql','r')
+    elecalg = f.read()
+    cur.execute(elecalg)
+    f.close
+
+
     ### FILLING DATABASE ###
     print("Initializing Bundesländer and Wahlkreise")
     addBundeslaender()

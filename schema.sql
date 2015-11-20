@@ -114,7 +114,6 @@ CREATE MATERIALIZED VIEW erststimme_results AS
   FROM erststimme
   WHERE isInvalid = FALSE
 	GROUP BY candidate,wahlkreis,election
-	ORDER BY election, wahlkreis ASC
 	);
 
 CREATE UNIQUE INDEX  erststimme_results_id on erststimme_results (candidate,election,wahlkreis);
@@ -126,14 +125,25 @@ CREATE MATERIALIZED VIEW zweitstimme_results AS
         FROM Zweitstimme
         WHERE isInvalid = FALSE
         GROUP BY Party,wahlkreis,election
-        ORDER BY election, wahlkreis ASC
         );
 
 CREATE UNIQUE INDEX  zweitstimme_results_id on zweitstimme_results (Party,election,wahlkreis);
 
 
+CREATE MATERIALIZED VIEW erststimme_invalid AS
+SELECT wahlkreis, election, count(*)
+FROM erststimme
+WHERE isInvalid = TRUE
+GROUP BY election, wahlkreis
+
+CREATE MATERIALIZED VIEW zweitstimme_invalid AS
+SELECT wahlkreis, election, count(*)
+FROM zweitstimme
+WHERE isInvalid = TRUE
+GROUP BY election, wahlkreis
+
 CREATE MATERIALIZED VIEW wahlberechtigte AS
-SELECT e.id, v.wahlkreis, count(*)
+SELECT e.id as election, v.wahlkreis, count(v.id)
 FROM election e, voter v
 WHERE e.id >= v.firstvalidelection
 AND e.id <= coalesce(v.lastvalidelection,e.id)
