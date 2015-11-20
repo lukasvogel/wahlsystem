@@ -15,7 +15,7 @@ class BundestagMembers(object):
                LEFT JOIN (directmandate_winners dw
                           JOIN wahlkreis w
                           ON w.id = dw.wahlkreis)
-                ON mb.id = dw.candidate AND dw.election = 2
+                ON mb.id = dw.candidate
                ORDER BY mb.lastname""")
 
         members = []

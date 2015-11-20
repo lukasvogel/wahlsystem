@@ -273,7 +273,7 @@ CREATE OR REPLACE VIEW members_of_bundestag_2013 AS (
 	and rc.platz <= sb.seats - coalesce(mpb.mandates,0)
     )
 
-select c.firstname, c.lastname, p.name as party, b.name as bundesland
+select c.id, c.firstname, c.lastname, p.name as party, b.name as bundesland
 from members_of_bundestag bm, party p, candidate c, bundesland b
 where bm.bundesland = b.id
 and bm.candidate = c.id

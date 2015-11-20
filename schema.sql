@@ -39,16 +39,15 @@ CREATE TABLE Voter
         Address     		VARCHAR(100) NOT NULL,
         Gender      		CHAR(1) NOT NULL,
         Wahlkreis   		INTEGER NOT NULL REFERENCES Wahlkreis,
-        FirstValidElection 	INTEGER NOT NULL REFERENCES Election,
-        LastValidElection	INTEGER REFERENCES Election,
-        LastVotedOn			INTEGER REFERENCES Election
+		FirstValidElection 	INTEGER NOT NULL REFERENCES Election,
+		LastValidElection	INTEGER REFERENCES Election,
+		LastVotedOn			INTEGER REFERENCES Election
       );
 
 CREATE TABLE Party
       (
-        ID          	SERIAL PRIMARY KEY,
-        Name        	VARCHAR(30) NOT NULL,
-        isMinorityParty BOOLEAN NOT NULL
+        ID          SERIAL PRIMARY KEY,
+        Name        VARCHAR(30) NOT NULL
       );
 
 CREATE TABLE Candidate
@@ -131,5 +130,14 @@ CREATE MATERIALIZED VIEW zweitstimme_results AS
         );
 
 CREATE UNIQUE INDEX  zweitstimme_results_id on zweitstimme_results (Party,election,wahlkreis);
+
+
+CREATE MATERIALIZED VIEW wahlberechtigte AS
+SELECT e.id, v.wahlkreis, count(*)
+FROM election e, voter v
+WHERE e.id >= v.firstvalidelection
+AND e.id <= coalesce(v.lastvalidelection,e.id)
+GROUP BY e.id, v.wahlkreis
+
 
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";
