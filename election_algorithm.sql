@@ -17,6 +17,25 @@ ALTER FUNCTION nats(numeric)
   OWNER TO postgres;
 
 
+CREATE OR REPLACE VIEW votesbyparty AS
+  SELECT zr_1.party,
+        sum(zr_1.count) AS votes
+  FROM zweitstimme_results zr_1
+  WHERE zr_1.election = 2
+  GROUP BY zr_1.party
+
+ALTER TABLE votesbyparty
+  OWNER TO postgres;
+
+
+CREATE OR REPLACE VIEW totalvotes AS (
+          SELECT sum(zr2.count) AS total
+            FROM zweitstimme_results zr2
+           WHERE zr2.election = 2
+         )
+
+ALTER TABLE totalvotes
+  OWNER TO postgres;
 
 
 /* The winners of a direct mandate */
@@ -55,17 +74,7 @@ ALTER TABLE mandates_party_bland
   OWNER TO postgres;
 
 CREATE OR REPLACE VIEW votes_bundesland AS
- WITH votesbyparty AS (
-         SELECT zr_1.party,
-            sum(zr_1.count) AS votes
-           FROM zweitstimme_results zr_1
-          WHERE zr_1.election = 2
-          GROUP BY zr_1.party
-        ), totalvotes AS (
-         SELECT sum(zr2.count) AS total
-           FROM zweitstimme_results zr2
-          WHERE zr2.election = 2
-        ), im_bundestag AS (
+ WITH im_bundestag AS (
          SELECT v.party
            FROM votesbyparty v,
             totalvotes t
@@ -146,19 +155,7 @@ $BODY$
 
 
 CREATE OR REPLACE VIEW seats_by_party_2013 AS
-with votesbyparty as
-	(select zr.party, sum(count) as votes
-	from zweitstimme_results zr
-	where zr.election = 2
-	group by zr.party),
-
-    totalvotes AS (
-         select sum(zr2.count) AS total
-         from zweitstimme_results zr2
-         where zr2.election = 2
-        ),
-
-    parties_in_bundestag as /* Parties that may get seats in the bundestag */
+with parties_in_bundestag as /* Parties that may get seats in the bundestag */
 	(select v.party
 	from votesbyparty v, totalvotes t
 	where v.votes >= (t.total * 1.00 / 100 * 5) /* all parties with more than 5% of total zweitstimmen */

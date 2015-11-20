@@ -5,32 +5,42 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
+    <div style="width: 50%; margin: 0px auto">
+        <div class="panel panel-default">
+            <div id="chart_overview" class="panel-body">
+            </div>
 
-    <div class="panel panel-default">
-        <div id="chart_overview" class="panel-body"
-             style="width:100%"></div>
-    </div>
+            {% if parties %}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>Partei</th>
+                            <th>Sitze</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for party in parties %}
+                            <tr>
+                                <td>{{ party.name }}</td>
+                                <td>{{ party.y }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>Keine Parteien vorhanden!</p>
 
+            {% endif %}
 
-    {% if parties %}
-        <div class="table-responsive">
-            <table style="width: auto;" class="table table-bordered table-striped">
-                <tr>
-                    <th>Partei</th>
-                    <th>Sitze</th>
-                </tr>
-                {% for party in parties %}
-                    <tr>
-                        <td>{{ party.name }}</td>
-                        <td>{{ party.y }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
         </div>
-    {% else %}
-        <p>Keine Parteien vorhanden!</p>
 
-    {% endif %}
+        <div class="panel panel-default">
+            <div id="chart_percentages" class="panel-body">
+            </div>
+        </div>
+    </div>
 
 
     <script type="text/javascript">
@@ -38,6 +48,7 @@
 
         specification = {
             chart: {
+
                 renderTo: 'chart_panel',
                 plotBackgroundColor: null,
                 plotBorderWidth: 0,
@@ -62,19 +73,59 @@
                     endAngle: 90,
                     center: ['50%', '75%'],
                     allowPointSelect: true
-
                 }
             }
         };
 
-        json_data = $.getJSON('{% url 'chart_as_json' %}', function (data) {
+        $.getJSON('{% url 'chart_as_json' %}', function (data) {
             specification['series'] = data;
 
             $('#chart_overview').highcharts(specification)
-        });
 
-        specification['series'] = json_data;
+        });
 
     </script>
 
+
+    <script type="text/javascript">
+
+        $(function () {
+            $('#chart_percentages').highcharts({
+                chart: {
+                    type: "column"
+                },
+                yAxis: {
+                    labels: {
+                        format: "{value}%"
+                    },
+                },
+                colors: [
+                    "black",
+                    "yellow",
+                    "green",
+                    "red",
+                    "#BFBFBF",
+                    "#F1E7BF",
+                    "#C9DDC0",
+                    "#ECBFC4"
+                ],
+                subtitle: {
+                    text: "Stimmanteile in Prozent"
+                },
+                xAxis: {
+                    type: "category"
+                },
+
+                legend: {
+                    enabled: false
+                },
+                title: {
+                    text: "Wahlergebnisse"
+                },
+                series: {{ series|safe }}
+
+            })
+        });
+
+    </script>
 {% endblock content %}

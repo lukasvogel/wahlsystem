@@ -1,8 +1,9 @@
 import psycopg2
+from decimal import Decimal
+import json
 
 
 class BundestagMembers(object):
-
     def __init__(self):
         self.conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
         self.cur = self.conn.cursor()
@@ -22,25 +23,24 @@ class BundestagMembers(object):
 
         for member in self.cur.fetchall():
             members.append({
-                'firstname' : member[0],
-                'lastname' : member[1],
-                'party' : member[2],
-                'bundesland' : member[3],
-                'wk_id' : member[4],
-                'wk_name' : member[5]
+                'firstname': member[0],
+                'lastname': member[1],
+                'party': member[2],
+                'bundesland': member[3],
+                'wk_id': member[4],
+                'wk_name': member[5]
             })
 
         return members
 
 
 class Wahlkreise(object):
-
     def __init__(self):
         self.conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
         self.cur = self.conn.cursor()
         self.conn.autocommit = True
 
-    def get_info(self,wk_id):
+    def get_info(self, wk_id):
 
         # Get infos on wahlkreis and direct mandate winner
         self.cur.execute(
@@ -54,7 +54,6 @@ class Wahlkreise(object):
 
         # TODO: Was wenn party = None?
         wahlkreis = self.cur.fetchone()
-
 
         # Get the candidates trying to get a direct mandate
         wk_candidates = []
@@ -74,9 +73,9 @@ class Wahlkreise(object):
         )
         for candidate in self.cur.fetchall():
             wk_candidates.append({
-                'c_name' : candidate[0] + ' ' + candidate[1],
-                'c_pname' : candidate[2],
-                'c_votes' : candidate[3]
+                'c_name': candidate[0] + ' ' + candidate[1],
+                'c_pname': candidate[2],
+                'c_votes': candidate[3]
             })
 
         # Get the results of the parties
@@ -94,12 +93,9 @@ class Wahlkreise(object):
         )
         for party in self.cur.fetchall():
             wk_parties.append({
-                'p_name' : party[0],
-                'p_votes' : party[1]
+                'p_name': party[0],
+                'p_votes': party[1]
             })
-
-
-
 
         # Get wahlbeteiligung
         self.cur.execute(
@@ -115,29 +111,31 @@ class Wahlkreise(object):
 
         return {'wk_id': wahlkreis[0],
                 'wk_name': wahlkreis[1],
-                'winner_fn' : wahlkreis[2],
-                'winner_ln' : wahlkreis[3],
-                'wahlbeteiligung' : wahlbeteiligung[0],
-                'candidates' : wk_candidates,
-                'parties' : wk_parties}
+                'winner_fn': wahlkreis[2],
+                'winner_ln': wahlkreis[3],
+                'wahlbeteiligung': wahlbeteiligung[0],
+                'candidates': wk_candidates,
+                'parties': wk_parties}
 
 
 class Overview(object):
-
     def __init__(self):
         self.conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
         self.cur = self.conn.cursor()
         self.conn.autocommit = True
         self.color_mapping = {
-            'CDU' : 'black',
-            'SPD' : 'red',
-            'FDP' : 'yellow',
-            'CSU' : 'black',
-            'GRÜNE' : 'green',
-            'DIE LINKE' : 'purple'
+            'CDU': 'black',
+            'SPD': 'red',
+            'FDP': 'yellow',
+            'CSU': 'black',
+            'GRÜNE': 'green',
+            'DIE LINKE': 'purple'
         }
+        self.interesting_parties = [
+            'CDU', 'FDP', 'CSU', 'SPD','GRÜNE','DIE LINKE', 'AfD', 'PIRATEN'
+        ]
 
-    def get_composition(self,election):
+    def get_composition(self, election):
 
         self.cur.execute(
             """SELECT p.name, cast(seats as int)
@@ -148,7 +146,39 @@ class Overview(object):
 
         data = []
         for datapoint in self.cur.fetchall():
-            data.append({'name' : datapoint[0],
-                         'y' : datapoint[1],
-                         'color' : self.color_mapping[datapoint[0]]})
+            data.append({'name': datapoint[0],
+                         'y': datapoint[1],
+                         'color': self.color_mapping[datapoint[0]]})
         return data
+
+    def get_percentages(self, election):
+
+        self.cur.execute(
+            """
+            SELECT p.name, round((v.votes / t.total * 100),1) as percentage
+            FROM votesbyparty v, party p, totalvotes t
+            WHERE v.party = p.id
+            ORDER BY percentage DESC
+            """
+        )
+        # TODO: WELCHE ELECTION???!!!
+
+
+        results = self.cur.fetchall()
+
+        graphDef = []
+        for year in [2009, 2013]:
+            graphDef.append({
+                "index": (year - 2009) // 4,
+                "colorbyPoint": True,
+                "name": year,
+                "data": [[mapping[0], mapping[1]] for mapping in results if mapping[0] in self.interesting_parties]
+            })
+        return json.dumps(graphDef, cls=DecimalEncoder)
+
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return float(obj)
+        return json.JSONEncoder.default(self, obj)
