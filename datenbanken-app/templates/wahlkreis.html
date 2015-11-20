@@ -1,15 +1,76 @@
 {% extends "base.html" %}
 
 
-{% block breadcrumbs %} {{ block.super }} » <a href = "/wahlanalyse/wk">Wahlkreise</a> » {{ wk_id }}{% endblock %}
+{% block breadcrumbs %} {{ block.super }} » <a href="/wahlanalyse/wk">Wahlkreise</a> » {{ wk_id }}{% endblock %}
 
- {% block content %}
-<br \>
-     <br \>
-     <br \>
-     <br \>
-<strong>ID:</strong> {{ wk_id }} <br \>
-<strong>Name:</strong> {{ wk_name }} <br \>
+{% block content %}
+
+    <strong>Name:</strong> {{ wk_name }} <br \>
+
+    <strong>Wahlbeteiligung:</strong> {{ wahlbeteiligung }} <br \>
+    <strong>Abgeordneter:</strong> {{ winner_fn }} {{ winner_ln }} <br \>
 
 
-{% endblock %}
+    <h3>Auswertung Erststimmen</h3>
+
+    {% if candidates %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Partei</th>
+                    <th>Stimmen</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for candidate in candidates %}
+                    <tr>
+                        <td>{{ candidate.c_name }}</td>
+                        {% if candidate.c_pname == None %}
+                            <td>-   </td>
+                        {% else %}
+                            <td>{{ candidate.c_pname }}</td>
+                        {% endif %}
+                        <td>{{ candidate.c_votes }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>Keine Kandidaten vorhanden!</p>
+
+    {% endif %}
+
+
+    <h3>Auswertung Zweitstimmen</h3>
+    {% if parties %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+
+                <tr>
+                    <th>Name</th>
+                    <th>Stimmen</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for party in parties %}
+                    <tr>
+                        <td>{{ party.p_name }}</td>
+                        <td>{{ party.p_votes }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    {% else %}
+        <p>Keine Parteien vorhanden!</p>
+
+    {% endif %}
+
+
+{% endblock %}ß

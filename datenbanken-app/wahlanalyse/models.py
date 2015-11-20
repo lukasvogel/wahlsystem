@@ -41,16 +41,85 @@ class Wahlkreise(object):
         self.conn.autocommit = True
 
     def get_info(self,wk_id):
+
+        # Get infos on wahlkreis and direct mandate winner
         self.cur.execute(
-            """SELECT *
-                FROM wahlkreis w
-                WHERE w.id = %s""",
+            """SELECT w.id, w.name, c.firstname, c.lastname
+                FROM wahlkreis w, directmandate_winners dw, candidate c
+                WHERE dw.wahlkreis = w.id
+                AND c.id = dw.candidate
+                AND w.id = %s""",
             (wk_id,)
         )
 
+        # TODO: Was wenn party = None?
         wahlkreis = self.cur.fetchone()
 
-        return {'wk_id': wahlkreis[0], 'wk_name': wahlkreis[1]}
+
+        # Get the candidates trying to get a direct mandate
+        wk_candidates = []
+
+        self.cur.execute(
+            """
+            SELECT c.firstname, c.lastname, p.name, er.count
+            FROM directmandate d left join party p on p.id = d.party, candidate c, erststimme_results er
+            WHERE d.candidate = c.id
+            AND er.candidate = c.id
+            AND d.election = 2
+            AND er.election = d.election
+            AND d.wahlkreis = %s
+            order by er.count desc
+            """,
+            (wk_id,)
+        )
+        for candidate in self.cur.fetchall():
+            wk_candidates.append({
+                'c_name' : candidate[0] + ' ' + candidate[1],
+                'c_pname' : candidate[2],
+                'c_votes' : candidate[3]
+            })
+
+        # Get the results of the parties
+        wk_parties = []
+        self.cur.execute(
+            """
+            SELECT p.name, zr.count
+            FROM zweitstimme_results zr, party p
+            WHERE zr.election = 2
+            AND zr.party = p.id
+            AND zr.wahlkreis = %s
+            order by zr.count desc
+            """,
+            (wk_id,)
+        )
+        for party in self.cur.fetchall():
+            wk_parties.append({
+                'p_name' : party[0],
+                'p_votes' : party[1]
+            })
+
+
+
+
+        # Get wahlbeteiligung
+        self.cur.execute(
+            """
+            SELECT w.wahlbeteiligung
+            FROM wahlbeteiligung w
+            WHERE w.wahlkreis = %s
+            AND w.election = 2
+            """,
+            (wk_id,)
+        )
+        wahlbeteiligung = self.cur.fetchone()
+
+        return {'wk_id': wahlkreis[0],
+                'wk_name': wahlkreis[1],
+                'winner_fn' : wahlkreis[2],
+                'winner_ln' : wahlkreis[3],
+                'wahlbeteiligung' : wahlbeteiligung[0],
+                'candidates' : wk_candidates,
+                'parties' : wk_parties}
 
 
 class Overview(object):
