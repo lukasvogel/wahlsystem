@@ -12,7 +12,7 @@ END;
 $BODY$
   LANGUAGE plpgsql IMMUTABLE STRICT
   COST 100
-  ROWS 100000;
+  ROWS 1000;
 ALTER FUNCTION nats(numeric)
   OWNER TO postgres;
 
@@ -97,59 +97,64 @@ CREATE OR REPLACE VIEW votes_bundesland AS
 ALTER TABLE votes_bundesland
   OWNER TO postgres;
 
+CREATE TYPE divisorspec as (party int, divisor numeric);
 
-
-/* A function that finds a valid party divisor for a given party and number of seats
-    using the views votes_bundesland and mandates_party_bland */
-CREATE OR REPLACE FUNCTION find_partydivisor(
-    partyID integer,
-    seats_to_distribute numeric)
-  RETURNS numeric AS
+CREATE OR REPLACE FUNCTION find_partydivisor()
+  RETURNS SETOF divisorspec AS
 $BODY$
 
 DECLARE
-	total_votes INTEGER := (select sum(votes) from votes_bundesland vb where vb.party = partyID);
-	lower_bound NUMERIC := total_votes / seats_to_distribute;
-	upper_bound NUMERIC := 1 + (select max(votes) from votes_bundesland vb where vb.party = partyID);
-
+	lower_bound NUMERIC := 1; /* AT LEAST ONE VOTE PER SEAT */
+	upper_bound NUMERIC := 80000000; /* NOT MORE VOTES PER SEAT THAN PEOPLE VOTING */
+	row record;
 	cur_divisor NUMERIC := lower_bound; /* INITIAL VALUE */
 	cur_total_seats NUMERIC := 0; /* INITIAL VALUE */
 BEGIN
 	CREATE TEMP TABLE mandates_votes AS (
-		select votes, mandates
+		select votes, mandates, vb.party
 		from votes_bundesland vb left join mandates_party_bland mb
 						on vb.bundesland = mb.bundesland and mb.party = vb.party
-						where vb.party = partyID
 	);
 
-	WHILE not cur_total_seats = seats_to_distribute LOOP
+  FOR row IN
+    select sp.party, sp.seats from seats_by_party_2013 sp
+  LOOP
 
+    lower_bound := 1;
+    upper_bound := 80000000;
+    cur_divisor := lower_bound;
+    cur_total_seats := 0;
 
-		cur_total_seats = (select sum(greatest(round( votes / cur_divisor, 0), coalesce(mandates,0)))
-						from mandates_votes);
+	  WHILE not cur_total_seats = row.seats LOOP
 
-		/* binary search */
-		IF cur_total_seats > seats_to_distribute THEN
-			lower_bound := cur_divisor;
-			cur_divisor := (cur_divisor + upper_bound) / 2;
-		ELSIF cur_total_seats < seats_to_distribute THEN
-			upper_bound := cur_divisor;
-			cur_divisor := (cur_divisor + lower_bound) / 2;
+		  cur_total_seats = (select sum(greatest(round( votes / cur_divisor, 0), coalesce(mandates,0)))
+						  from mandates_votes mv where mv.party = row.party);
 
-		END IF;
+		  /* binary search */
+		  IF cur_total_seats > row.seats THEN
+			  lower_bound := cur_divisor;
+			  cur_divisor := (cur_divisor + upper_bound) / 2;
+		  ELSIF cur_total_seats < row.seats THEN
+			  upper_bound := cur_divisor;
+			  cur_divisor := (cur_divisor + lower_bound) / 2;
 
-	END LOOP;
+		  END IF;
+
+      END LOOP;
+            RETURN NEXT (row.party, cur_divisor);
+
+  END LOOP;
 
 	DROP TABLE mandates_votes;
-	RETURN cur_divisor;
-
+	RETURN;
 END
 
 $BODY$
   LANGUAGE plpgsql VOLATILE
-  COST 100;
+  COST 10000;
   ALTER FUNCTION find_partydivisor(integer, numeric)
     OWNER TO postgres;
+
 
 
 
@@ -223,7 +228,7 @@ with parties_in_bundestag as /* Parties that may get seats in the bundestag */
     )
  SELECT vp.party,
         CASE
-            WHEN (vp.votes * 1.00 / 2::numeric) > totalvotes.votes THEN round(totalvotes.votes / (d.bundesdivisor * 2::numeric), 0) + 1::numeric
+            WHEN (vp.votes * 1.00 / 2) > totalvotes.votes THEN round(totalvotes.votes / (d.bundesdivisor * 2), 0) + 1
             ELSE round(vp.votes / d.bundesdivisor, 0)
         END AS seats
    FROM votesbyparty vp,
@@ -238,36 +243,45 @@ ALTER TABLE seats_by_party_2013
 
 
 
-
+DROP VIEW members_of_bundestag_2013;
 /* The view specifying the elected bundestag-candidates for 2013 */
 CREATE OR REPLACE VIEW members_of_bundestag_2013 AS (
-  with partydivisor as ( /* the amount of votes needed to get one seat for each party */
-	select * from seats_by_party_2013 total, find_partydivisor(total.party , total.seats) as divisor
-    ),
 
-    seats_bland as ( /* the final amount of seats each party gets in each bundesland */
+
+  WITH  seats_bland as ( /* the final amount of seats each party gets in each bundesland */
 	select vb.bundesland, vb.party, greatest(round(votes / divisor , 0), coalesce(mandates,0)) as seats
-	from partydivisor d, votes_bundesland vb left join mandates_party_bland mpb on mpb.bundesland = vb.bundesland and mpb.party = vb.party
+	from find_partydivisor() d, votes_bundesland vb left join mandates_party_bland mpb on mpb.bundesland = vb.bundesland and mpb.party = vb.party
 	where vb.party = d.party
     ),
 
-    remaining_cand_on_ll as ( /* all the candidates on landeslisten that weren't elected by direct mandate */
-	select l.*, candidate, rank() over (partition by l.id order by platz) platz
+    rem_cands as (
+	select candidate
 	from landesliste l, listenplatz lp
+	where l.election = 2
+	and lp.landesliste = l.id
+	EXCEPT
+	select candidate from directmandate_winners),
+
+    remaining_cand_on_ll as ( /* all the candidates on landeslisten that weren't elected by direct mandate */
+	select l.*, lp.candidate, rank() over (partition by l.id order by platz) platz
+	from landesliste l, listenplatz lp, rem_cands rc
 	where lp.landesliste = l.id
 	and l.election = 2
-	and lp.candidate not in (select candidate from directmandate_winners)
+	and lp.candidate = rc.candidate
+    ),
+
+    rem_seats as (
+	select sb.bundesland, sb.party, sb.seats - coalesce(mpb.mandates,0) as seats
+	from seats_bland sb left join mandates_party_bland mpb on mpb.bundesland = sb.bundesland and mpb.party = sb.party
     ),
 
     members_of_bundestag as (
 	select bundesland, candidate, party
 	from directmandate_winners
 	UNION
-	select sb.bundesland, rc.candidate, rc.party
-	from remaining_cand_on_ll rc, seats_bland sb left join mandates_party_bland mpb on mpb.bundesland = sb.bundesland and mpb.party = sb.party
-	where rc.bundesland = sb.bundesland
-	and rc.party = sb.party
-	and rc.platz <= sb.seats - coalesce(mpb.mandates,0)
+	select rc.bundesland, rc.candidate, rc.party
+	from remaining_cand_on_ll rc
+	where rc.platz <= (select seats from rem_seats rm where rm.bundesland = rc.bundesland and rm.party = rc.party)
     )
 
 select c.id, c.firstname, c.lastname, p.name as party, b.name as bundesland

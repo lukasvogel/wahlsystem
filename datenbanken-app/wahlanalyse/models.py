@@ -169,7 +169,7 @@ class Overview(object):
         graphDef = []
         for year in [2009, 2013]:
             graphDef.append({
-                "index": (year - 2009) // 4,
+                "index": (year - 2009) // 4, #0,1,... HACK
                 "colorbyPoint": True,
                 "name": year,
                 "data": [[mapping[0], mapping[1]] for mapping in results if mapping[0] in self.interesting_parties]
