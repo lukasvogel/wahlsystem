@@ -21,6 +21,7 @@
                     <th>Name</th>
                     <th>Partei</th>
                     <th>Stimmen</th>
+                    <th>Stimmanteil</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -28,11 +29,12 @@
                     <tr>
                         <td>{{ candidate.c_name }}</td>
                         {% if candidate.c_pname == None %}
-                            <td>-   </td>
+                            <td>-</td>
                         {% else %}
                             <td>{{ candidate.c_pname }}</td>
                         {% endif %}
                         <td>{{ candidate.c_votes }}</td>
+                        <td>{{ candidate.c_percentage }}%</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -53,6 +55,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Stimmen</th>
+                    <th>Stimmanteil</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -61,6 +64,7 @@
                     <tr>
                         <td>{{ party.p_name }}</td>
                         <td>{{ party.p_votes }}</td>
+                        <td>{{ party.p_percentage }}%</td>
                     </tr>
                 {% endfor %}
                 </tbody>

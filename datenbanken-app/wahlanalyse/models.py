@@ -60,7 +60,11 @@ class Wahlkreise(object):
 
         self.cur.execute(
             """
-            SELECT c.firstname, c.lastname, p.name, er.count
+            SELECT c.firstname, c.lastname, p.name, er.count,
+                    round(er.count / (select sum(count)
+                                      from erststimme_results er2
+                                      where er2.election = 2
+                                      and er2.wahlkreis = %s) * 100,1) as percentage
             FROM directmandate d left join party p on p.id = d.party, candidate c, erststimme_results er
             WHERE d.candidate = c.id
             AND er.candidate = c.id
@@ -69,32 +73,34 @@ class Wahlkreise(object):
             AND d.wahlkreis = %s
             order by er.count desc
             """,
-            (wk_id,)
+            (wk_id,wk_id)
         )
         for candidate in self.cur.fetchall():
             wk_candidates.append({
                 'c_name': candidate[0] + ' ' + candidate[1],
                 'c_pname': candidate[2],
-                'c_votes': candidate[3]
+                'c_votes': candidate[3],
+                'c_percentage' : candidate[4]
             })
 
         # Get the results of the parties
         wk_parties = []
         self.cur.execute(
             """
-            SELECT p.name, zr.count
+            SELECT p.name, zr.count, round(zr.count / (select sum(count) from zweitstimme_results zr2 where zr2.election = 2 and zr2.wahlkreis = %s) * 100,1) as percentage
             FROM zweitstimme_results zr, party p
             WHERE zr.election = 2
             AND zr.party = p.id
             AND zr.wahlkreis = %s
             order by zr.count desc
             """,
-            (wk_id,)
+            (wk_id,wk_id)
         )
         for party in self.cur.fetchall():
             wk_parties.append({
                 'p_name': party[0],
-                'p_votes': party[1]
+                'p_votes': party[1],
+                'p_percentage' : party[2]
             })
 
         # Get wahlbeteiligung
