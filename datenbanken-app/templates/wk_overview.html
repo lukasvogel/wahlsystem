@@ -9,8 +9,8 @@
         <h1>Wahlkreise</h1>
     </div>
     {% if wahlkreise %}
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped">
+        <div class="table-responsive col-md-7">
+            <table id="wk" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>Nummer</th>
@@ -21,8 +21,8 @@
                 </thead>
                 <tbody>
                 {% for wk in wahlkreise %}
-                    <tr>
-                        <td><a href="{{ wk.wk_id }}/">{{ wk.wk_id }}</a></td>
+                    <tr class="clickable-row" data-href="{{ wk.wk_id }}/">
+                        <td>{{ wk.wk_id }}</td>
                         <td>{{ wk.wk_name }}</td>
                         <td>{{ wk.wk_first }}</td>
                         <td>{{ wk.wk_second }}</td>
@@ -35,8 +35,19 @@
         <p>Keine Wahlkreise vorhanden!</p>
 
     {% endif %}
+    <script>
+        jQuery(document).ready(function ($) {
+            $(".clickable-row").click(function () {
+                window.document.location = $(this).data("href");
+            });
+        });
+    </script>
 
-
+    <script>
+        $('#wk tbody tr').on('mouseover', function (event) {
+            $(this).addClass('info').siblings().removeClass('info');
+        });
+    </script>
 {% endblock content %}
 
 

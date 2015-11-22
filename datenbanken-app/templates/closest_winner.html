@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+
+
+{% block breadcrumbs %} {{ block.super }} » <a href="/wahlanalyse/ks/">Knappste Sieger</a> »
+    {{ party_id }} {% endblock breadcrumbs %}
+{% block content %}
+
+    <div class="page-header">
+        <h1>Knappste Sieger</h1>
+    </div>
+    {% if closest %}
+        <div id="persons" class="table-responsive col-md-10">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                    <th>Wahlkreis</th>
+                    <th>Differenz</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for person in closest %}
+                    <tr>
+                        <td>{{ person.firstname }}</td>
+                        <td>{{ person.lastname }}</td>
+                        <td><a href="/wahlanalyse/wk/{{ person.wk_id }}/"> {{ person.wk_name }} </a></td>
+                        <td>{{ person.difference }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>Keine knappsten Sieger vorhanden!</p>
+
+    {% endif %}
+
+
+
+{% endblock content %}
+
+
+
+
+
+

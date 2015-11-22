@@ -22,4 +22,25 @@ AND zi.wahlkreis = w.wahlkreis
 order by wahlbeteiligung desc
 )
 
+CREATE OR REPLACE VIEW closest_winners AS (
+  WITH ranking AS (
+	SELECT r.election, r.wahlkreis, r.count
+	FROM (
+	          SELECT er.election, er.wahlkreis, count, rank() over (partition by election, wahlkreis order by count DESC)
+	          FROM erststimme_results er
+            ) as r
+	WHERE rank = 2)
+
+            SELECT c.firstname, c.lastname, dw.party, w.id, w.name, er.count - r.count as difference
+            FROM ranking r, directmandate_winners dw, erststimme_results er, candidate c, wahlkreis w
+            WHERE dw.wahlkreis = r.wahlkreis
+            AND r.election = 2
+            AND er.election = r.election
+            AND er.wahlkreis = r.wahlkreis
+            AND er.candidate = dw.candidate
+            AND c.id = dw.candidate
+            AND w.id = dw.wahlkreis
+            order by difference asc
+);
+
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";

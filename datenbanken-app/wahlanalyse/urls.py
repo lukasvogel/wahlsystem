@@ -13,11 +13,11 @@ urlpatterns = [
     # /wk/5 : Query3
     url(r'^wk/(?P<wk_id>[0-9]+)/$',views.wk_detail, name='wk_detail'),
 
-
     # /wk/
     url(r'^wk/',views.wk_overview, name='wk_overview'),
 
-
+    # /ks/5 : Query6
+    url(r'^ks/(?P<party_id>[0-9]+)/$',views.ks_detail, name='ks_detail'),
 
     # chartasjson
     url(r'^chart_as_json$', views.chart_as_json, name='chart_as_json'),

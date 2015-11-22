@@ -219,3 +219,33 @@ class DecimalEncoder(json.JSONEncoder):
         if isinstance(obj, Decimal):
             return float(obj)
         return json.JSONEncoder.default(self, obj)
+
+class ClosestWinners(object):
+    def __init__(self):
+        self.conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
+        self.cur = self.conn.cursor()
+        self.conn.autocommit = True
+
+    def get_winners(self, election, party):
+        self.cur.execute(
+            """
+            SELECT cw.firstname, cw.lastname, cw.wahlkreis, cw.wname, cw.difference
+            FROM closest_winners cw
+            WHERE cw.party = %s
+            LIMIT 10
+            """, (party,))
+
+        winners = []
+
+        for winner in self.cur.fetchall():
+            winners.append({
+                'firstname': winner[0],
+                'lastname': winner[1],
+                'wk_id': winner[2],
+                'wk_name': winner[3],
+                'difference': winner[4]
+            })
+
+            #TODO: WHAT IF NO WINNERS?
+
+        return winners

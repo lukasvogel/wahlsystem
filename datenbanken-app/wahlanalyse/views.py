@@ -5,10 +5,13 @@ import json
 from .models import BundestagMembers
 from .models import Wahlkreise
 from .models import Overview
+from .models import ClosestWinners
+
 
 bm = BundestagMembers()
 wk = Wahlkreise()
 ov = Overview()
+cw = ClosestWinners()
 
 
 def index(request):
@@ -46,6 +49,15 @@ def bundestag_overview(request):
     })
 
     return render(request, 'abgeordnete.html', context)
+
+
+def ks_detail(request,party_id):
+    context = RequestContext(request, {
+        'closest': cw.get_winners(2,party_id),
+        'party_id': party_id
+    })
+
+    return render(request, 'closest_winner.html', context)
 
 
 def chart_as_json(request):

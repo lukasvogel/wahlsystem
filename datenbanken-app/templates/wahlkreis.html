@@ -5,16 +5,28 @@
 
 {% block content %}
 
-    <strong>Name:</strong> {{ wk_name }} <br \>
 
-    <strong>Wahlbeteiligung:</strong> {{ wahlbeteiligung }} <br \>
-    <strong>Abgeordneter:</strong> {{ winner_fn }} {{ winner_ln }} <br \>
+    <div id="Kurzübersicht" class="panel panel-primary">
+
+        <div class="panel-heading">
+            <h3 class="panel-title">Kurzübersicht</h3>
+        </div>
+
+        <div class="panel-body">
+            <strong>Name:</strong> {{ wk_name }} <br \>
+            <strong>Wahlbeteiligung:</strong> {{ wahlbeteiligung }}% <br \>
+            <strong>Abgeordneter:</strong> {{ winner_fn }} {{ winner_ln }} <br \>
+        </div>
 
 
-    <h3>Auswertung Erststimmen</h3>
+    </div>
 
-    {% if candidates %}
-        <div class="table-responsive">
+    <div class="table-responsive col-md-6 panel panel-info">
+
+        <div class="panel-heading">
+            <h3 class="panel-title">Auswertung Erststimmen</h3>
+        </div>
+        {% if candidates %}
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -39,42 +51,46 @@
                 {% endfor %}
                 </tbody>
             </table>
-        </div>
-    {% else %}
-        <p>Keine Kandidaten vorhanden!</p>
+            </div>
+        {% else %}
+            <p>Keine Kandidaten vorhanden!</p>
 
-    {% endif %}
+        {% endif %}
+    </div>
 
 
-    <h3>Auswertung Zweitstimmen</h3>
-    {% if parties %}
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
+        <div class="table-responsive col-md-6 panel panel-info">
 
-                <tr>
-                    <th>Name</th>
-                    <th>Stimmen</th>
-                    <th>Stimmanteil</th>
-                </tr>
-                </thead>
-                <tbody>
+            <div class="panel-heading">
+                <h3 class="panel-title">Auswertung Zweitstimmen</h3>
+            </div>
+            {% if parties %}
+                <table class="table table-striped">
+                    <thead>
 
-                {% for party in parties %}
                     <tr>
-                        <td>{{ party.p_name }}</td>
-                        <td>{{ party.p_votes }}</td>
-                        <td>{{ party.p_percentage }}%</td>
+                        <th>Name</th>
+                        <th>Stimmen</th>
+                        <th>Stimmanteil</th>
                     </tr>
-                {% endfor %}
-                </tbody>
+                    </thead>
+                    <tbody>
 
-            </table>
-        </div>
-    {% else %}
-        <p>Keine Parteien vorhanden!</p>
+                    {% for party in parties %}
+                        <tr>
+                            <td>{{ party.p_name }}</td>
+                            <td>{{ party.p_votes }}</td>
+                            <td>{{ party.p_percentage }}%</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
 
-    {% endif %}
+                </table>
+                </div>
+            {% else %}
+                <p>Keine Parteien vorhanden!</p>
 
+            {% endif %}
+    </div>
 
-{% endblock %}ß
+{% endblock %}
