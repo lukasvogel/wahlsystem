@@ -40,7 +40,38 @@ class Wahlkreise(object):
         self.cur = self.conn.cursor()
         self.conn.autocommit = True
 
-    def get_info(self, wk_id):
+    def get_overview(self):
+
+        self.cur.execute(
+            """
+            SELECT wk.id, wk.name, p.name, zw_party
+            FROM wahlkreis wk, directmandate_winners dw, party p, (SELECT zw.wahlkreis, p2.name as zw_party FROM zweitstimme_results zw , party p2
+                                                                   WHERE p2.id = zw.party
+                                                                   AND zw.election = 2
+                                                                   AND NOT EXISTS (SELECT * FROM zweitstimme_results zw2
+                                                                   WHERE zw2.wahlkreis = zw.wahlkreis
+                                                                   AND zw2.election = zw.election
+                                                                   AND zw2.count > zw.count)) as zweitstimme
+            WHERE dw.wahlkreis = wk.id
+            AND p.id = dw.party
+            AND zweitstimme.wahlkreis = wk.id
+            ORDER by wk.id
+            """
+        )
+
+        wahlkreise = []
+
+        for wk in self.cur.fetchall():
+            wahlkreise.append({
+                'wk_id' : wk[0],
+                'wk_name' : wk[1],
+                'wk_first' : wk[2],
+                'wk_second' : wk[3]
+            })
+
+        return wahlkreise
+
+    def get_details(self, wk_id):
 
         # Get infos on wahlkreis and direct mandate winner
         self.cur.execute(

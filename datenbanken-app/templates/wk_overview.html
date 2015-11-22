@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+
+
+{% block breadcrumbs %} {{ block.super }} » Wahlkreise {% endblock breadcrumbs %}
+{% block content %}
+
+    <div class="page-header">
+        <h1>Wahlkreise</h1>
+    </div>
+    {% if wahlkreise %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Nummer</th>
+                    <th>Name</th>
+                    <th>Gewinner Erststimme</th>
+                    <th>Gewinner Zweitstimme</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for wk in wahlkreise %}
+                    <tr>
+                        <td><a href="{{ wk.wk_id }}/">{{ wk.wk_id }}</a></td>
+                        <td>{{ wk.wk_name }}</td>
+                        <td>{{ wk.wk_first }}</td>
+                        <td>{{ wk.wk_second }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>Keine Wahlkreise vorhanden!</p>
+
+    {% endif %}
+
+
+{% endblock content %}
+
+
+
+
+
+

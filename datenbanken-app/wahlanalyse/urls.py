@@ -14,6 +14,11 @@ urlpatterns = [
     url(r'^wk/(?P<wk_id>[0-9]+)/$',views.wk_detail, name='wk_detail'),
 
 
+    # /wk/
+    url(r'^wk/',views.wk_overview, name='wk_overview'),
+
+
+
     # chartasjson
     url(r'^chart_as_json$', views.chart_as_json, name='chart_as_json'),
 

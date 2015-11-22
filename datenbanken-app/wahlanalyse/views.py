@@ -26,8 +26,16 @@ def overview(request):
     return render(request, 'overview.html', context)
 
 
+def wk_overview(request):
+    context = RequestContext(request, {
+        'wahlkreise': wk.get_overview()
+    })
+
+    return render(request, 'wk_overview.html', context)
+
+
 def wk_detail(request, wk_id):
-    context = RequestContext(request, wk.get_info(wk_id))
+    context = RequestContext(request, wk.get_details(wk_id))
 
     return render(request, 'wahlkreis.html', context)
 
