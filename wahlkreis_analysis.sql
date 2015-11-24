@@ -31,8 +31,14 @@ CREATE OR REPLACE VIEW closest_winners AS (
             ) as r
 	WHERE rank = 2)
 
-            SELECT c.firstname, c.lastname, dw.party, w.id, w.name, er.count - r.count as difference
-            FROM ranking r, directmandate_winners dw, erststimme_results er, candidate c, wahlkreis w
+  SELECT
+    c.firstname,
+    c.lastname,
+    dw.party,
+    w.id               AS wahlkreis,
+    w.name             AS wname,
+    er.count - r.count AS difference
+  FROM ranking r, directmandate_winners dw, erststimme_results er, candidate c, wahlkreis w
             WHERE dw.wahlkreis = r.wahlkreis
             AND r.election = 2
             AND er.election = r.election
@@ -41,6 +47,29 @@ CREATE OR REPLACE VIEW closest_winners AS (
             AND c.id = dw.candidate
             AND w.id = dw.wahlkreis
             order by difference asc
+);
+
+CREATE OR REPLACE VIEW closest_losers AS (
+  SELECT
+    c.firstname,
+    c.lastname,
+    d.party,
+    w.id                             AS wahlkreis,
+    w.name                           AS wname,
+    er_loser.count - er_winner.count AS difference
+  FROM directmandate_winners dw, erststimme_results er_winner,
+    directmandate d, erststimme_results er_loser,
+    candidate c, wahlkreis w
+  WHERE d.election = 2
+        AND er_winner.candidate = dw.candidate
+        AND er_winner.election = 2
+        AND er_loser.candidate = d.candidate
+        AND er_loser.election = d.election
+        AND dw.wahlkreis = d.wahlkreis
+        AND dw.candidate <> d.candidate
+        AND c.id = d.candidate
+        AND w.id = d.wahlkreis
+  ORDER BY difference DESC
 );
 
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";

@@ -10,7 +10,7 @@
     </div>
     {% if members %}
         <div class="table-responsive col-md-10">
-            <table class="table table-bordered table-striped">
+            <table id="abgeordnete" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>Vorname</th>
@@ -43,6 +43,12 @@
 
     {% endif %}
 
+    <script>
+        $(document).ready(function () {
+                    $("#abgeordnete").tablesorter();
+                }
+        );
+    </script>
 
 {% endblock content %}
 

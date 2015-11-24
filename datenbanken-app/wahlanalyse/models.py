@@ -238,17 +238,30 @@ class ClosestWinners(object):
             LIMIT 10
             """, (party,))
 
-        winners = []
+        closest = []
 
-        for winner in self.cur.fetchall():
-            winners.append({
-                'firstname': winner[0],
-                'lastname': winner[1],
-                'wk_id': winner[2],
-                'wk_name': winner[3],
-                'difference': winner[4]
+        if self.cur.rowcount != 0:
+            # if we have at least one winner in the party...
+            closest = self.cur.fetchall()
+        else:
+            # otherwise get 10 losers...
+            self.cur.execute(
+                """
+              SELECT cl.firstname, cl.lastname, cl.wahlkreis, cl.wname, cl.difference
+              FROM closest_losers cl
+              WHERE cl.party = %s
+              LIMIT 10
+              """, (party,))
+            closest = self.cur.fetchall()
+
+        result = []
+
+        for person in closest:
+            result.append({
+                'firstname': person[0],
+                'lastname': person[1],
+                'wk_id': person[2],
+                'wk_name': person[3],
+                'difference': person[4]
             })
-
-            #TODO: WHAT IF NO WINNERS?
-
-        return winners
+        return result

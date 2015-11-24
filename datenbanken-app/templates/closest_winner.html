@@ -11,7 +11,7 @@
     </div>
     {% if closest %}
         <div id="persons" class="table-responsive col-md-10">
-            <table class="table table-bordered table-striped">
+            <table id="cw" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>Vorname</th>
@@ -38,6 +38,12 @@
     {% endif %}
 
 
+    <script>
+        $(document).ready(function () {
+                    $("#cw").tablesorter();
+                }
+        );
+    </script>
 
 {% endblock content %}
 
