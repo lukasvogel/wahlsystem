@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-import psycopg2
+import codecs
 import csv
-import datetime
 import sys
-from faker import Factory
+
+import psycopg2
 
 ### CONNECT TO POSTGRESQL ###
 conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
@@ -11,22 +11,18 @@ cur = conn.cursor()
 
 cur.execute("TRUNCATE Erststimme,zweitstimme,Voter,VotedOn")
 conn.commit()
-faker = Factory.create('de_DE')
 
-voters_total = { } ;
+voters_total = {}
 def main(argv):
-    WToPopulate = 0;
+    WToPopulate = 0
     if len (argv) == 2:
-        WToPopulate = int(argv[1]);
+        WToPopulate = int(argv[1])
         print ("Will only populate Wahlkreis: " + str(WToPopulate))
     addVotes('data/kerg_modified_unicode.csv',2, WToPopulate)
     addVotes('data/wkumrechnung2013_modified_unicode.csv',1,WToPopulate )
 
 def addVotes(fileName, electionID, WahlkreisID):
-
-
-
-    with open(fileName) as file:
+    with codecs.open(fileName, 'r', encoding='utf8') as file:
         file.seek(0)
         freader = csv.DictReader(file,delimiter=",")
 

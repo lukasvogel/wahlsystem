@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-import psycopg2
+import codecs
 import csv
 import datetime
 
+import psycopg2
 
 ### GLOBAL DEFINITIONS ###
 BLShortcuts = { 'BW' : 'Baden-Württemberg',
@@ -78,7 +79,7 @@ def main():
 def extractValues(fileName, colNames):
     #This function is the equivalent of an SQL-Projection on a CSV-file
 
-    with open(fileName) as file:
+    with  codecs.open(fileName, 'r', encoding='utf8') as file:
         dialect = csv.Sniffer().sniff(file.read(1024))
         file.seek(0)
         freader = csv.DictReader(file,dialect=dialect)
@@ -129,8 +130,10 @@ def addWahlkreise():
         name = row["Wahlkreisname"]
         BLand = row["Bundesland"]
         cur.execute("SELECT id FROM bundesland where name=%s",(BLand,)) #ugly, but names happen to be unique for the 16 Bundesländer
-        BLandId = cur.fetchone()[0]
-        cur.execute("INSERT INTO wahlkreis VALUES (%s,%s,%s)", (id,name,BLandId))
+
+        BLandId = cur.fetchone()
+
+        cur.execute("INSERT INTO wahlkreis VALUES (%s,%s,%s)", (id, name, BLandId[0]))
 
 
     conn.commit()

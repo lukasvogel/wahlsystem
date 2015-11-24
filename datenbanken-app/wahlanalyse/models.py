@@ -1,6 +1,7 @@
-import psycopg2
-from decimal import Decimal
 import json
+from decimal import Decimal
+
+import psycopg2
 
 
 class BundestagMembers(object):
@@ -45,16 +46,18 @@ class Wahlkreise(object):
         self.cur.execute(
             """
             SELECT wk.id, wk.name, p.name, zw_party
-            FROM wahlkreis wk, directmandate_winners dw, party p, (SELECT zw.wahlkreis, p2.name as zw_party FROM zweitstimme_results zw , party p2
+            FROM wahlkreis wk
+            LEFT JOIN directmandate_winners dw ON dw.wahlkreis = wk.id
+            LEFT JOIN party p on dw.party = p.id
+            LEFT JOIN (SELECT zw.wahlkreis, p2.name as zw_party FROM zweitstimme_results zw , party p2
                                                                    WHERE p2.id = zw.party
                                                                    AND zw.election = 2
                                                                    AND NOT EXISTS (SELECT * FROM zweitstimme_results zw2
                                                                    WHERE zw2.wahlkreis = zw.wahlkreis
                                                                    AND zw2.election = zw.election
                                                                    AND zw2.count > zw.count)) as zweitstimme
-            WHERE dw.wahlkreis = wk.id
+                    ON zweitstimme.wahlkreis = wk.id
             AND p.id = dw.party
-            AND zweitstimme.wahlkreis = wk.id
             ORDER by wk.id
             """
         )

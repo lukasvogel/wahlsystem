@@ -20,7 +20,7 @@ AND zi.election = ev.election
 AND vi.wahlkreis = w.wahlkreis
 AND zi.wahlkreis = w.wahlkreis
 order by wahlbeteiligung desc
-)
+);
 
 CREATE OR REPLACE VIEW closest_winners AS (
   WITH ranking AS (

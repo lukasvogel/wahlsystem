@@ -46,8 +46,9 @@ CREATE TABLE Voter
 
 CREATE TABLE Party
       (
-        ID          SERIAL PRIMARY KEY,
-        Name        VARCHAR(30) NOT NULL
+  ID              SERIAL PRIMARY KEY,
+  Name            VARCHAR(30) NOT NULL,
+  isMinorityParty BOOLEAN
       );
 
 CREATE TABLE Candidate
@@ -134,20 +135,20 @@ CREATE MATERIALIZED VIEW erststimme_invalid AS
 SELECT wahlkreis, election, count(*)
 FROM erststimme
 WHERE isInvalid = TRUE
-GROUP BY election, wahlkreis
+GROUP BY election, wahlkreis;
 
 CREATE MATERIALIZED VIEW zweitstimme_invalid AS
 SELECT wahlkreis, election, count(*)
 FROM zweitstimme
 WHERE isInvalid = TRUE
-GROUP BY election, wahlkreis
+GROUP BY election, wahlkreis;
 
 CREATE MATERIALIZED VIEW wahlberechtigte AS
 SELECT e.id as election, v.wahlkreis, count(v.id)
 FROM election e, voter v
 WHERE e.id >= v.firstvalidelection
 AND e.id <= coalesce(v.lastvalidelection,e.id)
-GROUP BY e.id, v.wahlkreis
+GROUP BY e.id, v.wahlkreis;
 
 
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";

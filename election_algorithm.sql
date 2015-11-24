@@ -22,7 +22,7 @@ CREATE OR REPLACE VIEW votesbyparty AS
         sum(zr_1.count) AS votes
   FROM zweitstimme_results zr_1
   WHERE zr_1.election = 2
-  GROUP BY zr_1.party
+  GROUP BY zr_1.party;
 
 ALTER TABLE votesbyparty
   OWNER TO postgres;
@@ -32,7 +32,7 @@ CREATE OR REPLACE VIEW totalvotes AS (
           SELECT sum(zr2.count) AS total
             FROM zweitstimme_results zr2
            WHERE zr2.election = 2
-         )
+);
 
 ALTER TABLE totalvotes
   OWNER TO postgres;
@@ -97,6 +97,8 @@ CREATE OR REPLACE VIEW votes_bundesland AS
 ALTER TABLE votes_bundesland
   OWNER TO postgres;
 
+
+DROP TYPE IF EXISTS divisorspec CASCADE;
 CREATE TYPE divisorspec as (party int, divisor numeric);
 
 CREATE OR REPLACE FUNCTION find_partydivisor()
@@ -152,7 +154,7 @@ END
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 10000;
-  ALTER FUNCTION find_partydivisor(integer, numeric)
+ALTER FUNCTION find_partydivisor()
     OWNER TO postgres;
 
 
@@ -242,8 +244,6 @@ ALTER TABLE seats_by_party_2013
   OWNER TO postgres;
 
 
-
-DROP VIEW members_of_bundestag_2013;
 /* The view specifying the elected bundestag-candidates for 2013 */
 CREATE OR REPLACE VIEW members_of_bundestag_2013 AS (
 
