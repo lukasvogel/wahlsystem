@@ -1,31 +1,31 @@
-CREATE OR REPLACE FUNCTION lague_coeff(numeric)
-  RETURNS SETOF numeric AS
+CREATE OR REPLACE FUNCTION lague_coeff(NUMERIC)
+  RETURNS SETOF NUMERIC AS
 $BODY$
 DECLARE
-    i NUMERIC;
+  i NUMERIC;
 BEGIN
-    FOR i IN 1..$1 loop
-        RETURN NEXT i - .5;
-    END loop;
-    RETURN;
+  FOR i IN 1..$1 LOOP
+  RETURN NEXT i - .5;
+END loop;
+RETURN;
 END;
 $BODY$
-  LANGUAGE plpgsql IMMUTABLE STRICT
-  COST 100
-  ROWS 1000;
-ALTER FUNCTION nats(numeric)
-  OWNER TO postgres;
+LANGUAGE plpgsql IMMUTABLE STRICT
+COST 100
+ROWS 1000;
+ALTER FUNCTION nats( NUMERIC )
+OWNER TO postgres;
 
 CREATE OR REPLACE VIEW votesbyparty AS
   SELECT
     zr_1.election,
     zr_1.party,
-        sum(zr_1.count) AS votes
+    sum(zr_1.count) AS votes
   FROM zweitstimme_results zr_1
   GROUP BY zr_1.election, zr_1.party;
 
 ALTER TABLE votesbyparty
-  OWNER TO postgres;
+OWNER TO postgres;
 
 CREATE OR REPLACE VIEW totalvotes AS (
   SELECT
@@ -36,7 +36,7 @@ CREATE OR REPLACE VIEW totalvotes AS (
 );
 
 ALTER TABLE totalvotes
-  OWNER TO postgres;
+OWNER TO postgres;
 
 
 /* The winners of a direct mandate */
@@ -66,7 +66,7 @@ CREATE OR REPLACE VIEW directmandate_winners AS
          AND er2.count > er.count));
 
 ALTER TABLE directmandate_winners
-  OWNER TO postgres;
+OWNER TO postgres;
 
 
 /* The following two VIEWs are needed for the party divisor calculation function */
@@ -81,40 +81,40 @@ CREATE OR REPLACE VIEW mandates_party_bland AS
   GROUP BY dw.election, dw.bundesland, dw.party;
 
 ALTER TABLE mandates_party_bland
-  OWNER TO postgres;
+OWNER TO postgres;
 
 CREATE OR REPLACE VIEW votes_bundesland AS
- WITH im_bundestag AS (
-   SELECT
-     v.election,
-     v.party
-   FROM votesbyparty v,
-            totalvotes t
-   WHERE v.election = t.election
-         AND v.votes >= (t.total * 1.00 / 100 :: NUMERIC * 5 :: NUMERIC)
-   UNION
-   SELECT
-     dw.election,
-     dw.party
-   FROM directmandate_winners dw
-   GROUP BY dw.election, dw.party
-         HAVING count(*) >= 3
-        )
- SELECT
-   zr.election,
-   wk.bundesland,
-   zr.party,
-   sum(zr.count) AS votes
- FROM zweitstimme_results zr,
-   wahlkreis wk,
-   im_bundestag ib
- WHERE zr.wahlkreis = wk.id
-       AND zr.party = ib.party
-       AND zr.election = ib.election
- GROUP BY zr.election, wk.bundesland, zr.party;
+  WITH im_bundestag AS (
+    SELECT
+      v.election,
+      v.party
+    FROM votesbyparty v,
+      totalvotes t
+    WHERE v.election = t.election
+          AND v.votes >= (t.total * 1.00 / 100 :: NUMERIC * 5 :: NUMERIC)
+    UNION
+    SELECT
+      dw.election,
+      dw.party
+    FROM directmandate_winners dw
+    GROUP BY dw.election, dw.party
+    HAVING count(*) >= 3
+  )
+  SELECT
+    zr.election,
+    wk.bundesland,
+    zr.party,
+    sum(zr.count) AS votes
+  FROM zweitstimme_results zr,
+    wahlkreis wk,
+    im_bundestag ib
+  WHERE zr.wahlkreis = wk.id
+        AND zr.party = ib.party
+        AND zr.election = ib.election
+  GROUP BY zr.election, wk.bundesland, zr.party;
 
 ALTER TABLE votes_bundesland
-  OWNER TO postgres;
+OWNER TO postgres;
 
 
 DROP TYPE IF EXISTS divisorspec CASCADE;
@@ -125,13 +125,17 @@ CREATE OR REPLACE FUNCTION find_partydivisor()
 $BODY$
 
 DECLARE
-	lower_bound NUMERIC := 1; /* AT LEAST ONE VOTE PER SEAT */
-	upper_bound NUMERIC := 80000000; /* NOT MORE VOTES PER SEAT THAN PEOPLE VOTING */
-	row record;
-	cur_divisor NUMERIC := lower_bound; /* INITIAL VALUE */
-	cur_total_seats NUMERIC := 0; /* INITIAL VALUE */
+  lower_bound     NUMERIC := 1;
+  /* AT LEAST ONE VOTE PER SEAT */
+  upper_bound     NUMERIC := 80000000;
+  /* NOT MORE VOTES PER SEAT THAN PEOPLE VOTING */
+  row             RECORD;
+  cur_divisor     NUMERIC := lower_bound;
+  /* INITIAL VALUE */
+  cur_total_seats NUMERIC := 0;
+  /* INITIAL VALUE */
 BEGIN
-	CREATE TEMP TABLE mandates_votes AS (
+  CREATE TEMP TABLE mandates_votes AS (
     SELECT
       vb.election,
       votes,
@@ -141,7 +145,7 @@ BEGIN
         ON vb.bundesland = mb.bundesland
            AND mb.party = vb.party
            AND vb.election = mb.election
-	);
+  );
 
   FOR row IN
   SELECT
@@ -156,164 +160,167 @@ BEGIN
     cur_divisor := lower_bound;
     cur_total_seats := 0;
 
-	  WHILE not cur_total_seats = row.seats LOOP
+    WHILE NOT cur_total_seats = row.seats LOOP
 
-		  cur_total_seats = (select sum(greatest(round( votes / cur_divisor, 0), coalesce(mandates,0)))
+      cur_total_seats = (SELECT sum(greatest(round(votes / cur_divisor, 0), coalesce(mandates, 0)))
                          FROM mandates_votes mv
                          WHERE mv.party = row.party
                                AND mv.election = row.election);
 
-		  /* binary search */
-		  IF cur_total_seats > row.seats THEN
-			  lower_bound := cur_divisor;
-			  cur_divisor := (cur_divisor + upper_bound) / 2;
-		  ELSIF cur_total_seats < row.seats THEN
-			  upper_bound := cur_divisor;
-			  cur_divisor := (cur_divisor + lower_bound) / 2;
+      /* binary search */
+      IF cur_total_seats > row.seats
+      THEN
+        lower_bound := cur_divisor;
+        cur_divisor := (cur_divisor + upper_bound) / 2;
+      ELSIF cur_total_seats < row.seats
+        THEN
+          upper_bound := cur_divisor;
+          cur_divisor := (cur_divisor + lower_bound) / 2;
 
-		  END IF;
+      END IF;
 
-      END LOOP;
+    END LOOP;
     RETURN NEXT (row.election, row.party, cur_divisor);
 
   END LOOP;
 
-	DROP TABLE mandates_votes;
-	RETURN;
+  DROP TABLE mandates_votes;
+  RETURN;
 END
 
 $BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 10000;
+LANGUAGE plpgsql VOLATILE
+COST 10000;
 ALTER FUNCTION find_partydivisor()
-    OWNER TO postgres;
+OWNER TO postgres;
 
 
 CREATE OR REPLACE VIEW seats_by_party AS
-with parties_in_bundestag as /* Parties that may get seats in the bundestag */
-(SELECT
-   v.election,
-   v.party
- FROM votesbyparty v, totalvotes t
-	where v.votes >= (t.total * 1.00 / 100 * 5) /* all parties with more than 5% of total zweitstimmen */
-        AND v.election = t.election
- UNION
- SELECT
-   election,
-   party
-	from directmandate_winners dw
- GROUP BY election, party
-	having count(*) >= 3 /* all parties with 3 or more direct mandates */
- UNION
- SELECT
-   election,
-   party
- FROM votesbyparty v, party p
- WHERE v.party = p.id
-       AND p.isMinorityParty /* all minority parties are exempt from the 5% clause */
-	),
+  WITH parties_in_bundestag AS /* Parties that may get seats in the bundestag */
+  (SELECT
+     v.election,
+     v.party
+   FROM votesbyparty v, totalvotes t
+   WHERE v.votes >= (t.total * 1.00 / 100 * 5) /* all parties with more than 5% of total zweitstimmen */
+         AND v.election = t.election
+   UNION
+   SELECT
+     election,
+     party
+   FROM directmandate_winners dw
+   GROUP BY election, party
+   HAVING count(*) >= 3 /* all parties with 3 or more direct mandates */
+   UNION
+   SELECT
+     election,
+     party
+   FROM votesbyparty v, party p
+   WHERE v.party = p.id
+         AND p.isMinorityParty /* all minority parties are exempt from the 5% clause */
+  ),
 
-     lague_ranking as ( /* parties ranked after the sainte-lague procedure by bundesland*/
-      SELECT
-        election,
-        bundesland,
-        party,
-        rank()
-        OVER (PARTITION BY election, bundesland
-          ORDER BY votes / c.lague_coeff * 1.00 DESC) AS rank
-      FROM votes_bundesland vb,
-        (SELECT lague_coeff(300)) AS c /* up to about 128 seats per bundesland, no party will get more than 150*/
-     ),
-
-     initial_seats as ( /* The seats each bundesland should get if voters/seat is the metric*/
-	select *
-	from (values
-	(1,76), /* Baden-Württemberg */
-	(2,92), /* Bayern */
-	(3,24), /* Berlin */
-	(4,19), /* Brandenburg */
-	(5,5), /* Bremen */
-	(6,13), /* Hamburg */
-	(7,43), /* Hessen */
-	(8,13), /* Mecklenburg-Vorpommern */
-	(9,59), /* Niedersachsen */
-	(10,128), /* Nordrhein-Westfalen */
-	(11,30), /* Rheinland-Pfalz */
-	(12,7), /* Saarland */
-	(13,32), /* Sachsen */
-	(14,18), /* Sacshen-Anhalt */
-	(15,22), /* Schleswig-Holstein */
-	(16,17) /* Thüringen */
-	) as zuteilung(Bundesland,Sitze) /* Sum: 598 Sitze, minimum amount of seats in the Bundestag */
-     ),
-     pseudodistribution_zw as ( /* distribution of seats taking no direct mandates into consideration*/
-      SELECT
-        election,
-        r.bundesland,
-        party,
-        count(*) AS seats
-      FROM lague_ranking r, initial_seats a
-	where r.bundesland = a.bundesland
-	and rank <= a.sitze
-      GROUP BY election, r.bundesland, party
-     ),
-
-     pseudodistribution as ( /* per party and bundesland, the greater number of seats by zweitstimmen and direct mandates */
-      SELECT
-        pv.election,
-        pv.bundesland,
-        pv.party,
-        greatest(seats, mandates) AS seats
-      FROM pseudodistribution_zw pv LEFT JOIN mandates_party_bland m
-          ON m.party = pv.party
-             AND m.bundesland = pv.bundesland
-             AND m.election = pv.election
-     ),
-
-     least_num_seats as ( /* the number of seats each party has to get at least to satisfy all direct mandates */
-      SELECT
-        election,
-        party,
-        sum(seats) AS minsitze
-      FROM pseudodistribution
-      GROUP BY party, election
+      lague_ranking AS ( /* parties ranked after the sainte-lague procedure by bundesland*/
+        SELECT
+          election,
+          bundesland,
+          party,
+          rank()
+          OVER (PARTITION BY election, bundesland
+            ORDER BY votes / c.lague_coeff * 1.00 DESC) AS rank
+        FROM votes_bundesland vb,
+          (SELECT lague_coeff(300)) AS c /* up to about 128 seats per bundesland, no party will get more than 150*/
     ),
 
-    bundesdivisor as ( /* the amount of votes needed to get one seat */
-      SELECT
-        vp.election,
-        round(min(vp.votes / (m.minsitze - 0.5)),
-              2) AS bundesdivisor /* truncate because of possible floating point errors TODO: reason about this carefully! :) */
-      FROM least_num_seats m, votesbyparty vp
-	where m.party = vp.party
-        AND vp.election = m.election
-      GROUP BY vp.election
+      initial_seats AS ( /* The seats each bundesland should get if voters/seat is the metric*/
+        SELECT *
+        FROM (VALUES
+          (1, 76), /* Baden-Württemberg */
+          (2, 92), /* Bayern */
+          (3, 24), /* Berlin */
+          (4, 19), /* Brandenburg */
+          (5, 5), /* Bremen */
+          (6, 13), /* Hamburg */
+          (7, 43), /* Hessen */
+          (8, 13), /* Mecklenburg-Vorpommern */
+          (9, 59), /* Niedersachsen */
+          (10, 128), /* Nordrhein-Westfalen */
+          (11, 30), /* Rheinland-Pfalz */
+          (12, 7), /* Saarland */
+          (13, 32), /* Sachsen */
+          (14, 18), /* Sacshen-Anhalt */
+          (15, 22), /* Schleswig-Holstein */
+          (16, 17) /* Thüringen */
+             ) AS zuteilung(Bundesland, Sitze) /* Sum: 598 Sitze, minimum amount of seats in the Bundestag */
+    ),
+      pseudodistribution_zw AS ( /* distribution of seats taking no direct mandates into consideration*/
+        SELECT
+          election,
+          r.bundesland,
+          party,
+          count(*) AS seats
+        FROM lague_ranking r, initial_seats a
+        WHERE r.bundesland = a.bundesland
+              AND rank <= a.sitze
+        GROUP BY election, r.bundesland, party
+    ),
+
+      pseudodistribution AS ( /* per party and bundesland, the greater number of seats by zweitstimmen and direct mandates */
+        SELECT
+          pv.election,
+          pv.bundesland,
+          pv.party,
+          greatest(seats, mandates) AS seats
+        FROM pseudodistribution_zw pv LEFT JOIN mandates_party_bland m
+            ON m.party = pv.party
+               AND m.bundesland = pv.bundesland
+               AND m.election = pv.election
+    ),
+
+      least_num_seats AS ( /* the number of seats each party has to get at least to satisfy all direct mandates */
+        SELECT
+          election,
+          party,
+          sum(seats) AS minsitze
+        FROM pseudodistribution
+        GROUP BY party, election
+    ),
+
+      bundesdivisor AS ( /* the amount of votes needed to get one seat */
+        SELECT
+          vp.election,
+          round(min(vp.votes / (m.minsitze - 0.5)),
+                2) AS bundesdivisor /* truncate because of possible floating point errors TODO: reason about this carefully! :) */
+        FROM least_num_seats m, votesbyparty vp
+        WHERE m.party = vp.party
+              AND vp.election = m.election
+        GROUP BY vp.election
     )
-SELECT
-  vp.election,
-  vp.party,
-        CASE
-            WHEN (vp.votes * 1.00 / 2) > totalvotes.votes THEN round(totalvotes.votes / (d.bundesdivisor * 2), 0) + 1
-            ELSE round(vp.votes / d.bundesdivisor, 0)
-        END AS seats
-FROM votesbyparty vp,
+  SELECT
+    vp.election,
+    vp.party,
+    CASE
+    WHEN (vp.votes * 1.00 / 2) > totalvotes.votes
+      THEN round(totalvotes.votes / (d.bundesdivisor * 2), 0) + 1
+    ELSE round(vp.votes / d.bundesdivisor, 0)
+    END AS seats
+  FROM votesbyparty vp,
     parties_in_bundestag ib,
     bundesdivisor d,
-  (SELECT
-     vb.election,
-     sum(vb.votes) AS votes
-   FROM votes_bundesland vb
-   GROUP BY vb.election) totalvotes
-WHERE vp.party = ib.party
-      AND totalvotes.election = vp.election
-      AND vp.election = ib.election
-      AND ib.election = d.election;
+    (SELECT
+       vb.election,
+       sum(vb.votes) AS votes
+     FROM votes_bundesland vb
+     GROUP BY vb.election) totalvotes
+  WHERE vp.party = ib.party
+        AND totalvotes.election = vp.election
+        AND vp.election = ib.election
+        AND ib.election = d.election;
 
 /* The view specifying the elected bundestag-candidates for 2013 */
 CREATE OR REPLACE VIEW members_of_bundestag AS (
 
 
-  WITH  seats_bland as ( /* the final amount of seats each party gets in each bundesland */
+  WITH seats_bland AS ( /* the final amount of seats each party gets in each bundesland */
       SELECT
         vb.election,
         vb.bundesland,
@@ -323,9 +330,9 @@ CREATE OR REPLACE VIEW members_of_bundestag AS (
           ON mpb.bundesland = vb.bundesland
              AND mpb.party = vb.party
              AND mpb.election = vb.election
-	where vb.party = d.party
-        AND vb.election = d.election
-    ),
+      WHERE vb.party = d.party
+            AND vb.election = d.election
+  ),
 
       rem_cands AS (
       SELECT
@@ -339,15 +346,20 @@ CREATE OR REPLACE VIEW members_of_bundestag AS (
         candidate
       FROM directmandate_winners dw),
 
-    remaining_cand_on_ll as ( /* all the candidates on landeslisten that weren't elected by direct mandate */
-	select l.*, lp.candidate, rank() over (partition by l.id order by platz) platz
-	from landesliste l, listenplatz lp, rem_cands rc
-	where lp.landesliste = l.id
-        AND l.election = rc.election
-	and lp.candidate = rc.candidate
+      remaining_cand_on_ll AS ( /* all the candidates on landeslisten that weren't elected by direct mandate */
+        SELECT
+          l.*,
+          lp.candidate,
+          rank()
+          OVER (PARTITION BY l.id
+            ORDER BY platz) platz
+        FROM landesliste l, listenplatz lp, rem_cands rc
+        WHERE lp.landesliste = l.id
+              AND l.election = rc.election
+              AND lp.candidate = rc.candidate
     ),
 
-    rem_seats as (
+      rem_seats AS (
         SELECT
           sb.election,
           sb.bundesland,
@@ -359,7 +371,7 @@ CREATE OR REPLACE VIEW members_of_bundestag AS (
                AND mpb.election = sb.election
     ),
 
-    members_of_bundestag as (
+      members_of_bundestag AS (
       SELECT
         election,
         bundesland,
@@ -387,10 +399,10 @@ CREATE OR REPLACE VIEW members_of_bundestag AS (
     p.name AS party,
     b.name AS bundesland
   FROM members_of_bundestag bm, party p, candidate c, bundesland b
-where bm.bundesland = b.id
-and bm.candidate = c.id
-and bm.party = p.id
-order by lastname
+  WHERE bm.bundesland = b.id
+        AND bm.candidate = c.id
+        AND bm.party = p.id
+  ORDER BY lastname
 );
 
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";
