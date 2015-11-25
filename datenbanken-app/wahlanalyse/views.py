@@ -39,9 +39,9 @@ def wk_overview(request):
 
 
 def wk_detail(request, wk_id):
-    context = RequestContext(request, wk.get_details(wk_id))
+    context = RequestContext(request, wk.get_details(wk_id, 2))
 
-    return render(request, 'wahlkreis.html', context)
+    return render(request, 'wk_detail.html', context)
 
 
 def bundestag_overview(request):

@@ -69,15 +69,15 @@ class Wahlkreise(object):
 
         for wk in self.cur.fetchall():
             wahlkreise.append({
-                'wk_id' : wk[0],
-                'wk_name' : wk[1],
-                'wk_first' : wk[2],
-                'wk_second' : wk[3]
+                'wk_id': wk[0],
+                'wk_name': wk[1],
+                'wk_first': wk[2],
+                'wk_second': wk[3]
             })
 
         return wahlkreise
 
-    def get_details(self, wk_id):
+    def get_details(self, wk_id, election):
 
         # Get infos on wahlkreis and direct mandate winner
         self.cur.execute(
@@ -98,46 +98,53 @@ class Wahlkreise(object):
         self.cur.execute(
             """
             SELECT c.firstname, c.lastname, p.name, er.count,
-                    round(er.count / (select sum(count)
+                    round(er.count / votes.votes * 100,1) as percentage
+            FROM directmandate d left join party p on p.id = d.party, candidate c, erststimme_results er,
+                (select sum(count) as votes, er2.election, er2.wahlkreis
                                       from erststimme_results er2
-                                      where er2.election = 2
-                                      and er2.wahlkreis = %s) * 100,1) as percentage
-            FROM directmandate d left join party p on p.id = d.party, candidate c, erststimme_results er
+                                      group by er2.election, er2.wahlkreis) as votes
             WHERE d.candidate = c.id
             AND er.candidate = c.id
-            AND d.election = 2
             AND er.election = d.election
+            AND votes.election = d.election
+            AND votes.wahlkreis = d.wahlkreis
+            AND d.election = %s
             AND d.wahlkreis = %s
             order by er.count desc
             """,
-            (wk_id,wk_id)
+            (election, wk_id)
         )
         for candidate in self.cur.fetchall():
             wk_candidates.append({
                 'c_name': candidate[0] + ' ' + candidate[1],
                 'c_pname': candidate[2],
                 'c_votes': candidate[3],
-                'c_percentage' : candidate[4]
+                'c_percentage': candidate[4]
             })
 
         # Get the results of the parties
         wk_parties = []
         self.cur.execute(
             """
-            SELECT p.name, zr.count, round(zr.count / (select sum(count) from zweitstimme_results zr2 where zr2.election = 2 and zr2.wahlkreis = %s) * 100,1) as percentage
-            FROM zweitstimme_results zr, party p
-            WHERE zr.election = 2
-            AND zr.party = p.id
+            SELECT p.name, zr.count, round(zr.count / votes.votes * 100,1) as percentage
+            FROM zweitstimme_results zr, party p,
+              (select sum(count) as votes, zr2.election, zr2.wahlkreis
+              from zweitstimme_results zr2
+              group by zr2.election, zr2.wahlkreis) as votes
+            WHERE zr.party = p.id
+            AND zr.election = votes.election
+            AND zr.wahlkreis = votes.wahlkreis
             AND zr.wahlkreis = %s
+            AND zr.election = %s
             order by zr.count desc
             """,
-            (wk_id,wk_id)
+            (wk_id, election)
         )
         for party in self.cur.fetchall():
             wk_parties.append({
                 'p_name': party[0],
                 'p_votes': party[1],
-                'p_percentage' : party[2]
+                'p_percentage': party[2]
             })
 
         # Get wahlbeteiligung
@@ -175,7 +182,7 @@ class Overview(object):
             'DIE LINKE': 'purple'
         }
         self.interesting_parties = [
-            'CDU', 'FDP', 'CSU', 'SPD','GRÜNE','DIE LINKE', 'AfD', 'PIRATEN'
+            'CDU', 'FDP', 'CSU', 'SPD', 'GRÜNE', 'DIE LINKE', 'AfD', 'PIRATEN'
         ]
 
     def get_composition(self, election):
@@ -203,18 +210,18 @@ class Overview(object):
             SELECT p.name, round((v.votes / t.total * 100),1) as percentage
             FROM votesbyparty v, party p, totalvotes t
             WHERE v.party = p.id
+            AND v.election = t.election
+            AND v.election = %s
             ORDER BY percentage DESC
-            """
+            """, (election,)
         )
-        # TODO: WELCHE ELECTION???!!!
-
 
         results = self.cur.fetchall()
 
         graphDef = []
         for year in [2009, 2013]:
             graphDef.append({
-                "index": (year - 2009) // 4, #0,1,... HACK
+                "index": (year - 2009) // 4,  # 0,1,... HACK
                 "colorbyPoint": True,
                 "name": year,
                 "data": [[mapping[0], mapping[1]] for mapping in results if mapping[0] in self.interesting_parties]
@@ -227,6 +234,7 @@ class DecimalEncoder(json.JSONEncoder):
         if isinstance(obj, Decimal):
             return float(obj)
         return json.JSONEncoder.default(self, obj)
+
 
 class ClosestWinners(object):
     def __init__(self):
