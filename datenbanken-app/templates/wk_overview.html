@@ -21,7 +21,7 @@
                 </thead>
                 <tbody>
                 {% for wk in wahlkreise %}
-                    <tr class="clickable-row" data-href="{{ wk.wk_id }}/">
+                    <tr class="clickable-row" data-href="/wahlanalyse/{{ election }}/wk/{{ wk.wk_id }}/">
                         <td>{{ wk.wk_id }}</td>
                         <td>{{ wk.wk_name }}</td>
                         <td>{{ wk.wk_first }}</td>

@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 
-{% block breadcrumbs %} {{ block.super }} » <a href="/wahlanalyse/wk">Wahlkreise</a> » {{ wk_id }}{% endblock %}
+{% block breadcrumbs %} {{ block.super }} » <a href="/wahlanalyse/{{ election }}/wk">Wahlkreise</a> »
+    {{ wk_id }}{% endblock %}
 
 {% block content %}
 
@@ -13,9 +14,9 @@
         </div>
 
         <div class="panel-body">
-            <strong>Name:</strong> {{ wk_name }} <br \>
-            <strong>Wahlbeteiligung:</strong> {{ wahlbeteiligung }}% <br \>
-            <strong>Abgeordneter:</strong> {{ winner_fn }} {{ winner_ln }} <br \>
+            <strong>Name:</strong> {{ details.wk_name }} <br \>
+            <strong>Wahlbeteiligung:</strong> {{ details.wahlbeteiligung }}% <br \>
+            <strong>Abgeordneter:</strong> {{ details.winner_fn }} {{ details.winner_ln }} <br \>
         </div>
 
 
@@ -26,7 +27,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">Auswertung Erststimmen</h3>
         </div>
-        {% if candidates %}
+        {% if details.candidates %}
             <table id="e_stimmen" class="table table-striped">
                 <thead>
                 <tr>
@@ -37,7 +38,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for candidate in candidates %}
+                {% for candidate in details.candidates %}
                     <tr>
                         <td>{{ candidate.c_name }}</td>
                         {% if candidate.c_pname == None %}
@@ -64,7 +65,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">Auswertung Zweitstimmen</h3>
         </div>
-        {% if parties %}
+        {% if details.parties %}
             <table id="z_stimmen" class="table table-striped">
                 <thead>
 
@@ -76,7 +77,7 @@
                 </thead>
                 <tbody>
 
-                {% for party in parties %}
+                {% for party in details.parties %}
                     <tr>
                         <td>{{ party.p_name }}</td>
                         <td>{{ party.p_votes }}</td>

@@ -6,7 +6,7 @@
 {% block content %}
 
     <div class="page-header">
-        <h1>Abgeordnete im Bundestag 2013</h1>
+        <h1>Abgeordnete im Bundestag {{ election }}</h1>
     </div>
     {% if members %}
         <div class="table-responsive col-md-10">
@@ -29,7 +29,8 @@
                         <td>{{ member.bundesland }}</td>
 
                         {% if member.wk_id != None %}
-                            <td><a href="/wahlanalyse/wk/{{ member.wk_id }}/">{{ member.wk_name }}</a></td>
+                            <td><a href="/wahlanalyse/{{ election }}/wk/{{ member.wk_id }}/">{{ member.wk_name }}</a>
+                            </td>
                         {% else %}
                             <td></td>
                         {% endif %}

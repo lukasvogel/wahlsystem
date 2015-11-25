@@ -2,7 +2,7 @@
 
 
 
-{% block breadcrumbs %} {{ block.super }} » <a href="/wahlanalyse/ks/">Knappste Ausgänge</a> »
+{% block breadcrumbs %} {{ block.super }} » <a href="/wahlanalyse/{{ election }}/ks/">Knappste Ausgänge</a> »
     {{ party_id }} {% endblock breadcrumbs %}
 {% block content %}
 
@@ -25,7 +25,7 @@
                     <tr>
                         <td>{{ person.firstname }}</td>
                         <td>{{ person.lastname }}</td>
-                        <td><a href="/wahlanalyse/wk/{{ person.wk_id }}/"> {{ person.wk_name }} </a></td>
+                        <td><a href="/wahlanalyse/{{ election }}/wk/{{ person.wk_id }}/"> {{ person.wk_name }} </a></td>
                         <td>{{ person.difference }}</td>
                     </tr>
                 {% endfor %}

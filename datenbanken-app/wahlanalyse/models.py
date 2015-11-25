@@ -201,32 +201,44 @@ class Overview(object):
             data.append({'name': datapoint[0],
                          'y': datapoint[1],
                          'color': self.color_mapping[datapoint[0]]})
-        return data
 
-    def get_percentages(self, election):
+        series = [{'data': data,
+                   'name': 'Sitze',
+                   'type': 'pie',
+                   'innerSize': '50%'}]
 
-        self.cur.execute(
-            """
-            SELECT p.name, round((v.votes / t.total * 100),1) as percentage
-            FROM votesbyparty v, party p, totalvotes t
-            WHERE v.party = p.id
-            AND v.election = t.election
-            AND v.election = %s
-            ORDER BY percentage DESC
-            """, (election,)
-        )
+        return series
 
-        results = self.cur.fetchall()
+    def get_percentages(self, elections):
 
-        graphDef = []
-        for year in [2009, 2013]:
-            graphDef.append({
-                "index": (year - 2009) // 4,  # 0,1,... HACK
-                "colorbyPoint": True,
-                "name": year,
-                "data": [[mapping[0], mapping[1]] for mapping in results if mapping[0] in self.interesting_parties]
+        results = []
+
+        for election in elections:
+            # we need to supply our own ordering as we want to show the bar chart in the canonical way:
+            # CDU, CSU,SPD, LINKE, GRÜNE, FDP, AFD, Piraten
+            self.cur.execute(
+                """
+                SELECT p.name, round((v.votes / t.total * 100),1) as percentage
+                FROM votesbyparty v, party p, totalvotes t,
+                  (VALUES ('CDU',1), ('CSU',2), ('SPD',3), ('DIE LINKE',4), ('GRÜNE',5), ('FDP',6), ('PIRATEN',7), ('AfD',8))
+                  AS porder (pname,ordering)
+                WHERE v.party = p.id
+                AND v.election = t.election
+                AND v.election = %s
+                AND p.name = pname
+                ORDER BY ordering ASC
+                """, (election,)
+            )
+            e_result = self.cur.fetchall()
+
+            results.append({
+                "index": election,
+                "colorByPoint": True,
+                "name": election,
+                "data": [[mapping[0], mapping[1]] for mapping in e_result if mapping[0] in self.interesting_parties]
             })
-        return json.dumps(graphDef, cls=DecimalEncoder)
+
+        return json.dumps(results, cls=DecimalEncoder)
 
 
 class DecimalEncoder(json.JSONEncoder):
