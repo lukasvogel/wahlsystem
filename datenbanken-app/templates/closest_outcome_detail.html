@@ -2,14 +2,14 @@
 
 
 
-{% block breadcrumbs %} {{ block.super }} » <a href="/wahlanalyse/ks/">Knappste Sieger</a> »
+{% block breadcrumbs %} {{ block.super }} » <a href="/wahlanalyse/ks/">Knappste Ausgänge</a> »
     {{ party_id }} {% endblock breadcrumbs %}
 {% block content %}
 
     <div class="page-header">
-        <h1>Knappste Sieger</h1>
+        <h1>Knappste Ausgänge: {{ closest.p_name }}</h1>
     </div>
-    {% if closest %}
+    {% if closest.people %}
         <div id="persons" class="table-responsive col-md-10">
             <table id="cw" class="table table-bordered table-striped">
                 <thead>
@@ -21,7 +21,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for person in closest %}
+                {% for person in closest.people %}
                     <tr>
                         <td>{{ person.firstname }}</td>
                         <td>{{ person.lastname }}</td>

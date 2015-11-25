@@ -19,6 +19,11 @@ urlpatterns = [
     # /ks/5 : Query6
     url(r'^ks/(?P<party_id>[0-9]+)/$',views.ks_detail, name='ks_detail'),
 
+    # /ks/
+    url(r'^ks/', views.ks_overview, name='ks_overview'),
+
+
+
     # chartasjson
     url(r'^chart_as_json$', views.chart_as_json, name='chart_as_json'),
 

@@ -22,6 +22,8 @@ AND zi.wahlkreis = w.wahlkreis
 order by wahlbeteiligung desc
 );
 
+DROP VIEW closest_winners;
+
 CREATE OR REPLACE VIEW closest_winners AS (
   WITH ranking AS (
 	SELECT r.election, r.wahlkreis, r.count
@@ -32,6 +34,7 @@ CREATE OR REPLACE VIEW closest_winners AS (
 	WHERE rank = 2)
 
   SELECT
+    dw.election,
     c.firstname,
     c.lastname,
     dw.party,
@@ -40,8 +43,8 @@ CREATE OR REPLACE VIEW closest_winners AS (
     er.count - r.count AS difference
   FROM ranking r, directmandate_winners dw, erststimme_results er, candidate c, wahlkreis w
             WHERE dw.wahlkreis = r.wahlkreis
-            AND r.election = 2
             AND er.election = r.election
+                  AND dw.election = r.election
             AND er.wahlkreis = r.wahlkreis
             AND er.candidate = dw.candidate
             AND c.id = dw.candidate
@@ -49,8 +52,11 @@ CREATE OR REPLACE VIEW closest_winners AS (
             order by difference asc
 );
 
+DROP VIEW closest_losers;
+
 CREATE OR REPLACE VIEW closest_losers AS (
   SELECT
+    d.election,
     c.firstname,
     c.lastname,
     d.party,
@@ -60,12 +66,12 @@ CREATE OR REPLACE VIEW closest_losers AS (
   FROM directmandate_winners dw, erststimme_results er_winner,
     directmandate d, erststimme_results er_loser,
     candidate c, wahlkreis w
-  WHERE d.election = 2
-        AND er_winner.candidate = dw.candidate
-        AND er_winner.election = 2
-        AND er_loser.candidate = d.candidate
+  WHERE er_winner.candidate = dw.candidate
+        AND er_winner.election = dw.election
+        AND er_loser.election = dw.election
         AND er_loser.election = d.election
         AND dw.wahlkreis = d.wahlkreis
+        AND er_loser.candidate = d.candidate
         AND dw.candidate <> d.candidate
         AND c.id = d.candidate
         AND w.id = d.wahlkreis

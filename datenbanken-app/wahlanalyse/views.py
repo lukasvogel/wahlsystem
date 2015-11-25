@@ -1,12 +1,13 @@
-from django.template import RequestContext
-from django.shortcuts import render
-from django.http import HttpResponse
 import json
-from .models import BundestagMembers
-from .models import Wahlkreise
-from .models import Overview
-from .models import ClosestWinners
 
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.template import RequestContext
+
+from .models import BundestagMembers
+from .models import ClosestWinners
+from .models import Overview
+from .models import Wahlkreise
 
 bm = BundestagMembers()
 wk = Wahlkreise()
@@ -31,7 +32,7 @@ def overview(request):
 
 def wk_overview(request):
     context = RequestContext(request, {
-        'wahlkreise': wk.get_overview()
+        'wahlkreise': wk.get_overview(2)
     })
 
     return render(request, 'wk_overview.html', context)
@@ -51,13 +52,24 @@ def bundestag_overview(request):
     return render(request, 'abgeordnete.html', context)
 
 
-def ks_detail(request,party_id):
+def ks_overview(request):
     context = RequestContext(request, {
-        'closest': cw.get_winners(2,party_id),
-        'party_id': party_id
+        'parties': cw.overview(2)
     })
 
-    return render(request, 'closest_winner.html', context)
+    print(cw.overview(2))
+
+    return render(request, 'closest_outcome_overview.html', context)
+
+
+def ks_detail(request, party_id):
+    context = RequestContext(request, {
+        'closest': cw.get_winners(2, party_id),
+        'party_id': party_id
+
+    })
+
+    return render(request, 'closest_outcome_detail.html', context)
 
 
 def chart_as_json(request):
@@ -67,4 +79,3 @@ def chart_as_json(request):
                'type': 'pie',
                'innerSize': '50%'}]
     return HttpResponse(json.dumps(series), content_type='application/json')
-

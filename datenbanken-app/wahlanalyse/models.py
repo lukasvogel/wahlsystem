@@ -13,12 +13,14 @@ class BundestagMembers(object):
     def get_members(self, election):
         self.cur.execute(
             """SELECT mb.firstname, mb.lastname, mb.party, mb.bundesland, dw.wahlkreis, w.name
-               FROM members_of_bundestag_2013 mb
+               FROM members_of_bundestag mb
                LEFT JOIN (directmandate_winners dw
                           JOIN wahlkreis w
                           ON w.id = dw.wahlkreis)
                 ON mb.id = dw.candidate
-               ORDER BY mb.lastname""")
+                AND mb.election = dw.election
+                WHERE mb.election = %s
+               ORDER BY mb.lastname""", (election,))
 
         members = []
 
@@ -41,7 +43,7 @@ class Wahlkreise(object):
         self.cur = self.conn.cursor()
         self.conn.autocommit = True
 
-    def get_overview(self):
+    def get_overview(self, election):
 
         self.cur.execute(
             """
@@ -49,17 +51,18 @@ class Wahlkreise(object):
             FROM wahlkreis wk
             LEFT JOIN directmandate_winners dw ON dw.wahlkreis = wk.id
             LEFT JOIN party p on dw.party = p.id
-            LEFT JOIN (SELECT zw.wahlkreis, p2.name as zw_party FROM zweitstimme_results zw , party p2
+            LEFT JOIN (SELECT zw.election, zw.wahlkreis, p2.name as zw_party FROM zweitstimme_results zw , party p2
                                                                    WHERE p2.id = zw.party
-                                                                   AND zw.election = 2
                                                                    AND NOT EXISTS (SELECT * FROM zweitstimme_results zw2
                                                                    WHERE zw2.wahlkreis = zw.wahlkreis
                                                                    AND zw2.election = zw.election
                                                                    AND zw2.count > zw.count)) as zweitstimme
-                    ON zweitstimme.wahlkreis = wk.id
+            ON zweitstimme.wahlkreis = wk.id
             AND p.id = dw.party
-            ORDER by wk.id
-            """
+            AND zweitstimme.election = dw.election
+            WHERE dw.election = %s
+            ORDER BY wk.id
+            """, (election,)
         )
 
         wahlkreise = []
@@ -179,9 +182,11 @@ class Overview(object):
 
         self.cur.execute(
             """SELECT p.name, cast(seats as int)
-               FROM seats_by_party_2013 sp, party p
+               FROM seats_by_party sp, party p
                WHERE p.id = sp.party
-            """
+               AND election = %s
+               ORDER BY seats desc
+            """, (election,)
         )
 
         data = []
@@ -229,14 +234,39 @@ class ClosestWinners(object):
         self.cur = self.conn.cursor()
         self.conn.autocommit = True
 
+    def overview(self, election):
+        self.cur.execute(
+            """
+            SELECT DISTINCT p.id, p.name
+            FROM party p, zweitstimme_results zw
+            WHERE p.id = zw.party
+            AND zw.count > 0
+            AND zw.election = %s
+            ORDER BY name
+            """, (election,)
+        )
+
+        parties = self.cur.fetchall()
+
+        result = []
+
+        for p in parties:
+            result.append({
+                'p_id': p[0],
+                'p_name': p[1]
+            })
+
+        return result
+
     def get_winners(self, election, party):
         self.cur.execute(
             """
             SELECT cw.firstname, cw.lastname, cw.wahlkreis, cw.wname, cw.difference
             FROM closest_winners cw
             WHERE cw.party = %s
+            AND cw.election = %s
             LIMIT 10
-            """, (party,))
+            """, (party, election))
 
         closest = []
 
@@ -250,8 +280,9 @@ class ClosestWinners(object):
               SELECT cl.firstname, cl.lastname, cl.wahlkreis, cl.wname, cl.difference
               FROM closest_losers cl
               WHERE cl.party = %s
+              AND cl.election = %s
               LIMIT 10
-              """, (party,))
+              """, (party, election))
             closest = self.cur.fetchall()
 
         result = []
@@ -264,4 +295,10 @@ class ClosestWinners(object):
                 'wk_name': person[3],
                 'difference': person[4]
             })
-        return result
+
+        self.cur.execute('SELECT name FROM party p WHERE p.id = %s', (party,))
+
+        return {
+            'people': result,
+            'p_name': self.cur.fetchone()[0]
+        }

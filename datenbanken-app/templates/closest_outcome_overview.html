@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+
+
+{% block breadcrumbs %} {{ block.super }} » Knappste Sieger {% endblock breadcrumbs %}
+{% block content %}
+
+    <div class="page-header">
+        <h1>Wähle Partei:</h1>
+    </div>
+    {% if parties %}
+        <div class="table-responsive col-md-7">
+            <table id="parties" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for party in parties %}
+                    <tr class="clickable-row" data-href="{{ party.p_id }}/">
+                        <td>{{ party.p_name }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>Keine Parteien vorhanden!</p>
+
+    {% endif %}
+    <script>
+        jQuery(document).ready(function ($) {
+            $(".clickable-row").click(function () {
+                window.document.location = $(this).data("href");
+            });
+        });
+    </script>
+
+    <script>
+        $('#parties tbody tr').on('mouseover', function (event) {
+            $(this).addClass('info').siblings().removeClass('info');
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+                    $("#parties").tablesorter();
+                }
+        );
+    </script>
+
+{% endblock content %}
+
+
+
+
+
+
