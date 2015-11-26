@@ -31,8 +31,6 @@ CREATE VIEW wahlbeteiligung AS (
   ORDER BY wahlbeteiligung DESC
 );
 
-DROP VIEW closest_winners;
-
 CREATE OR REPLACE VIEW closest_winners AS (
   WITH ranking AS (
       SELECT
@@ -69,8 +67,6 @@ CREATE OR REPLACE VIEW closest_winners AS (
         AND w.id = dw.wahlkreis
   ORDER BY difference ASC
 );
-
-DROP VIEW closest_losers;
 
 CREATE OR REPLACE VIEW closest_losers AS (
   SELECT
