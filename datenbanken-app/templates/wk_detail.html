@@ -31,23 +31,29 @@
             <table id="e_stimmen" class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Partei</th>
-                    <th>Stimmen</th>
-                    <th>Stimmanteil</th>
+                    <th style="text-align: left">Name</th>
+                    <th style="text-align: left">Partei</th>
+                    <th style="text-align: right">Stimmen</th>
+                    <th style="text-align: right">Stimmanteil</th>
+                    <th style="text-align: right">Vergleich zur Vorwahl</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for candidate in details.candidates %}
                     <tr>
-                        <td>{{ candidate.c_name }}</td>
+                        <td style="text-align: left">{{ candidate.c_name }}</td>
                         {% if candidate.c_pname == None %}
-                            <td>-</td>
+                            <td style="text-align: left">-</td>
                         {% else %}
-                            <td>{{ candidate.c_pname }}</td>
+                            <td style="text-align: left">{{ candidate.c_pname }}</td>
                         {% endif %}
-                        <td>{{ candidate.c_votes }}</td>
-                        <td>{{ candidate.c_percentage }}%</td>
+                        <td style="text-align: right">{{ candidate.c_votes }}</td>
+                        <td style="text-align: right">{{ candidate.c_percentage }}%</td>
+                        <td style="text-align: right">{% if candidate.c_change != None %}
+                            {{ candidate.c_change }}%
+                        {% else %}
+                            -
+                        {% endif %}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -70,18 +76,25 @@
                 <thead>
 
                 <tr>
-                    <th>Name</th>
-                    <th>Stimmen</th>
-                    <th>Stimmanteil</th>
+                    <th style="text-align: left">Partei</th>
+                    <th style="text-align: right">Stimmen</th>
+                    <th style="text-align: right">Stimmanteil</th>
+                    <th style="text-align: right">Vergleich zur Vorwahl</th>
+
                 </tr>
                 </thead>
                 <tbody>
 
                 {% for party in details.parties %}
                     <tr>
-                        <td>{{ party.p_name }}</td>
-                        <td>{{ party.p_votes }}</td>
-                        <td>{{ party.p_percentage }}%</td>
+                        <td style="text-align: left">{{ party.p_name }}</td>
+                        <td style="text-align: right">{{ party.p_votes }}</td>
+                        <td style="text-align: right">{{ party.p_percentage }}%</td>
+                        <td style="text-align: right">{% if party.p_change != None %}
+                            {{ party.p_change }}%
+                        {% else %}
+                            -
+                        {% endif %}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

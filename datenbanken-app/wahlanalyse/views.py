@@ -62,9 +62,6 @@ def ks_overview(request, e_id):
         'parties': cw.overview(e_id),
         'election': e_id
     })
-
-    print(cw.overview(2))
-
     return render(request, 'closest_outcome_overview.html', context)
 
 
