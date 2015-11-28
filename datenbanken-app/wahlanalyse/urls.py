@@ -22,4 +22,7 @@ urlpatterns = [
     # /ks/
     url(r'^(?P<e_id>[0-9]+)/ks/', views.ks_overview, name='ks_overview'),
 
+    # /ueh/
+    url(r'^(?P<e_id>[0-9]+)/ueh/', views.overhang_overview, name='overhang_overview'),
+
 ]

@@ -302,7 +302,8 @@ CREATE OR REPLACE VIEW seats_by_party AS
     WHEN (vp.votes * 1.00 / 2) > totalvotes.votes
       THEN round(totalvotes.votes / (d.bundesdivisor * 2), 0) + 1
     ELSE round(vp.votes / d.bundesdivisor, 0)
-    END AS seats
+    END AS seats,
+    bundesdivisor
   FROM votesbyparty vp,
     parties_in_bundestag ib,
     bundesdivisor d,

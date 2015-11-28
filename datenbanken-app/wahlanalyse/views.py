@@ -3,6 +3,7 @@ from django.template import RequestContext
 
 from .models import BundestagMembers
 from .models import ClosestWinners
+from .models import Overhang
 from .models import Overview
 from .models import Wahlkreise
 
@@ -10,6 +11,7 @@ bm = BundestagMembers()
 wk = Wahlkreise()
 ov = Overview()
 cw = ClosestWinners()
+oh = Overhang()
 
 
 def index(request):
@@ -76,3 +78,11 @@ def ks_detail(request, e_id, party_id):
 
     return render(request, 'closest_outcome_detail.html', context)
 
+
+def overhang_overview(request, e_id):
+    context = RequestContext(request, {
+        'mandates': oh.get_overhang(e_id),
+        'election': e_id
+    })
+
+    return render(request, 'overhang_overview.html', context)

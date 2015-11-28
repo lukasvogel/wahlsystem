@@ -322,3 +322,32 @@ class ClosestWinners(object):
             'people': result,
             'p_name': self.cur.fetchone()[0]
         }
+
+
+class Overhang(object):
+    def __init__(self):
+        self.conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
+        self.cur = self.conn.cursor()
+        self.conn.autocommit = True
+
+    def get_overhang(self, election):
+        self.cur.execute(
+            """
+              select b.name, p.name, overhang
+              from overhang_mandates om join bundesland b on b.id = om.bundesland
+              join party p on p.id = om.party
+              where election = %s
+              order by b.name
+            """, (election,)
+        )
+
+        result = []
+
+        for mandate in self.cur.fetchall():
+            result.append({
+                'b_name': mandate[0],
+                'p_name': mandate[1],
+                'overhang': mandate[2]
+            })
+
+        return result

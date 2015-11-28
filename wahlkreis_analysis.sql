@@ -92,4 +92,63 @@ CREATE OR REPLACE VIEW closest_losers AS (
   ORDER BY difference DESC
 );
 
+
+CREATE OR REPLACE VIEW overhang_mandates AS (
+  WITH lague_ranking AS ( /* parties ranked after the sainte-lague procedure by bundesland*/
+      SELECT
+        election,
+        bundesland,
+        party,
+        rank()
+        OVER (PARTITION BY election, bundesland
+          ORDER BY votes / c.lague_coeff * 1.00 DESC) AS rank
+      FROM votes_bundesland vb,
+        (SELECT lague_coeff(300)) AS c /* up to about 128 seats per bundesland, no party will get more than 150*/
+  ),
+
+      initial_seats AS ( /* The seats each bundesland should get if voters/seat is the metric*/
+        SELECT *
+        FROM (VALUES
+          (1, 76), /* Baden-Württemberg */
+          (2, 92), /* Bayern */
+          (3, 24), /* Berlin */
+          (4, 19), /* Brandenburg */
+          (5, 5), /* Bremen */
+          (6, 13), /* Hamburg */
+          (7, 43), /* Hessen */
+          (8, 13), /* Mecklenburg-Vorpommern */
+          (9, 59), /* Niedersachsen */
+          (10, 128), /* Nordrhein-Westfalen */
+          (11, 30), /* Rheinland-Pfalz */
+          (12, 7), /* Saarland */
+          (13, 32), /* Sachsen */
+          (14, 18), /* Sacshen-Anhalt */
+          (15, 22), /* Schleswig-Holstein */
+          (16, 17) /* Thüringen */
+             ) AS zuteilung(Bundesland, Sitze) /* Sum: 598 Sitze, minimum amount of seats in the Bundestag */
+    ),
+      pseudodistribution_zw AS ( /* distribution of seats taking no direct mandates into consideration*/
+        SELECT
+          election,
+          r.bundesland,
+          party,
+          count(*) AS seats
+        FROM lague_ranking r, initial_seats a
+        WHERE r.bundesland = a.bundesland
+              AND rank <= a.sitze
+        GROUP BY election, r.bundesland, party
+    )
+
+  SELECT
+    mpb.*,
+    mpb.mandates - pd.seats AS overhang
+  FROM
+    mandates_party_bland mpb,
+    pseudodistribution_zw pd
+  WHERE mpb.bundesland = pd.bundesland
+        AND pd.party = mpb.party
+        AND pd.election = mpb.election
+        AND mpb.mandates > pd.seats
+);
+
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";

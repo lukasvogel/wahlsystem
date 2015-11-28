@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+
+
+{% block breadcrumbs %} {{ block.super }} » Überhangmandate {% endblock breadcrumbs %}
+{% block content %}
+
+    <div class="page-header">
+        <h1>Überhangmandate in Wahl {{ election }}</h1>
+    </div>
+    {% if mandates %}
+        <div class="table-responsive col-md-10">
+            <table id="overhang" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Bundesland</th>
+                    <th>Partei</th>
+                    <th>Überhangmandate</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for mandate in mandates %}
+                    <tr>
+                        <td>{{ mandate.b_name }}</td>
+                        <td>{{ mandate.p_name }}</td>
+                        <td>{{ mandate.overhang }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>Keine Überhangmandate vorhanden!</p>
+
+    {% endif %}
+
+    <script>
+        $(document).ready(function () {
+                    $("#overhang").tablesorter();
+                }
+        );
+    </script>
+
+{% endblock content %}
+
+
+
+
+
+
