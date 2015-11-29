@@ -85,8 +85,9 @@ class Wahlkreise(object):
                 FROM wahlkreis w, directmandate_winners dw, candidate c
                 WHERE dw.wahlkreis = w.id
                 AND c.id = dw.candidate
-                AND w.id = %s""",
-            (wk_id,)
+                AND w.id = %s
+                AND dw.election = %s""",
+            (wk_id, election)
         )
 
         # TODO: Was wenn party = None?
@@ -104,13 +105,13 @@ class Wahlkreise(object):
                          ELSE
                             NULL
                      END)as change
-            FROM candidate c
-                join directmandate d
+            FROM directmandate d
+                join candidate c
                     on c.id = d.candidate
                 left join party p
                     on p.id = d.party
                 join erststimme_results er
-                    on er.candidate = c.id
+                    on er.candidate = d.candidate
                     and er.election = d.election
                     and er.wahlkreis = d.wahlkreis
                 join (select sum(count) as votes, er2.election, er2.wahlkreis
