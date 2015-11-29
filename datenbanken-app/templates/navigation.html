@@ -9,7 +9,7 @@
         </div>
         <div>
             <ul class="nav navbar-nav nav-tabs">
-                <li><a href="/wahlanalyse/{{ election }}">Wahlanalyse</a></li>
+                <li><a href="/wahlanalyse/{{ election }}">Übersicht</a></li>
                 <li><a href="/wahlanalyse/{{ election }}/abgeordnete/">Abgeordnete</a></li>
                 <li><a href="/wahlanalyse/{{ election }}/wk/">Wahlkreise</a></li>
                 <li><a href="/wahlanalyse/{{ election }}/ks/">Knappste Ausgänge</a></li>
@@ -17,8 +17,8 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/wahlanalyse/2/">2013</a></li>
-                <li><a href="/wahlanalyse/1/">2009</a></li>
+                <li {% if election == "2" %}class = "active"{% endif %}><a href="/wahlanalyse/2/">2013</a></li>
+                <li {% if election == "1" %}class = "active" {% endif %}><a href="/wahlanalyse/1/">2009</a></li>
             </ul>
         </div>
     </div>
