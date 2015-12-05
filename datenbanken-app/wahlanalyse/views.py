@@ -1,14 +1,10 @@
 from django.shortcuts import render
 from django.template import RequestContext
-
 from .models import BundestagMembers
 from .models import ClosestWinners
 from .models import Overhang
 from .models import Overview
 from .models import Wahlkreise
-
-ov = Overview()
-
 
 
 def index(request):
@@ -19,8 +15,8 @@ def index(request):
 
 def overview(request, e_id):
     context = RequestContext(request, {
-        'parties': ov.get_composition(e_id),
-        'bar_series': ov.get_percentages(list(range(1, int(e_id) + 1))),
+        'parties': Overview.get_composition(e_id),
+        'bar_series': Overview.get_percentages(list(range(1, int(e_id) + 1))),
         'election': e_id
     })
 

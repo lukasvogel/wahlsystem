@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="59e042f5-1ffd-4955-814c-828ca86d9e56" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/abgeordnete.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/templates/bundestag_overview.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datenbanken/settings.py" afterPath="$PROJECT_DIR$/datenbanken/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/wahlkreis.html" afterPath="$PROJECT_DIR$/templates/wahlkreis.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wahlanalyse/models.py" afterPath="$PROJECT_DIR$/wahlanalyse/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wahlanalyse/urls.py" afterPath="$PROJECT_DIR$/wahlanalyse/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wahlanalyse/views.py" afterPath="$PROJECT_DIR$/wahlanalyse/views.py" />
     </list>
     <ignored path="datenbanken.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,17 +44,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wahlanalyse/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="73" column="48" selection-start-line="73" selection-start-column="48" selection-end-line="73" selection-end-column="48" />
+            <state vertical-scroll-proportion="0.23567921">
+              <caret line="208" column="42" selection-start-line="208" selection-start-column="42" selection-end-line="208" selection-end-column="42" />
               <folding>
-                <marker date="1447950342342" expanded="true" signature="335:703" placeholder="SELECT mb.fi..members_of_bundestag_2013..." />
-                <marker date="1447950342342" expanded="true" signature="1383:1454" placeholder="SELECT * FRO..wahlkreis..." />
-                <marker date="1447950342342" expanded="true" signature="1383:1491" placeholder="SELECT * FRO..wahlkreis..." />
-                <marker date="1447950342342" expanded="true" signature="2135:2257" placeholder="SELECT p.nam..seats_by_party_2013..." />
-                <marker date="1447950342342" expanded="true" signature="2141:2257" placeholder="select p.nam..seats_by_party_2013..." />
+                <marker date="1449323213278" expanded="true" signature="324:752" placeholder="SELECT mb.fi..members_of_bundestag..." />
+                <marker date="1449323213278" expanded="true" signature="1287:2311" placeholder="SELECT wk.id..wahlkreis..." />
+                <marker date="1449323213278" expanded="true" signature="1500:2105" placeholder="SELECT zw.el..zweitstimme_results..." />
+                <marker date="1449323213278" expanded="true" signature="1766:2104" placeholder="SELECT * FRO..zweitstimme_results..." />
+                <marker date="1449323213278" expanded="true" signature="2803:3066" placeholder="SELECT w.id,..wahlkreis..." />
+                <marker date="1449323213278" expanded="true" signature="3326:5309" placeholder="SELECT c.fir..directmandate..." />
+                <marker date="1449323213278" expanded="true" signature="4096:4292" placeholder="select sum(c..erststimme_results..." />
+                <marker date="1449323213278" expanded="true" signature="4880:5072" placeholder="select sum(c..erststimme_results..." />
+                <marker date="1449323213278" expanded="true" signature="5803:7014" placeholder="SELECT p.nam..party..." />
+                <marker date="1449323213278" expanded="true" signature="6136:6285" placeholder="select sum(c..zweitstimme_results..." />
+                <marker date="1449323213278" expanded="true" signature="6525:6678" placeholder="select sum(c..zweitstimme_results..." />
+                <marker date="1449323213278" expanded="true" signature="7388:7513" placeholder="SELECT w.wah..wahlbeteiligung..." />
+                <marker date="1449323213278" expanded="true" signature="8409:8594" placeholder="SELECT p.nam..seats_by_party..." />
+                <marker date="1449323213278" expanded="true" signature="9377:9861" placeholder="SELECT p.nam..votesbyparty..." />
+                <marker date="1449323213278" expanded="true" signature="10617:10816" placeholder="SELECT DISTI..party..." />
+                <marker date="1449323213278" expanded="true" signature="11201:11394" placeholder="SELECT cw.fi..closest_winners..." />
+                <marker date="1449323213278" expanded="true" signature="11696:11896" placeholder="SELECT cl.fi..closest_losers..." />
+                <marker date="1449323213278" expanded="true" signature="12283:12321" placeholder="SELECT name ..party..." />
+                <marker date="1449323213278" expanded="true" signature="12590:12813" placeholder="select b.nam..overhang_mandates..." />
               </folding>
             </state>
           </provider>
@@ -71,7 +78,7 @@
         <entry file="file://$PROJECT_DIR$/wahlanalyse/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -79,14 +86,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="overview.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="overview.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/overview.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.41237113">
-              <caret line="24" column="38" selection-start-line="24" selection-start-column="38" selection-end-line="24" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="7" column="45" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="45" />
               <folding>
-                <element signature="e#237#255#0#HTML" expanded="true" />
+                <element signature="e#142#178#0#HTML" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="wk_overview.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/wk_overview.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="23" column="43" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="57" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -94,8 +111,8 @@
       <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-20.041666">
-              <caret line="48" column="25" selection-start-line="48" selection-start-column="25" selection-end-line="48" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -104,11 +121,9 @@
       <file leaf-file-name="abgeordnete.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/abgeordnete.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-30.625">
-              <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-              <folding>
-                <element signature="n#style#0;n#table#0;n#div#1;n#!!top" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0">
+              <caret line="11" column="48" selection-start-line="0" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -117,9 +132,9 @@
         <entry file="file://$PROJECT_DIR$/wahlanalyse/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
+              <caret line="56" column="24" selection-start-line="56" selection-start-column="24" selection-end-line="56" selection-end-column="24" />
               <folding>
-                <element signature="e#0#42#0" expanded="true" />
+                <element signature="e#0#35#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -148,14 +163,16 @@
         <option value="$PROJECT_DIR$/templates/walhkreis.html" />
         <option value="$PROJECT_DIR$/templates/bundestag_overview.html" />
         <option value="$PROJECT_DIR$/templates/base2.html" />
-        <option value="$PROJECT_DIR$/templates/wahlkreis.html" />
-        <option value="$PROJECT_DIR$/templates/base.html" />
         <option value="$PROJECT_DIR$/datenbanken/settings.py" />
-        <option value="$PROJECT_DIR$/wahlanalyse/urls.py" />
+        <option value="$PROJECT_DIR$/templates/overview.html" />
+        <option value="$PROJECT_DIR$/templates/base.html" />
+        <option value="$PROJECT_DIR$/templates/wahlkreis.html" />
+        <option value="$PROJECT_DIR$/templates/wk_overview.html" />
         <option value="$PROJECT_DIR$/templates/abgeordnete.html" />
         <option value="$PROJECT_DIR$/wahlanalyse/views.py" />
+        <option value="$PROJECT_DIR$/templates/closest_winner.html" />
+        <option value="$PROJECT_DIR$/wahlanalyse/urls.py" />
         <option value="$PROJECT_DIR$/wahlanalyse/models.py" />
-        <option value="$PROJECT_DIR$/templates/overview.html" />
       </list>
     </option>
   </component>
@@ -165,7 +182,7 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1918" />
+    <option name="width" value="1916" />
     <option name="height" value="1050" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -193,8 +210,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -257,18 +272,140 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/templates" />
     </key>
+  </component>
+  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
+    <UpdatedFiles>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Updated from server" />
+        <option name="myStatusName" value="Changed on server" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="CHANGED_ON_SERVER" />
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated" />
+          <option name="myStatusName" value="Changed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UPDATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/datenbanken/settings.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/base.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/navigation.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/wk_detail.html</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/wahlanalyse/models.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/wahlanalyse/urls.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/wahlanalyse/views.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../election_algorithm.sql</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wahlkreis_analysis.sql</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Created" />
+          <option name="myStatusName" value="Created" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CREATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/wahlanalyse/style.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/overhang_overview.html</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Deleted" />
+          <option name="myStatusName" value="Deleted" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="true" />
+          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Restored" />
+          <option name="myStatusName" value="Will be restored" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="RESTORED" />
+        </FILE-GROUP>
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Modified" />
+        <option name="myStatusName" value="Modified" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MODIFIED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Skipped" />
+        <option name="myStatusName" value="Skipped" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SKIPPED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with conflicts" />
+        <option name="myStatusName" value="Will be merged with conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_CONFLICTS" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with tree conflicts" />
+        <option name="myStatusName" value="Merged with tree conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with property conflicts" />
+        <option name="myStatusName" value="Will be merged with property conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged" />
+        <option name="myStatusName" value="Will be merged" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Not in repository" />
+        <option name="myStatusName" value="Not in repository" />
+        <option name="mySupportsDeletion" value="true" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="UNKNOWN" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally added" />
+        <option name="myStatusName" value="Locally added" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_ADDED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally removed" />
+        <option name="myStatusName" value="Locally removed" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_REMOVED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Switched" />
+        <option name="myStatusName" value="Switched" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SWITCHED" />
+      </FILE-GROUP>
+    </UpdatedFiles>
   </component>
   <component name="RunManager" selected="Django server.datenbanken">
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
@@ -538,28 +675,28 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1918" height="1050" extended-state="4" />
+    <frame x="0" y="0" width="1916" height="1050" extended-state="4" />
     <editor active="true" />
     <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.274109" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32983193" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32878152" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39915967" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32983193" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31092438" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27539268" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32983193" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32983193" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973822" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="manage.py@datenbanken" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39915967" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31092438" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32983193" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32983193" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -596,11 +733,273 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/datenbanken/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wahlanalyse/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1449323213278" expanded="true" signature="324:752" placeholder="SELECT mb.fi..members_of_bundestag..." />
+            <marker date="1449323213278" expanded="true" signature="1287:2311" placeholder="SELECT wk.id..wahlkreis..." />
+            <marker date="1449323213278" expanded="true" signature="1500:2105" placeholder="SELECT zw.el..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="1766:2104" placeholder="SELECT * FRO..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="2803:3066" placeholder="SELECT w.id,..wahlkreis..." />
+            <marker date="1449323213278" expanded="true" signature="3326:5309" placeholder="SELECT c.fir..directmandate..." />
+            <marker date="1449323213278" expanded="true" signature="4096:4292" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="4880:5072" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="5803:7014" placeholder="SELECT p.nam..party..." />
+            <marker date="1449323213278" expanded="true" signature="6136:6285" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="6525:6678" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="7388:7513" placeholder="SELECT w.wah..wahlbeteiligung..." />
+            <marker date="1449323213278" expanded="true" signature="8409:8594" placeholder="SELECT p.nam..seats_by_party..." />
+            <marker date="1449323213278" expanded="true" signature="9377:9861" placeholder="SELECT p.nam..votesbyparty..." />
+            <marker date="1449323213278" expanded="true" signature="10617:10816" placeholder="SELECT DISTI..party..." />
+            <marker date="1449323213278" expanded="true" signature="11201:11394" placeholder="SELECT cw.fi..closest_winners..." />
+            <marker date="1449323213278" expanded="true" signature="11696:11896" placeholder="SELECT cl.fi..closest_losers..." />
+            <marker date="1449323213278" expanded="true" signature="12283:12321" placeholder="SELECT name ..party..." />
+            <marker date="1449323213278" expanded="true" signature="12590:12813" placeholder="select b.nam..overhang_mandates..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wahlanalyse/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/overview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="45" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="45" />
+          <folding>
+            <element signature="e#142#178#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/wk_overview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="43" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/abgeordnete.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="48" selection-start-line="0" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wahlanalyse/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="60" column="24" selection-start-line="60" selection-start-column="24" selection-end-line="60" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datenbanken/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wahlanalyse/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1449323213278" expanded="true" signature="324:752" placeholder="SELECT mb.fi..members_of_bundestag..." />
+            <marker date="1449323213278" expanded="true" signature="1287:2311" placeholder="SELECT wk.id..wahlkreis..." />
+            <marker date="1449323213278" expanded="true" signature="1500:2105" placeholder="SELECT zw.el..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="1766:2104" placeholder="SELECT * FRO..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="2803:3066" placeholder="SELECT w.id,..wahlkreis..." />
+            <marker date="1449323213278" expanded="true" signature="3326:5309" placeholder="SELECT c.fir..directmandate..." />
+            <marker date="1449323213278" expanded="true" signature="4096:4292" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="4880:5072" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="5803:7014" placeholder="SELECT p.nam..party..." />
+            <marker date="1449323213278" expanded="true" signature="6136:6285" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="6525:6678" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="7388:7513" placeholder="SELECT w.wah..wahlbeteiligung..." />
+            <marker date="1449323213278" expanded="true" signature="8409:8594" placeholder="SELECT p.nam..seats_by_party..." />
+            <marker date="1449323213278" expanded="true" signature="9377:9861" placeholder="SELECT p.nam..votesbyparty..." />
+            <marker date="1449323213278" expanded="true" signature="10617:10816" placeholder="SELECT DISTI..party..." />
+            <marker date="1449323213278" expanded="true" signature="11201:11394" placeholder="SELECT cw.fi..closest_winners..." />
+            <marker date="1449323213278" expanded="true" signature="11696:11896" placeholder="SELECT cl.fi..closest_losers..." />
+            <marker date="1449323213278" expanded="true" signature="12283:12321" placeholder="SELECT name ..party..." />
+            <marker date="1449323213278" expanded="true" signature="12590:12813" placeholder="select b.nam..overhang_mandates..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wahlanalyse/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/overview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="45" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="45" />
+          <folding>
+            <element signature="e#142#178#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/wk_overview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="43" selection-start-line="23" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="48" column="18" selection-start-line="48" selection-start-column="18" selection-end-line="48" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/abgeordnete.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="48" selection-start-line="0" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wahlanalyse/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="56" column="28" selection-start-line="56" selection-start-column="28" selection-end-line="56" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datenbanken/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wahlanalyse/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="73" column="48" selection-start-line="73" selection-start-column="48" selection-end-line="73" selection-end-column="48" />
+          <folding>
+            <marker date="1449323213278" expanded="true" signature="324:752" placeholder="SELECT mb.fi..members_of_bundestag..." />
+            <marker date="1449323213278" expanded="true" signature="1287:2311" placeholder="SELECT wk.id..wahlkreis..." />
+            <marker date="1449323213278" expanded="true" signature="1500:2105" placeholder="SELECT zw.el..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="1766:2104" placeholder="SELECT * FRO..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="2803:3066" placeholder="SELECT w.id,..wahlkreis..." />
+            <marker date="1449323213278" expanded="true" signature="3326:5309" placeholder="SELECT c.fir..directmandate..." />
+            <marker date="1449323213278" expanded="true" signature="4096:4292" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="4880:5072" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="5803:7014" placeholder="SELECT p.nam..party..." />
+            <marker date="1449323213278" expanded="true" signature="6136:6285" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="6525:6678" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="7388:7513" placeholder="SELECT w.wah..wahlbeteiligung..." />
+            <marker date="1449323213278" expanded="true" signature="8409:8594" placeholder="SELECT p.nam..seats_by_party..." />
+            <marker date="1449323213278" expanded="true" signature="9377:9861" placeholder="SELECT p.nam..votesbyparty..." />
+            <marker date="1449323213278" expanded="true" signature="10617:10816" placeholder="SELECT DISTI..party..." />
+            <marker date="1449323213278" expanded="true" signature="11201:11394" placeholder="SELECT cw.fi..closest_winners..." />
+            <marker date="1449323213278" expanded="true" signature="11696:11896" placeholder="SELECT cl.fi..closest_losers..." />
+            <marker date="1449323213278" expanded="true" signature="12283:12321" placeholder="SELECT name ..party..." />
+            <marker date="1449323213278" expanded="true" signature="12590:12813" placeholder="select b.nam..overhang_mandates..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wahlanalyse/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/overview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#142#178#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="48" column="25" selection-start-line="48" selection-start-column="25" selection-end-line="48" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/abgeordnete.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wahlanalyse/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/datenbanken/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -613,7 +1012,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -622,7 +1020,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="42" selection-start-line="0" selection-start-column="42" selection-end-line="0" selection-end-column="42" />
           <folding>
-            <element signature="e#0#42#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -632,20 +1030,26 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="38" column="37" selection-start-line="38" selection-start-column="37" selection-end-line="38" selection-end-column="37" />
           <folding>
-            <marker date="1447950342342" expanded="true" signature="335:703" placeholder="SELECT mb.fi..members_of_bundestag_2013..." />
-            <marker date="1447950342342" expanded="true" signature="1383:1454" placeholder="SELECT * FRO..wahlkreis..." />
-            <marker date="1447950342342" expanded="true" signature="1383:1491" placeholder="SELECT * FRO..wahlkreis..." />
-            <marker date="1447950342342" expanded="true" signature="2135:2257" placeholder="SELECT p.nam..seats_by_party_2013..." />
-            <marker date="1447950342342" expanded="true" signature="2141:2257" placeholder="select p.nam..seats_by_party_2013..." />
+            <marker date="1449323213278" expanded="true" signature="324:752" placeholder="SELECT mb.fi..members_of_bundestag..." />
+            <marker date="1449323213278" expanded="true" signature="1287:2311" placeholder="SELECT wk.id..wahlkreis..." />
+            <marker date="1449323213278" expanded="true" signature="1500:2105" placeholder="SELECT zw.el..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="1766:2104" placeholder="SELECT * FRO..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="2803:3066" placeholder="SELECT w.id,..wahlkreis..." />
+            <marker date="1449323213278" expanded="true" signature="3326:5309" placeholder="SELECT c.fir..directmandate..." />
+            <marker date="1449323213278" expanded="true" signature="4096:4292" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="4880:5072" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="5803:7014" placeholder="SELECT p.nam..party..." />
+            <marker date="1449323213278" expanded="true" signature="6136:6285" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="6525:6678" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="7388:7513" placeholder="SELECT w.wah..wahlbeteiligung..." />
+            <marker date="1449323213278" expanded="true" signature="8409:8594" placeholder="SELECT p.nam..seats_by_party..." />
+            <marker date="1449323213278" expanded="true" signature="9377:9861" placeholder="SELECT p.nam..votesbyparty..." />
+            <marker date="1449323213278" expanded="true" signature="10617:10816" placeholder="SELECT DISTI..party..." />
+            <marker date="1449323213278" expanded="true" signature="11201:11394" placeholder="SELECT cw.fi..closest_winners..." />
+            <marker date="1449323213278" expanded="true" signature="11696:11896" placeholder="SELECT cl.fi..closest_losers..." />
+            <marker date="1449323213278" expanded="true" signature="12283:12321" placeholder="SELECT name ..party..." />
+            <marker date="1449323213278" expanded="true" signature="12590:12813" placeholder="select b.nam..overhang_mandates..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/wahlkreis.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -653,9 +1057,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="17" selection-start-line="0" selection-start-column="17" selection-end-line="0" selection-end-column="17" />
-          <folding>
-            <element signature="n#style#0;n#table#0;n#div#1;n#!!top" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -690,16 +1092,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="29" column="34" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="34" />
           <folding>
-            <element signature="e#0#42#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/wahlkreis.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -707,9 +1101,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#table#0;n#div#1;n#!!top" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -727,7 +1119,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4695652">
           <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -764,56 +1155,31 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.113513514">
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/wahlkreis.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.25">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-20.041666">
-          <caret line="48" column="25" selection-start-line="48" selection-start-column="25" selection-end-line="48" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wahlanalyse/views.py">
-      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#42#0" expanded="true" />
-          </folding>
+          <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/abgeordnete.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-30.625">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#table#0;n#div#1;n#!!top" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="48" selection-start-line="0" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wahlanalyse/models.py">
+    <entry file="file://$PROJECT_DIR$/templates/overview.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="73" column="48" selection-start-line="73" selection-start-column="48" selection-end-line="73" selection-end-column="48" />
+          <caret line="7" column="45" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="45" />
           <folding>
-            <marker date="1447950342342" expanded="true" signature="335:703" placeholder="SELECT mb.fi..members_of_bundestag_2013..." />
-            <marker date="1447950342342" expanded="true" signature="1383:1454" placeholder="SELECT * FRO..wahlkreis..." />
-            <marker date="1447950342342" expanded="true" signature="1383:1491" placeholder="SELECT * FRO..wahlkreis..." />
-            <marker date="1447950342342" expanded="true" signature="2135:2257" placeholder="SELECT p.nam..seats_by_party_2013..." />
-            <marker date="1447950342342" expanded="true" signature="2141:2257" placeholder="select p.nam..seats_by_party_2013..." />
+            <element signature="e#142#178#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -826,22 +1192,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/wahlanalyse/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="56" column="24" selection-start-line="56" selection-start-column="24" selection-end-line="56" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/wk_overview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="43" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/wahlanalyse/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/overview.html">
+    <entry file="file://$PROJECT_DIR$/wahlanalyse/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41237113">
-          <caret line="24" column="38" selection-start-line="24" selection-start-column="38" selection-end-line="24" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.23567921">
+          <caret line="208" column="42" selection-start-line="208" selection-start-column="42" selection-end-line="208" selection-end-column="42" />
           <folding>
-            <element signature="e#237#255#0#HTML" expanded="true" />
+            <marker date="1449323213278" expanded="true" signature="324:752" placeholder="SELECT mb.fi..members_of_bundestag..." />
+            <marker date="1449323213278" expanded="true" signature="1287:2311" placeholder="SELECT wk.id..wahlkreis..." />
+            <marker date="1449323213278" expanded="true" signature="1500:2105" placeholder="SELECT zw.el..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="1766:2104" placeholder="SELECT * FRO..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="2803:3066" placeholder="SELECT w.id,..wahlkreis..." />
+            <marker date="1449323213278" expanded="true" signature="3326:5309" placeholder="SELECT c.fir..directmandate..." />
+            <marker date="1449323213278" expanded="true" signature="4096:4292" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="4880:5072" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="5803:7014" placeholder="SELECT p.nam..party..." />
+            <marker date="1449323213278" expanded="true" signature="6136:6285" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="6525:6678" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1449323213278" expanded="true" signature="7388:7513" placeholder="SELECT w.wah..wahlbeteiligung..." />
+            <marker date="1449323213278" expanded="true" signature="8409:8594" placeholder="SELECT p.nam..seats_by_party..." />
+            <marker date="1449323213278" expanded="true" signature="9377:9861" placeholder="SELECT p.nam..votesbyparty..." />
+            <marker date="1449323213278" expanded="true" signature="10617:10816" placeholder="SELECT DISTI..party..." />
+            <marker date="1449323213278" expanded="true" signature="11201:11394" placeholder="SELECT cw.fi..closest_winners..." />
+            <marker date="1449323213278" expanded="true" signature="11696:11896" placeholder="SELECT cl.fi..closest_losers..." />
+            <marker date="1449323213278" expanded="true" signature="12283:12321" placeholder="SELECT name ..party..." />
+            <marker date="1449323213278" expanded="true" signature="12590:12813" placeholder="select b.nam..overhang_mandates..." />
           </folding>
         </state>
       </provider>

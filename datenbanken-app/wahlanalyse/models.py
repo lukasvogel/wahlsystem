@@ -1,6 +1,5 @@
 import json
 from decimal import Decimal
-
 import psycopg2
 
 conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
@@ -11,7 +10,6 @@ class BundestagMembers(object):
     @staticmethod
     def get_members(election):
         cur = conn.cursor()
-
 
         cur.execute(
             """SELECT mb.firstname, mb.lastname, mb.party, mb.bundesland, dw.wahlkreis, w.name
@@ -40,12 +38,10 @@ class BundestagMembers(object):
 
 
 class Wahlkreise(object):
-
     @staticmethod
     def get_overview(election):
 
         cur = conn.cursor()
-
 
         cur.execute(
             """
@@ -213,21 +209,20 @@ class Wahlkreise(object):
 
 
 class Overview(object):
-    def __init__(self):
-        self.color_mapping = {
-            'CDU': 'black',
-            'SPD': 'red',
-            'FDP': 'yellow',
-            'CSU': 'black',
-            'GRÜNE': 'green',
-            'DIE LINKE': 'purple'
-        }
-        self.interesting_parties = [
-            'CDU', 'FDP', 'CSU', 'SPD', 'GRÜNE', 'DIE LINKE', 'AfD', 'PIRATEN'
-        ]
+    color_mapping = {
+        'CDU': 'black',
+        'SPD': 'red',
+        'FDP': 'yellow',
+        'CSU': 'black',
+        'GRÜNE': 'green',
+        'DIE LINKE': 'purple'
+    }
+    interesting_parties = [
+        'CDU', 'FDP', 'CSU', 'SPD', 'GRÜNE', 'DIE LINKE', 'AfD', 'PIRATEN'
+    ]
 
-    def get_composition(self, election):
-
+    @staticmethod
+    def get_composition(election):
         cur = conn.cursor()
 
         cur.execute(
@@ -240,10 +235,11 @@ class Overview(object):
         )
 
         data = []
+
         for datapoint in cur.fetchall():
             data.append({'name': datapoint[0],
                          'y': datapoint[1],
-                         'color': self.color_mapping[datapoint[0]]})
+                         'color': Overview.color_mapping[datapoint[0]]})
 
         series = [{'data': data,
                    'name': 'Sitze',
@@ -252,10 +248,9 @@ class Overview(object):
 
         return series
 
-    def get_percentages(self, elections):
+    def get_percentages(elections):
 
         cur = conn.cursor()
-
 
         results = []
 
@@ -281,7 +276,7 @@ class Overview(object):
                 "index": election,
                 "colorByPoint": True,
                 "name": election,
-                "data": [[mapping[0], mapping[1]] for mapping in e_result if mapping[0] in self.interesting_parties]
+                "data": [[mapping[0], mapping[1]] for mapping in e_result if mapping[0] in Overview.interesting_parties]
             })
 
         return json.dumps(results, cls=DecimalEncoder)
