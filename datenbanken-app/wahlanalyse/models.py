@@ -4,13 +4,15 @@ from decimal import Decimal
 import psycopg2
 
 conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
-cur = conn.cursor()
 conn.autocommit = True
 
 
 class BundestagMembers(object):
     @staticmethod
     def get_members(election):
+        cur = conn.cursor()
+
+
         cur.execute(
             """SELECT mb.firstname, mb.lastname, mb.party, mb.bundesland, dw.wahlkreis, w.name
                FROM members_of_bundestag mb
@@ -38,8 +40,12 @@ class BundestagMembers(object):
 
 
 class Wahlkreise(object):
+
     @staticmethod
     def get_overview(election):
+
+        cur = conn.cursor()
+
 
         cur.execute(
             """
@@ -75,6 +81,8 @@ class Wahlkreise(object):
 
     @staticmethod
     def get_details(wk_id, election):
+
+        cur = conn.cursor()
 
         # Get infos on wahlkreis and direct mandate winner
         cur.execute(
@@ -220,6 +228,8 @@ class Overview(object):
 
     def get_composition(self, election):
 
+        cur = conn.cursor()
+
         cur.execute(
             """SELECT p.name, cast(seats as int)
                FROM seats_by_party sp, party p
@@ -243,6 +253,9 @@ class Overview(object):
         return series
 
     def get_percentages(self, elections):
+
+        cur = conn.cursor()
+
 
         results = []
 
@@ -284,6 +297,9 @@ class DecimalEncoder(json.JSONEncoder):
 class ClosestWinners(object):
     @staticmethod
     def overview(election):
+
+        cur = conn.cursor()
+
         cur.execute(
             """
             SELECT DISTINCT p.id, p.name
@@ -309,6 +325,9 @@ class ClosestWinners(object):
 
     @staticmethod
     def get_winners(election, party):
+
+        cur = conn.cursor()
+
         cur.execute(
             """
             SELECT cw.firstname, cw.lastname, cw.wahlkreis, cw.wname, cw.difference
@@ -357,6 +376,8 @@ class ClosestWinners(object):
 class Overhang(object):
     @staticmethod
     def get_overhang(election):
+        cur = conn.cursor()
+
         cur.execute(
             """
               select b.name, p.name, overhang
