@@ -3,15 +3,15 @@ from decimal import Decimal
 
 import psycopg2
 
+conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
+cur = conn.cursor()
+conn.autocommit = True
+
 
 class BundestagMembers(object):
-    def __init__(self):
-        self.conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
-        self.cur = self.conn.cursor()
-        self.conn.autocommit = True
-
-    def get_members(self, election):
-        self.cur.execute(
+    @staticmethod
+    def get_members(election):
+        cur.execute(
             """SELECT mb.firstname, mb.lastname, mb.party, mb.bundesland, dw.wahlkreis, w.name
                FROM members_of_bundestag mb
                LEFT JOIN (directmandate_winners dw
@@ -24,7 +24,7 @@ class BundestagMembers(object):
 
         members = []
 
-        for member in self.cur.fetchall():
+        for member in cur.fetchall():
             members.append({
                 'firstname': member[0],
                 'lastname': member[1],
@@ -38,14 +38,10 @@ class BundestagMembers(object):
 
 
 class Wahlkreise(object):
-    def __init__(self):
-        self.conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
-        self.cur = self.conn.cursor()
-        self.conn.autocommit = True
+    @staticmethod
+    def get_overview(election):
 
-    def get_overview(self, election):
-
-        self.cur.execute(
+        cur.execute(
             """
             SELECT wk.id, wk.name, p.name, zw_party
             FROM wahlkreis wk
@@ -67,7 +63,7 @@ class Wahlkreise(object):
 
         wahlkreise = []
 
-        for wk in self.cur.fetchall():
+        for wk in cur.fetchall():
             wahlkreise.append({
                 'wk_id': wk[0],
                 'wk_name': wk[1],
@@ -77,10 +73,11 @@ class Wahlkreise(object):
 
         return wahlkreise
 
-    def get_details(self, wk_id, election):
+    @staticmethod
+    def get_details(wk_id, election):
 
         # Get infos on wahlkreis and direct mandate winner
-        self.cur.execute(
+        cur.execute(
             """SELECT w.id, w.name, c.firstname, c.lastname
                 FROM wahlkreis w, directmandate_winners dw, candidate c
                 WHERE dw.wahlkreis = w.id
@@ -91,12 +88,12 @@ class Wahlkreise(object):
         )
 
         # TODO: Was wenn party = None?
-        wahlkreis = self.cur.fetchone()
+        wahlkreis = cur.fetchone()
 
         # Get the candidates trying to get a direct mandate
         wk_candidates = []
 
-        self.cur.execute(
+        cur.execute(
             """
             SELECT c.firstname, c.lastname, p.name, er.count,
                     round(er.count / votes.votes * 100,1) as percentage,
@@ -138,7 +135,7 @@ class Wahlkreise(object):
             """,
             (election, wk_id)
         )
-        for candidate in self.cur.fetchall():
+        for candidate in cur.fetchall():
             wk_candidates.append({
                 'c_name': candidate[0] + ' ' + candidate[1],
                 'c_pname': candidate[2],
@@ -149,7 +146,7 @@ class Wahlkreise(object):
 
         # Get the results of the parties
         wk_parties = []
-        self.cur.execute(
+        cur.execute(
             """
             SELECT p.name, zr.count,
               round(zr.count / votes.votes * 100,1) as percentage,
@@ -178,7 +175,7 @@ class Wahlkreise(object):
             """,
             (wk_id, election)
         )
-        for party in self.cur.fetchall():
+        for party in cur.fetchall():
             wk_parties.append({
                 'p_name': party[0],
                 'p_votes': party[1],
@@ -187,7 +184,7 @@ class Wahlkreise(object):
             })
 
         # Get wahlbeteiligung
-        self.cur.execute(
+        cur.execute(
             """
             SELECT w.wahlbeteiligung
             FROM wahlbeteiligung w
@@ -196,7 +193,7 @@ class Wahlkreise(object):
             """,
             (wk_id,)
         )
-        wahlbeteiligung = self.cur.fetchone()
+        wahlbeteiligung = cur.fetchone()
 
         return {'wk_id': wahlkreis[0],
                 'wk_name': wahlkreis[1],
@@ -209,9 +206,6 @@ class Wahlkreise(object):
 
 class Overview(object):
     def __init__(self):
-        self.conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
-        self.cur = self.conn.cursor()
-        self.conn.autocommit = True
         self.color_mapping = {
             'CDU': 'black',
             'SPD': 'red',
@@ -226,7 +220,7 @@ class Overview(object):
 
     def get_composition(self, election):
 
-        self.cur.execute(
+        cur.execute(
             """SELECT p.name, cast(seats as int)
                FROM seats_by_party sp, party p
                WHERE p.id = sp.party
@@ -236,7 +230,7 @@ class Overview(object):
         )
 
         data = []
-        for datapoint in self.cur.fetchall():
+        for datapoint in cur.fetchall():
             data.append({'name': datapoint[0],
                          'y': datapoint[1],
                          'color': self.color_mapping[datapoint[0]]})
@@ -255,7 +249,7 @@ class Overview(object):
         for election in elections:
             # we need to supply our own ordering as we want to show the bar chart in the canonical way:
             # CDU, CSU,SPD, LINKE, GRÜNE, FDP, AFD, Piraten
-            self.cur.execute(
+            cur.execute(
                 """
                 SELECT p.name, round((v.votes / t.total * 100),1) as percentage
                 FROM votesbyparty v, party p, totalvotes t,
@@ -268,7 +262,7 @@ class Overview(object):
                 ORDER BY ordering ASC
                 """, (election,)
             )
-            e_result = self.cur.fetchall()
+            e_result = cur.fetchall()
 
             results.append({
                 "index": election,
@@ -288,13 +282,9 @@ class DecimalEncoder(json.JSONEncoder):
 
 
 class ClosestWinners(object):
-    def __init__(self):
-        self.conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
-        self.cur = self.conn.cursor()
-        self.conn.autocommit = True
-
-    def overview(self, election):
-        self.cur.execute(
+    @staticmethod
+    def overview(election):
+        cur.execute(
             """
             SELECT DISTINCT p.id, p.name
             FROM party p, zweitstimme_results zw
@@ -305,7 +295,7 @@ class ClosestWinners(object):
             """, (election,)
         )
 
-        parties = self.cur.fetchall()
+        parties = cur.fetchall()
 
         result = []
 
@@ -317,8 +307,9 @@ class ClosestWinners(object):
 
         return result
 
-    def get_winners(self, election, party):
-        self.cur.execute(
+    @staticmethod
+    def get_winners(election, party):
+        cur.execute(
             """
             SELECT cw.firstname, cw.lastname, cw.wahlkreis, cw.wname, cw.difference
             FROM closest_winners cw
@@ -329,12 +320,12 @@ class ClosestWinners(object):
 
         closest = []
 
-        if self.cur.rowcount != 0:
+        if cur.rowcount != 0:
             # if we have at least one winner in the party...
-            closest = self.cur.fetchall()
+            closest = cur.fetchall()
         else:
             # otherwise get 10 losers...
-            self.cur.execute(
+            cur.execute(
                 """
               SELECT cl.firstname, cl.lastname, cl.wahlkreis, cl.wname, cl.difference
               FROM closest_losers cl
@@ -342,7 +333,7 @@ class ClosestWinners(object):
               AND cl.election = %s
               LIMIT 10
               """, (party, election))
-            closest = self.cur.fetchall()
+            closest = cur.fetchall()
 
         result = []
 
@@ -355,22 +346,18 @@ class ClosestWinners(object):
                 'difference': person[4]
             })
 
-        self.cur.execute('SELECT name FROM party p WHERE p.id = %s', (party,))
+        cur.execute('SELECT name FROM party p WHERE p.id = %s', (party,))
 
         return {
             'people': result,
-            'p_name': self.cur.fetchone()[0]
+            'p_name': cur.fetchone()[0]
         }
 
 
 class Overhang(object):
-    def __init__(self):
-        self.conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
-        self.cur = self.conn.cursor()
-        self.conn.autocommit = True
-
-    def get_overhang(self, election):
-        self.cur.execute(
+    @staticmethod
+    def get_overhang(election):
+        cur.execute(
             """
               select b.name, p.name, overhang
               from overhang_mandates om join bundesland b on b.id = om.bundesland
@@ -382,7 +369,7 @@ class Overhang(object):
 
         result = []
 
-        for mandate in self.cur.fetchall():
+        for mandate in cur.fetchall():
             result.append({
                 'b_name': mandate[0],
                 'p_name': mandate[1],

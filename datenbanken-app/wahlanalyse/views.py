@@ -7,11 +7,8 @@ from .models import Overhang
 from .models import Overview
 from .models import Wahlkreise
 
-bm = BundestagMembers()
-wk = Wahlkreise()
 ov = Overview()
-cw = ClosestWinners()
-oh = Overhang()
+
 
 
 def index(request):
@@ -32,7 +29,7 @@ def overview(request, e_id):
 
 def wk_overview(request, e_id):
     context = RequestContext(request, {
-        'wahlkreise': wk.get_overview(e_id),
+        'wahlkreise': Wahlkreise.get_overview(e_id),
         'election': e_id
     })
 
@@ -41,7 +38,7 @@ def wk_overview(request, e_id):
 
 def wk_detail(request, e_id, wk_id):
     context = RequestContext(request, {
-        'details': wk.get_details(wk_id, e_id),
+        'details': Wahlkreise.get_details(wk_id, e_id),
         'election': e_id
     })
 
@@ -50,7 +47,7 @@ def wk_detail(request, e_id, wk_id):
 
 def bundestag_overview(request, e_id):
     context = RequestContext(request, {
-        'members': bm.get_members(e_id),
+        'members': BundestagMembers.get_members(e_id),
         'election': e_id
     })
 
@@ -59,7 +56,7 @@ def bundestag_overview(request, e_id):
 
 def ks_overview(request, e_id):
     context = RequestContext(request, {
-        'parties': cw.overview(e_id),
+        'parties': ClosestWinners.overview(e_id),
         'election': e_id
     })
     return render(request, 'closest_outcome_overview.html', context)
@@ -67,7 +64,7 @@ def ks_overview(request, e_id):
 
 def ks_detail(request, e_id, party_id):
     context = RequestContext(request, {
-        'closest': cw.get_winners(e_id, party_id),
+        'closest': ClosestWinners.get_winners(e_id, party_id),
         'party_id': party_id,
         'election': e_id
 
@@ -78,7 +75,7 @@ def ks_detail(request, e_id, party_id):
 
 def overhang_overview(request, e_id):
     context = RequestContext(request, {
-        'mandates': oh.get_overhang(e_id),
+        'mandates': Overhang.get_overhang(e_id),
         'election': e_id
     })
 
