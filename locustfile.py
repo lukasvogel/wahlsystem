@@ -26,7 +26,9 @@ class UserBehavior(TaskSet):
         self.client.get("/wahlanalyse/2/ks/")
 
 
+t = 10000
+
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
-    min_wait = 5000
-    max_wait = 9000
+    min_wait = 0.8 * t 
+    max_wait = 1.2 * t 
