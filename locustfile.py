@@ -8,7 +8,7 @@ class UserBehavior(TaskSet):
 
     @task(10)
     def q2(self):
-        self.client.get("/wahlanalyse/2/abgeordnete")
+        self.client.get("/wahlanalyse/2/abgeordnete/")
 
     @task(25)
     def q3(self):
