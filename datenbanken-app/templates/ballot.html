@@ -46,12 +46,14 @@
 
         {% if first_vote %}
             <div class="table-responsive">
-                <table id="fv" class="table table-hover table-bordered">
+                <table id="fv" class="table table-hover table-condensed table-bordered">
                     <tbody>
                     {% for candidate in first_vote %}
                         <tr>
                             <td><b>{{ candidate.c_lname }}</b>, {{ candidate.c_fname }}</td>
-                            <td><b>{{ candidate.c_pname }}</b></td>
+                            <td><b>{% if candidate.c_pname != None %}
+                                {{ candidate.c_pname }}
+                            {% endif %}</b></td>
                             <td>
                                 <div class="radio"><label><input type="radio" name="first_vote"></label></div>
                             </td>
@@ -89,7 +91,7 @@
 
         {% if second_vote %}
             <div class="table-responsive">
-                <table id="sv" class="table table-hover table-bordered">
+                <table id="sv" class="table table-hover table-condensed table-bordered">
                     <tbody>
                     {% for party in second_vote %}
                         <tr>
@@ -117,7 +119,12 @@
 
         {% endif %}
     </div>
+    <div>
+        <button type="button" class="btn btn-lg btn-primary btn-block">STIMME ABGEBEN</button>
+    </div>
+
 </div>
+
 
 <script>
     $('.table > tbody > tr').click(function () {
