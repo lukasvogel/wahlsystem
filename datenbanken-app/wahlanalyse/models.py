@@ -1,5 +1,6 @@
 import json
 from decimal import Decimal
+
 import psycopg2
 
 conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
@@ -377,7 +378,7 @@ class Overhang(object):
             """
               select b.name, p.name, overhang
               from overhang_mandates om join bundesland b on b.id = om.bundesland
-              join party p on p.id = om.party
+                join party p on p.id = om.party
               where election = %s
               order by b.name
             """, (election,)

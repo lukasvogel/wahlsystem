@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}Wahl{% endblock %}</title>
+
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+
+    {% block javascript %}
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.24.6/js/jquery.tablesorter.min.js"></script>
+        {% bootstrap_javascript %}
+    {% endblock %}
+
+
+</head>
+
+
+<body>
+<div class="container container-table panel panel-default">
+    <div class="text-center">
+        <h2><b>Stimmzettel</b></h2>
+        für die Wahl zum Deutschen Bundestag im Wahlkreis {{ wk_id }} {{ wk_name }} <br \>
+        am {{ e_date|date:"d. M Y" }}
+        <h1><b>Sie haben 2 Stimmen</b></h1>
+    </div>
+
+    <div class="table-responsive col-md-6">
+
+        <div style="text-align: right">
+
+            <h3><b>hier 1 Stimme</b></h3> <br \>
+            für die Wahl <br \>
+            <h4><b>eines/einer Wahlkreis- <br \> abgeordneten</b></h4>
+            <br \>
+
+            <h3><b>Erststimme</b></h3>
+        </div>
+
+        {% if first_vote %}
+            <div class="table-responsive">
+                <table id="fv" class="table table-hover table-bordered">
+                    <tbody>
+                    {% for candidate in first_vote %}
+                        <tr>
+                            <td><b>{{ candidate.c_lname }}</b>, {{ candidate.c_fname }}</td>
+                            <td><b>{{ candidate.c_pname }}</b></td>
+                            <td>
+                                <div class="radio"><label><input type="radio" name="first_vote"></label></div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    <tr>
+                        <td><b>STIMME ALS UNGÜLTIG MARKIEREN</b></td>
+                        <td></td>
+                        <td>
+                            <div class="radio"><label><input type="radio" name="first_vote"></label></div>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>Keine Kandidaten vorhanden. Bitte sprechen Sie mit einem Wahlhelfer!</p>
+
+        {% endif %}
+
+    </div>
+    <div class="table-responsive col-md-6 text-primary">
+        <div style="text-align: left">
+            <h3><b>hier 1 Stimme</b></h3> <br \>
+            für die Wahl <br \>
+            <h4><b>einer Landesliste (Partei)</b></h4>
+            - maßgebende Stimme für die Verteilung der <br \>
+            Sitze insgesamt auf die einzelnen Parteien -
+            <br \>
+
+            <h3><b>Zweitstimme</b></h3>
+        </div>
+
+        {% if second_vote %}
+            <div class="table-responsive">
+                <table id="sv" class="table table-hover table-bordered">
+                    <tbody>
+                    {% for party in second_vote %}
+                        <tr>
+                            <td>
+                                <div class="radio"><label><input type="radio" name="second_vote"></label></div>
+                            </td>
+
+                            <td>{{ party }}</td>
+                        </tr>
+                    {% endfor %}
+
+                    <tr>
+                        <td>
+                            <div class="radio"><label><input type="radio" name="second_vote"></label></div>
+                        </td>
+
+                        <td><b>STIMME ALS UNGÜLTIG MARKIEREN</b></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>Keine Parteien vorhanden. Bitte sprechen Sie mit einem Wahlhelfer!</p>
+
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    $('.table > tbody > tr').click(function () {
+        $(this).find('input:radio').prop('checked', true);
+    });
+
+</script>
+
+</body>
+
+
+</html>

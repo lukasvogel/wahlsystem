@@ -19,4 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^wahlanalyse/', include('wahlanalyse.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^wahl/', include('wahl.urls'))
 ]
