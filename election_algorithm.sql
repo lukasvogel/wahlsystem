@@ -160,12 +160,17 @@ BEGIN
     cur_divisor := lower_bound;
     cur_total_seats := 0;
 
+    CREATE TEMP TABLE mandates_votes_instance AS (
+      SELECT *
+      FROM mandates_votes mv
+      WHERE mv.party = row.party
+            AND mv.election = row.election
+    );
+
     WHILE NOT cur_total_seats = row.seats LOOP
 
       cur_total_seats = (SELECT sum(greatest(round(votes / cur_divisor, 0), coalesce(mandates, 0)))
-                         FROM mandates_votes mv
-                         WHERE mv.party = row.party
-                               AND mv.election = row.election);
+                         FROM mandates_votes_instance);
 
       /* binary search */
       IF cur_total_seats > row.seats
@@ -180,7 +185,11 @@ BEGIN
       END IF;
 
     END LOOP;
+
+    DROP TABLE mandates_votes_instance;
+
     RETURN NEXT (row.election, row.party, cur_divisor);
+
 
   END LOOP;
 
@@ -190,9 +199,11 @@ END
 
 $BODY$
 LANGUAGE plpgsql VOLATILE
-COST 10000;
-ALTER FUNCTION find_partydivisor()
+COST 10000
+ROWS 1000;
+ALTER FUNCTION public.find_partydivisor()
 OWNER TO postgres;
+
 
 
 CREATE OR REPLACE VIEW seats_by_party AS
