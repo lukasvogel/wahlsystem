@@ -31,97 +31,68 @@
         am {{ e_date|date:"d. M Y" }}
         <h1><b>Sie haben 2 Stimmen</b></h1>
     </div>
+    <form action="" method="post">
 
-    <div class="table-responsive col-md-6">
+        <div class="table-responsive col-md-6">
 
-        <div style="text-align: right">
+            <div style="text-align: right">
 
-            <h3><b>hier 1 Stimme</b></h3> <br \>
-            für die Wahl <br \>
-            <h4><b>eines/einer Wahlkreis- <br \> abgeordneten</b></h4>
-            <br \>
+                <h3><b>hier 1 Stimme</b></h3> <br \>
+                für die Wahl <br \>
+                <h4><b>eines/einer Wahlkreis- <br \> abgeordneten</b></h4>
+                <br \>
 
-            <h3><b>Erststimme</b></h3>
-        </div>
+                <h3><b>Erststimme</b></h3>
+            </div>
 
-        {% if first_vote %}
             <div class="table-responsive">
                 <table id="fv" class="table table-hover table-condensed table-bordered">
                     <tbody>
-                    {% for candidate in first_vote %}
+
+                    {% for choice in form.erststimme %}
                         <tr>
-                            <td><b>{{ candidate.c_lname }}</b>, {{ candidate.c_fname }}</td>
-                            <td><b>{% if candidate.c_pname != None %}
-                                {{ candidate.c_pname }}
-                            {% endif %}</b></td>
-                            <td>
-                                <div class="radio"><label><input type="radio" name="first_vote"></label></div>
-                            </td>
+                            {{ choice.choice_label | safe }}
+                            <td>{{ choice.tag }}</td>
                         </tr>
                     {% endfor %}
-
-                    <tr>
-                        <td><b>STIMME ALS UNGÜLTIG MARKIEREN</b></td>
-                        <td></td>
-                        <td>
-                            <div class="radio"><label><input type="radio" name="first_vote"></label></div>
-                        </td>
-                    </tr>
-
                     </tbody>
                 </table>
             </div>
-        {% else %}
-            <p>Keine Kandidaten vorhanden. Bitte sprechen Sie mit einem Wahlhelfer!</p>
 
-        {% endif %}
-
-    </div>
-    <div class="table-responsive col-md-6 text-primary">
-        <div style="text-align: left">
-            <h3><b>hier 1 Stimme</b></h3> <br \>
-            für die Wahl <br \>
-            <h4><b>einer Landesliste (Partei)</b></h4>
-            - maßgebende Stimme für die Verteilung der <br \>
-            Sitze insgesamt auf die einzelnen Parteien -
-            <br \>
-
-            <h3><b>Zweitstimme</b></h3>
         </div>
+        <div class="table-responsive col-md-6 text-primary">
+            <div style="text-align: left">
+                <h3><b>hier 1 Stimme</b></h3> <br \>
+                für die Wahl <br \>
+                <h4><b>einer Landesliste (Partei)</b></h4>
+                - maßgebende Stimme für die Verteilung der <br \>
+                Sitze insgesamt auf die einzelnen Parteien -
+                <br \>
 
-        {% if second_vote %}
+                <h3><b>Zweitstimme</b></h3>
+            </div>
+
             <div class="table-responsive">
                 <table id="sv" class="table table-hover table-condensed table-bordered">
                     <tbody>
-                    {% for party in second_vote %}
-                        <tr>
-                            <td>
-                                <div class="radio"><label><input type="radio" name="second_vote"></label></div>
-                            </td>
 
-                            <td>{{ party }}</td>
+                    {% for choice in form.zweitstimme %}
+                        <tr>
+                            <td>{{ choice.tag }}</td>
+                            <td><b>{{ choice.choice_label }}</b></td>
                         </tr>
                     {% endfor %}
-
-                    <tr>
-                        <td>
-                            <div class="radio"><label><input type="radio" name="second_vote"></label></div>
-                        </td>
-
-                        <td><b>STIMME ALS UNGÜLTIG MARKIEREN</b></td>
-                    </tr>
 
                     </tbody>
                 </table>
             </div>
-        {% else %}
-            <p>Keine Parteien vorhanden. Bitte sprechen Sie mit einem Wahlhelfer!</p>
-
-        {% endif %}
-    </div>
-    <div>
-        <button type="button" class="btn btn-lg btn-primary btn-block">STIMME ABGEBEN</button>
-    </div>
+        </div>
+        <div>
+            {% csrf_token %}
+            {{ form.token }}
+            <button type="submit" class="btn btn-lg btn-primary btn-block">STIMME ABGEBEN</button>
+        </div>
+    </form>
 
 </div>
 
