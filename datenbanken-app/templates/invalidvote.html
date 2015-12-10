@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Wahl{% endblock %}</title>
+
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+
+    {% block javascript %}
+        {% bootstrap_javascript %}
+    {% endblock %}
+
+
+</head>
+
+
+<body>
+<div class="container container-table panel panel-default">
+    <div class="text-center">
+        <h1><b>Eingabe ungültig!</b></h1>
+    </div>
+    <p>
+        Bitte überprüfen Sie dass:
+    <ul>
+        <li>Sie das Token korrekt eingegeben haben</li>
+        <li>Sie einen Kandidaten für die Erststimme ausgewählt haben</li>
+        <li>Sie eine Partei für Ihre Zweitstimme ausgewählt haben</li>
+        <li>Sie Ihre Stimme im richtigen Wahlkreis abgegeben haben</li>
+        <li>Sie Ihre Stimme für die richtige Wahl abgegeben haben</li>
+    </ul>
+    </p>
+    <form action="../">
+        <button typ="button" class="btn btn-primary" href="../">Erneut versuchen</button>
+    </form>
+</div>
+
+
+</body>
+
+
+</html>

@@ -15,7 +15,6 @@
 
     {% block javascript %}
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.24.6/js/jquery.tablesorter.min.js"></script>
         {% bootstrap_javascript %}
     {% endblock %}
 
@@ -31,7 +30,7 @@
         am {{ e_date|date:"d. M Y" }}
         <h1><b>Sie haben 2 Stimmen</b></h1>
     </div>
-    <form action="" method="post">
+    <form action="vote/" method="post">
 
         <div class="table-responsive col-md-6">
 

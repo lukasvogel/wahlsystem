@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="5;url=../">
+
+    <title>{% block title %}Wahl{% endblock %}</title>
+
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+
+    {% block javascript %}
+        {% bootstrap_javascript %}
+    {% endblock %}
+
+
+</head>
+
+
+<body>
+<div class="container container-table panel panel-default">
+    <div class="text-center">
+        <h1><b>Stimme erfolgreich abgegeben!</b></h1>
+    </div>
+    <p>
+        Ihre Stimme wurde gezählt. Sie können die Wahlkabine nun verlassen
+    </p>
+</div>
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Wahl{% endblock %}</title>
+
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+
+    {% block javascript %}
+        {% bootstrap_javascript %}
+    {% endblock %}
+
+
+</head>
+
+
+<body>
+<div class="container container-table panel panel-default">
+    <div class="text-center">
+        <h1><b>Interner Fehler!</b></h1>
+    </div>
+    <p>
+        Keine Sorge, Sie haben nichts falsch gemacht!
+        Bitte kontaktieren Sie einen Wahlhelfer, er wird Ihnen sagen, was zu tun ist.
+    </p>
+
+    <form action="../">
+        <button typ="button" class="btn btn-primary" href="../">Erneut versuchen</button>
+    </form>
+</div>
+
+
+</body>
+
+
+</html>
