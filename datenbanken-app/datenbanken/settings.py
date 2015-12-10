@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'bootstrap3',
     'wahlanalyse'
 )
@@ -80,7 +81,7 @@ DATABASES = {
         'NAME': 'wahlsystem',
         'USER': 'postgres',
         'HOST': 'localhost',
-	'PASSWORD' : 'Password01',
+        'PASSWORD': 'Password01',
         'PORT': ''  # default
     }
 }
