@@ -196,7 +196,7 @@ class Wahlkreise(object):
             WHERE w.wahlkreis = %s
             AND w.election = 2
             """,  # TODO: FIX HARDCODED ELECTION!!!!
-            (wk_id)
+            (wk_id,)
         )
         wahlbeteiligung = cur.fetchone()
 
