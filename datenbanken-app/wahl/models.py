@@ -1,5 +1,6 @@
-import psycopg2
 import uuid
+
+import psycopg2
 
 conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
 conn.autocommit = True
@@ -92,7 +93,7 @@ class VoteHandler(object):
         # get the election and wahlkreis for the token
 
         cur.execute(
-            'select election,wahlkreis from token where token=%s', (token,)
+                'select election,wahlkreis from token where token=%s', (token,)
         )
 
         result = cur.fetchone()
@@ -146,18 +147,18 @@ class VoteHandler(object):
 
             return True
 
+
 class TokenGenerator(object):
     @staticmethod
     def generatetokens(no, wkid, elid):
-
         cur = votingconn.cursor()
 
         tokens = []
-        for i in range(no) :
+        for i in range(no):
             token = uuid.uuid4()
-            tokens.append( token )
+            tokens.append(token)
             cur.execute(
-                'INSERT INTO token VALUES ( %s, %s, %s ) ', (elid, wkid, token)
+                    'INSERT INTO token VALUES ( %s, %s, %s ) ', (elid, wkid, token)
             )
         votingconn.commit()
         return tokens
