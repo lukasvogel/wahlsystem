@@ -18,7 +18,7 @@ urlpatterns = [
     # wahl/e_id/wk_id/success/
     url(r'^(?P<e_id>[0-9]+)/(?P<wk_id>[0-9]+)/success/$', views.success, name='success'),
 
-    # wahl/tokens/token_no
-    url(r'^tokens/(?P<token_no>[0-9]+)/$', views.generatetokens, name='tokens')
+    # wahl/tokens/e_id/wk_id/token_no
+    url(r'^tokens/(?P<e_id>[0-9]+)/(?P<wk_id>[0-9]+)/(?P<token_no>[0-9]+)/$', views.generatetokens, name='tokens')
 
 ]

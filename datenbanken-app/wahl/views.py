@@ -5,6 +5,7 @@ from django.shortcuts import render
 from .forms import BallotForm
 from .models import Ballot
 from .models import VoteHandler
+from .models import TokenGenerator
 
 
 def vote(request, e_id, wk_id):
@@ -77,12 +78,8 @@ def success(request, e_id, wk_id):
 
     return render(request, 'success.html', context)
 
-def generatetokens(request, token_no):
+def generatetokens(request, e_id, wk_id, token_no):
     context = {}
-
-    context['uuids'] = []
-
-    for i in range(int(token_no)) :
-        context['uuids'].append( uuid.uuid4())
+    context['uuids'] = TokenGenerator.generatetokens(int(token_no), wk_id, e_id)
 
     return render(request, 'tokens.html', context)
