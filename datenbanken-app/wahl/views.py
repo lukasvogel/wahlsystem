@@ -1,3 +1,4 @@
+import uuid
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -75,3 +76,13 @@ def success(request, e_id, wk_id):
     }
 
     return render(request, 'success.html', context)
+
+def generatetokens(request, token_no):
+    context = {}
+
+    context['uuids'] = []
+
+    for i in range(int(token_no)) :
+        context['uuids'].append( uuid.uuid4())
+
+    return render(request, 'tokens.html', context)
