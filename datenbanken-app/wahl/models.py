@@ -14,14 +14,14 @@ class Ballot(object):
 
         # get the name of the wahlkreis
         cur.execute(
-            'select id,name from wahlkreis where id=%s', (wk_id,)
+                'select id,name from wahlkreis where id=%s', (wk_id,)
         )
 
         wahlkreis = cur.fetchone()
 
         # get the date of the election
         cur.execute(
-            'select date from election where id=%s', (election,)
+                'select date from election where id=%s', (election,)
         )
 
         date = cur.fetchone()
@@ -37,13 +37,13 @@ class VoteHandler(object):
     @staticmethod
     # Checks whether the vote is valid, i.e. the candidate and party voted for is actually running in the wahlkreis
     # and the token exists
-    def check(token, candidate_id, party_id):
+    def check(token, candidate_id, party_id, er_invalid, zw_invalid):
 
         cur = conn.cursor()
 
         # get the election and wahlkreis for the token (if valid)
         cur.execute(
-            'select election,wahlkreis from token where token=%s', (token,)
+                'select election,wahlkreis from token where token=%s', (token,)
         )
 
         result = cur.fetchone()
@@ -59,35 +59,52 @@ class VoteHandler(object):
             e_id = result[0]
             wk_id = result[1]
 
-            # we check if the candidate and party is actually running in the wahlkreis
-            cur.execute(
-                'select * from directmandate where election = %s and  wahlkreis = %s and candidate = %s',
-                (e_id, wk_id, candidate_id)
-            )
-            candidate = cur.fetchone()
+            if not er_invalid:
+                # we check if the candidate and party is actually running in the wahlkreis
+                cur.execute(
+                        'select * from directmandate where election = %s and  wahlkreis = %s and candidate = %s',
+                        (e_id, wk_id, candidate_id)
+                )
+                candidate = cur.fetchone()
+                if candidate is None:
+                    return False
 
-            cur.execute(
-                '''select * from landesliste l join wahlkreis w on w.bundesland = l.bundesland
-                where l.election = %s and  w.id = %s and party = %s''',
-                (e_id, wk_id, party_id)
-            )
+            if not zw_invalid:
+                cur.execute(
+                        '''select * from landesliste l join wahlkreis w on w.bundesland = l.bundesland
+                        where l.election = %s and  w.id = %s and party = %s''',
+                        (e_id, wk_id, party_id)
+                )
+                party = cur.fetchone()
 
-            party = cur.fetchone()
+                if party is None:
+                    return False
 
-            # only return true if party and candidate are running in this wahlkreis and election
-            return party is not None and candidate is not None
+        # only return true if all gültige Votes are for
+        # a party and candidate running in the current election and wahlkreis
+        return True
 
     @staticmethod
-    def vote(token, candidate_id, party_id):
-
+    def vote(token, candidate_id, party_id, er_invalid, zw_invalid):
         cur = votingconn.cursor()
 
         # get the election and wahlkreis for the token
+
         cur.execute(
             'select election,wahlkreis from token where token=%s', (token,)
         )
 
         result = cur.fetchone()
+
+        # we are allowed to cast unspecified candidates to null values
+        # the check()-function guarantees that the corresponding vote has been set to invalid,
+        # if the candidate or party is not set
+
+        if candidate_id == '':
+            candidate_id = None
+
+        if party_id == '':
+            party_id = None
 
         if result is None:
             # the token was not found
@@ -99,19 +116,19 @@ class VoteHandler(object):
 
             # Erststimme
             cur.execute(
-                'INSERT INTO erststimme(isInvalid,Candidate,Wahlkreis,Election) VALUES (FALSE , %s, %s, %s)',
-                (candidate_id, wk_id, e_id)
+                    'INSERT INTO erststimme(isInvalid,Candidate,Wahlkreis,Election) VALUES (%s , %s, %s, %s)',
+                    (er_invalid, candidate_id, wk_id, e_id)
             )
 
             # Zweitstimme
             cur.execute(
-                'INSERT INTO zweitstimme(isInvalid,Party,Wahlkreis,Election) VALUES (FALSE , %s, %s, %s)',
-                (party_id, wk_id, e_id)
+                    'INSERT INTO zweitstimme(isInvalid,Party,Wahlkreis,Election) VALUES (%s , %s, %s, %s)',
+                    (zw_invalid, party_id, wk_id, e_id)
             )
 
             # Delete Token
             cur.execute(
-                'DELETE FROM token WHERE token = %s returning *', (token,)
+                    'DELETE FROM token WHERE token = %s returning *', (token,)
             )
 
             if cur.fetchone is None:

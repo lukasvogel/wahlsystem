@@ -12,12 +12,16 @@ def vote(request, e_id, wk_id):
         form = BallotForm(request.POST, wk_id=wk_id, e_id=e_id)
 
         if form.is_valid():
+
+            print(form.cleaned_data)
             candidate = form.cleaned_data['erststimme']
             party = form.cleaned_data['zweitstimme']
             token = form.cleaned_data['token']
+            erststimme_invalid = form.cleaned_data['erststimme_invalid']
+            zweitstimme_invalid = form.cleaned_data['zweitstimme_invalid']
 
-            if VoteHandler.check(token, candidate, party):
-                if VoteHandler.vote(token, candidate, party):
+            if VoteHandler.check(token, candidate, party, erststimme_invalid, zweitstimme_invalid):
+                if VoteHandler.vote(token, candidate, party, erststimme_invalid, zweitstimme_invalid):
                     return HttpResponseRedirect('../success')
                 else:
                     # internal error, USER NOT AT FAULT:

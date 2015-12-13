@@ -54,6 +54,13 @@
                             <td>{{ choice.tag }}</td>
                         </tr>
                     {% endfor %}
+
+                    <tr>
+                        <td><b> UNGÜLTIG WÄHLEN</b></td>
+                        <td></td>
+                        <td>{{ form.erststimme_invalid }}</td>
+                    </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -81,6 +88,10 @@
                             <td><b>{{ choice.choice_label }}</b></td>
                         </tr>
                     {% endfor %}
+                    <tr>
+                        <td>{{ form.zweitstimme_invalid }}</td>
+                        <td><b>UNGÜLTIG WÄHLEN</b></td>
+                    </tr>
 
                     </tbody>
                 </table>
@@ -97,9 +108,25 @@
 
 
 <script>
+
     $('.table > tbody > tr').click(function () {
         $(this).find('input:radio').prop('checked', true);
+
+        $(this).find('input:checkbox').each(function () {
+                    $(this).addClass('danger');
+                    if ($(this).is(':checked')) {
+                        $(this).prop('checked', false);
+                        $(this).parent().parent().removeClass('danger');
+                    } else {
+                        $(this).prop('checked', true);
+                        $(this).parent().parent().addClass('danger'); // the table row..
+                        $(this).parent().parent().parent().find('input:radio').prop('checked', false); // the table body...
+                    }
+                }
+        );
+
     });
+
 
 </script>
 

@@ -34,6 +34,7 @@ class BallotForm(forms.Form):
                  '<td><b>' + candidate[2] + '</b>, ' + candidate[1] + '</td><td><b>' + str(candidate[3]) + '</b></td>'
                  ))
 
+
         # get parties for second vote
         cur.execute(
             """
@@ -55,7 +56,10 @@ class BallotForm(forms.Form):
                  party[1]  # name
                  ))
 
-        self.fields['erststimme'] = forms.ChoiceField(widget=forms.RadioSelect, choices=first_vote)
-        self.fields['zweitstimme'] = forms.ChoiceField(widget=forms.RadioSelect, choices=second_vote)
+        self.fields['erststimme'] = forms.ChoiceField(widget=forms.RadioSelect, choices=first_vote, required=False)
+        self.fields['zweitstimme'] = forms.ChoiceField(widget=forms.RadioSelect, choices=second_vote, required=False)
 
         self.fields['token'] = forms.CharField(label='Token', max_length=100)
+
+        self.fields['erststimme_invalid'] = forms.BooleanField(required=False)
+        self.fields['zweitstimme_invalid'] = forms.BooleanField(required=False)
