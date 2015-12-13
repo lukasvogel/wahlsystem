@@ -51,14 +51,14 @@
                     {% for choice in form.erststimme %}
                         <tr>
                             {{ choice.choice_label | safe }}
-                            <td>{{ choice.tag }}</td>
+                            <td class="text-center">{{ choice.tag }}</td>
                         </tr>
                     {% endfor %}
 
                     <tr>
                         <td><b> UNGÜLTIG WÄHLEN</b></td>
                         <td></td>
-                        <td>{{ form.erststimme_invalid }}</td>
+                        <td class="text-center">{{ form.erststimme_invalid }}</td>
                     </tr>
 
                     </tbody>
@@ -84,12 +84,12 @@
 
                     {% for choice in form.zweitstimme %}
                         <tr>
-                            <td>{{ choice.tag }}</td>
+                            <td class="text-center">{{ choice.tag }}</td>
                             <td><b>{{ choice.choice_label }}</b></td>
                         </tr>
                     {% endfor %}
                     <tr>
-                        <td>{{ form.zweitstimme_invalid }}</td>
+                        <td class="text-center">{{ form.zweitstimme_invalid }}</td>
                         <td><b>UNGÜLTIG WÄHLEN</b></td>
                     </tr>
 
@@ -109,25 +109,53 @@
 
 <script>
 
-    $('.table > tbody > tr').click(function () {
-        $(this).find('input:radio').prop('checked', true);
+    $('#fv > tbody > tr').click(function () {
+        var selected = $(this).hasClass("success");
+        $('#fv > tbody > tr').removeClass("success");
+        $('#fv > tbody > tr').removeClass("danger");
+        $('#fv > tbody > tr').find('input:checkbox').prop('checked', false);
+        $('#fv > tbody > tr').find('input:radio').prop('checked', false);
 
-        $(this).find('input:checkbox').each(function () {
-                    $(this).addClass('danger');
-                    if ($(this).is(':checked')) {
-                        $(this).prop('checked', false);
-                        $(this).parent().parent().removeClass('danger');
-                    } else {
-                        $(this).prop('checked', true);
-                        $(this).parent().parent().addClass('danger'); // the table row..
-                        $(this).parent().parent().parent().find('input:radio').prop('checked', false); // the table body...
-                    }
-                }
-        );
+        $(this).find('input:checkbox').prop('checked', false);
+
+        if (!selected) {
+            $(this).addClass("success");
+            // if we have a checkbox, add danger instead
+            $(this).find('input:checkbox').parent().parent().addClass("danger");
+
+            $(this).find('input:radio').prop('checked', true);
+            $(this).find('input:checkbox').prop('checked', true);
+
+
+        }
+
 
     });
 
 
+    // I have absolutely no idea how you can bind an id to a variable in jquery, so we just duplicate that code
+    $('#sv > tbody > tr').click(function () {
+        var selected = $(this).hasClass("success");
+        $('#sv > tbody > tr').removeClass("success");
+        $('#sv > tbody > tr').removeClass("danger");
+        $('#sv > tbody > tr').find('input:checkbox').prop('checked', false);
+        $('#sv > tbody > tr').find('input:radio').prop('checked', false);
+
+        $(this).find('input:checkbox').prop('checked', false);
+
+        if (!selected) {
+            $(this).addClass("success");
+            // if we have a checkbox, add danger instead
+            $(this).find('input:checkbox').parent().parent().addClass("danger");
+
+            $(this).find('input:radio').prop('checked', true);
+            $(this).find('input:checkbox').prop('checked', true);
+
+
+        }
+
+
+    });
 </script>
 
 </body>
