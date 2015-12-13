@@ -1,4 +1,5 @@
 import psycopg2
+import uuid
 
 conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
 conn.autocommit = True
@@ -144,3 +145,19 @@ class VoteHandler(object):
                 return False
 
             return True
+
+class TokenGenerator(object):
+    @staticmethod
+    def generatetokens(no, wkid, elid):
+
+        cur = votingconn.cursor()
+
+        tokens = []
+        for i in range(no) :
+            token = uuid.uuid4()
+            tokens.append( token )
+            cur.execute(
+                'INSERT INTO token VALUES ( %s, %s, %s ) ', (elid, wkid, token)
+            )
+        votingconn.commit()
+        return tokens
