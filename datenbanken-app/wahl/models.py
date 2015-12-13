@@ -43,6 +43,8 @@ class VoteHandler(object):
 
         cur = conn.cursor()
 
+        print(token)
+
         # get the election and wahlkreis for the token (if valid)
         cur.execute(
                 'select election,wahlkreis from token where token=%s', (token,)
@@ -54,10 +56,12 @@ class VoteHandler(object):
         # ... really encouraging to have comments like this in an application like this, isn't it?
 
         if result is None:
+            print('token falsch')
             # the token was not found
             # IGNORE THE IMPOSTOR!!
             return False
         else:
+            print('token stimmt')
             e_id = result[0]
             wk_id = result[1]
 
