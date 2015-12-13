@@ -64,9 +64,20 @@ The fields \texttt{token}, \texttt{erststimme} and \texttt{zweitstimme} have to 
 
 On the actual voting machine a stripped-down browser only pointing to \texttt{/wahl/eid/wkid} could be used as frontend. If this is deemed to insecure and / or resource-intensive an own fronted could be developed sending the right HTTP POST-Requests to the voting server.
 
-\paragraph*{}
-The server is hardened against SQL-Injections: All user input is escaped properly by using the proper string-building functions of the psqcopg2-python-module.
+Manipulation by sending rogue-POST-requests is impossible. Each issued token is internally associated with an election and a Wahlkreis. Thus a voter can't use his token to vote in another wahlkreis or election. The handling of a single vote is done in one transaction. This guarantees that the database cannot be in an inconsistent state (i.e. voted but token not invalidated).
 
-Manipulation by sending rogue-POST-requests is also impossible. Each issued token is internally associated with an election and a Wahlkreis. Thus a voter can't use his token to vote in another wahlkreis or election. The handling of a single vote is done in one transaction. This guarantees that the database cannot be in an inconsistent state (i.e. voted but token not invalidated).
 
+\section*{SQL Injection}
+The server is hardened against SQL-Injections: All user input is escaped properly by using the proper query-building functions of the psqcopg2-python-module.
+
+
+
+\section*{Protection against multiple voting}
+An issued token is only valid for exactly one vote (see above). A person can only vote more than once if the Wahlhelfer is issuing a voter more than one token (human error).
+
+\section*{Unauthorized voting}
+Voting is only possible with a valid token. A token is valid for exactly one election and Wahlkreis. This way nobody can vote in a Wahlkreis he is not currently living in. Voting without a token is impossible
+
+\section*{Data protection}
+At no time in the process a vote is connected with identifying user information. 
 \end{document}
