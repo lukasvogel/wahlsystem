@@ -1,10 +1,98 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
-
-{% block breadcrumbs %} {{ block.super }} » <a href="/wahlanalyse/{{ election }}/wkmap">Wahlkreise</a> »
-    {{ details.wk_id }}{% endblock %}
+{% block breadcrumbs %} {{ block.super }} » Wahlkreiskarte {% endblock %}
 
 {% block content %}
 
+    <style>
 
+        svg #Kreise path:hover {
+            fill: #a02020;
+        }
+
+        svg #WK-Hamburg path:hover {
+            fill: #a02020;
+        }
+
+        svg #WK-Berlin path:hover {
+            fill: #a02020;
+        }
+
+    </style>
+
+    <img class="svg" src="{% static "wahlanalyse/Bundestag_Wahlkreise_2009.svg" %}"/>
+
+    <script>
+        /*
+         * Replace all SVG images with inline SVG
+         */
+        $('img.svg').each(function () {
+            var $img = jQuery(this);
+            var imgID = $img.attr('id');
+            var imgClass = $img.attr('class');
+            var imgURL = $img.attr('src');
+
+            jQuery.get(imgURL, function (data) {
+                // Get the SVG tag, ignore the rest
+                var $svg = jQuery(data).find('svg');
+
+                // Add replaced image's ID to the new SVG
+                if (typeof imgID !== 'undefined') {
+                    $svg = $svg.attr('id', imgID);
+                }
+                // Add replaced image's classes to the new SVG
+                if (typeof imgClass !== 'undefined') {
+                    $svg = $svg.attr('class', imgClass + ' replaced-svg');
+                }
+
+                // Remove any invalid XML tags as per http://validator.w3.org
+                $svg = $svg.removeAttr('xmlns:a');
+
+                // Replace image with new SVG
+                $img.replaceWith($svg);
+
+            }, 'xml');
+
+        });
+
+    </script>
+
+    <script>
+
+        var color_mapping = {
+            'CDU': 'black',
+            'SPD': 'red',
+            'FDP': 'yellow',
+            'CSU': 'black',
+            'GRÜNE': 'green',
+            'DIE LINKE': 'purple'
+        };
+
+        var wk_winners = {;
+        {% for wk in results %} {{ wk.wk_id }} : '{{ wk.wk_second }}',;
+        {% endfor %}
+        }
+        var wk_votes = {;
+        {% for wk in results %} {{ wk.wk_id }} : '{{ wk.wk_second_votes }}',;
+        {% endfor %}
+        }
+        $(window).load(function () {
+            $("path").click(function () {
+                window.location.href = "../wk/" + $(this).attr('id') + "/";
+            });
+            $("path").each(function () {
+
+                id = $(this).attr('id');
+                if (id >= 1 && id <= 300) {
+                    winner = wk_winners[id];
+                    $(this).attr("fill", color_mapping[winner]);
+                    $(this).attr("fill-opacity", wk_votes[id] / 70);
+                }
+                //
+
+            });
+        })
+
+    </script>
 {% endblock %}

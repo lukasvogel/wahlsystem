@@ -3,6 +3,7 @@ from django.template import RequestContext
 
 from .models import BundestagMembers
 from .models import ClosestWinners
+from .models import Map
 from .models import Overhang
 from .models import Overview
 from .models import Wahlkreise
@@ -81,7 +82,8 @@ def overhang_overview(request, e_id):
 
 def wk_map(request, e_id):
     context = RequestContext(request, {
-        'election': e_id
+        'election': e_id,
+        'results': Map.get_results(e_id)
     })
 
     return render(request, 'wk_map.html', context)

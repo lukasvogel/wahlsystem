@@ -13,15 +13,15 @@ class BundestagMembers(object):
         cur = conn.cursor()
 
         cur.execute(
-            """SELECT mb.firstname, mb.lastname, mb.party, mb.bundesland, dw.wahlkreis, w.name
-               FROM members_of_bundestag mb
-               LEFT JOIN (directmandate_winners dw
-                          JOIN wahlkreis w
-                          ON w.id = dw.wahlkreis)
-                ON mb.id = dw.candidate
-                AND mb.election = dw.election
-                WHERE mb.election = %s
-               ORDER BY mb.lastname""", (election,))
+                """SELECT mb.firstname, mb.lastname, mb.party, mb.bundesland, dw.wahlkreis, w.name
+                   FROM members_of_bundestag mb
+                   LEFT JOIN (directmandate_winners dw
+                              JOIN wahlkreis w
+                              ON w.id = dw.wahlkreis)
+                    ON mb.id = dw.candidate
+                    AND mb.election = dw.election
+                    WHERE mb.election = %s
+                   ORDER BY mb.lastname""", (election,))
 
         members = []
 
@@ -45,23 +45,23 @@ class Wahlkreise(object):
         cur = conn.cursor()
 
         cur.execute(
-            """
-            SELECT wk.id, wk.name, p.name, zw_party
-            FROM wahlkreis wk
-            LEFT JOIN directmandate_winners dw ON dw.wahlkreis = wk.id
-            LEFT JOIN party p on dw.party = p.id
-            LEFT JOIN (SELECT zw.election, zw.wahlkreis, p2.name as zw_party FROM zweitstimme_results zw , party p2
-                                                                   WHERE p2.id = zw.party
-                                                                   AND NOT EXISTS (SELECT * FROM zweitstimme_results zw2
-                                                                      WHERE zw2.wahlkreis = zw.wahlkreis
-                                                                      AND zw2.election = zw.election
-                                                                      AND zw2.count > zw.count)) as zweitstimme
-            ON zweitstimme.wahlkreis = wk.id
-            AND p.id = dw.party
-            AND zweitstimme.election = dw.election
-            WHERE dw.election = %s
-            ORDER BY wk.id
-            """, (election,)
+                """
+                SELECT wk.id, wk.name, p.name, zw_party
+                FROM wahlkreis wk
+                LEFT JOIN directmandate_winners dw ON dw.wahlkreis = wk.id
+                LEFT JOIN party p on dw.party = p.id
+                LEFT JOIN (SELECT zw.election, zw.wahlkreis, p2.name as zw_party FROM zweitstimme_results zw , party p2
+                                                                       WHERE p2.id = zw.party
+                                                                       AND NOT EXISTS (SELECT * FROM zweitstimme_results zw2
+                                                                          WHERE zw2.wahlkreis = zw.wahlkreis
+                                                                          AND zw2.election = zw.election
+                                                                          AND zw2.count > zw.count)) as zweitstimme
+                ON zweitstimme.wahlkreis = wk.id
+                AND p.id = dw.party
+                AND zweitstimme.election = dw.election
+                WHERE dw.election = %s
+                ORDER BY wk.id
+                """, (election,)
         )
 
         wahlkreise = []
@@ -83,13 +83,13 @@ class Wahlkreise(object):
 
         # Get infos on wahlkreis and direct mandate winner
         cur.execute(
-            """SELECT w.id, w.name, c.firstname, c.lastname
-                FROM wahlkreis w, directmandate_winners dw, candidate c
-                WHERE dw.wahlkreis = w.id
-                AND c.id = dw.candidate
-                AND w.id = %s
-                AND dw.election = %s""",
-            (wk_id, election)
+                """SELECT w.id, w.name, c.firstname, c.lastname
+                    FROM wahlkreis w, directmandate_winners dw, candidate c
+                    WHERE dw.wahlkreis = w.id
+                    AND c.id = dw.candidate
+                    AND w.id = %s
+                    AND dw.election = %s""",
+                (wk_id, election)
         )
 
         # TODO: Was wenn party = None?
@@ -99,46 +99,46 @@ class Wahlkreise(object):
         wk_candidates = []
 
         cur.execute(
-            """
-            SELECT c.firstname, c.lastname, p.name, er.count,
-                    round(er.count / votes.votes * 100,1) as percentage,
-                    (CASE WHEN d.election > 1
-                            THEN round((er.count / votes.votes - er_prev.count / votes_prev.votes) * 100,1)
-                         ELSE
-                            NULL
-                     END)as change
-            FROM directmandate d
-                join candidate c
-                    on c.id = d.candidate
-                left join party p
-                    on p.id = d.party
-                join erststimme_results er
-                    on er.candidate = d.candidate
-                    and er.election = d.election
-                    and er.wahlkreis = d.wahlkreis
-                join (select sum(count) as votes, er2.election, er2.wahlkreis
-                                      from erststimme_results er2
-                                      group by er2.election, er2.wahlkreis) as votes
-                    on votes.election = d.election
-                    and votes.wahlkreis = d.wahlkreis
-                  left join directmandate d_prev
-                    on d_prev.party = d.party
-                    and d_prev.wahlkreis = d.wahlkreis
-                    and d_prev.election = GREATEST(d.election-1,1)
-                left join erststimme_results er_prev
-                    on er_prev.election = d_prev.election
-                    and er_prev.wahlkreis = d.wahlkreis
-                    and er_prev.candidate = d_prev.candidate
-                left join (select sum(count) as votes, er3.election, er3.wahlkreis
-                                    from erststimme_results er3
-                                    group by er3.election, er3.wahlkreis) as votes_prev
-                    on votes_prev.election = d_prev.election
-                    and votes_prev.wahlkreis = d.wahlkreis
-            WHERE d.election = %s
-            AND d.wahlkreis = %s
-            order by er.count desc
-            """,
-            (election, wk_id)
+                """
+                SELECT c.firstname, c.lastname, p.name, er.count,
+                        round(er.count / votes.votes * 100,1) as percentage,
+                        (CASE WHEN d.election > 1
+                                THEN round((er.count / votes.votes - er_prev.count / votes_prev.votes) * 100,1)
+                             ELSE
+                                NULL
+                         END)as change
+                FROM directmandate d
+                    join candidate c
+                        on c.id = d.candidate
+                    left join party p
+                        on p.id = d.party
+                    join erststimme_results er
+                        on er.candidate = d.candidate
+                        and er.election = d.election
+                        and er.wahlkreis = d.wahlkreis
+                    join (select sum(count) as votes, er2.election, er2.wahlkreis
+                                          from erststimme_results er2
+                                          group by er2.election, er2.wahlkreis) as votes
+                        on votes.election = d.election
+                        and votes.wahlkreis = d.wahlkreis
+                      left join directmandate d_prev
+                        on d_prev.party = d.party
+                        and d_prev.wahlkreis = d.wahlkreis
+                        and d_prev.election = GREATEST(d.election-1,1)
+                    left join erststimme_results er_prev
+                        on er_prev.election = d_prev.election
+                        and er_prev.wahlkreis = d.wahlkreis
+                        and er_prev.candidate = d_prev.candidate
+                    left join (select sum(count) as votes, er3.election, er3.wahlkreis
+                                        from erststimme_results er3
+                                        group by er3.election, er3.wahlkreis) as votes_prev
+                        on votes_prev.election = d_prev.election
+                        and votes_prev.wahlkreis = d.wahlkreis
+                WHERE d.election = %s
+                AND d.wahlkreis = %s
+                order by er.count desc
+                """,
+                (election, wk_id)
         )
         for candidate in cur.fetchall():
             wk_candidates.append({
@@ -152,33 +152,33 @@ class Wahlkreise(object):
         # Get the results of the parties
         wk_parties = []
         cur.execute(
-            """
-            SELECT p.name, zr.count,
-              round(zr.count / votes.votes * 100,1) as percentage,
-              (CASE WHEN zr.election > 1
-                THEN round((zr.count / votes.votes - zr2.count / votes_prev.votes)*100,1)
-              ELSE
-                NULL
-              END) as change
-            FROM party p,
-              (select sum(count) as votes, zr2.election, zr2.wahlkreis
-              from zweitstimme_results zr2
-              group by zr2.election, zr2.wahlkreis) as votes,
-              zweitstimme_results zr
-              left join zweitstimme_results zr2 on zr2.election = greatest(zr.election-1,1) and zr2.wahlkreis = zr.wahlkreis and zr2.party = zr.party
-              left join
-                (select sum(count) as votes, zr3.election, zr3.wahlkreis
-                from zweitstimme_results zr3
-                group by zr3.election, zr3.wahlkreis) as votes_prev
-              on votes_prev.election = zr2.election and votes_prev.wahlkreis = zr2.wahlkreis
-            WHERE zr.party = p.id
-            AND zr.election = votes.election
-            AND zr.wahlkreis = votes.wahlkreis
-            AND zr.wahlkreis = %s
-            AND zr.election = %s
-            order by zr.count desc
-            """,
-            (wk_id, election)
+                """
+                SELECT p.name, zr.count,
+                  round(zr.count / votes.votes * 100,1) as percentage,
+                  (CASE WHEN zr.election > 1
+                    THEN round((zr.count / votes.votes - zr2.count / votes_prev.votes)*100,1)
+                  ELSE
+                    NULL
+                  END) as change
+                FROM party p,
+                  (select sum(count) as votes, zr2.election, zr2.wahlkreis
+                  from zweitstimme_results zr2
+                  group by zr2.election, zr2.wahlkreis) as votes,
+                  zweitstimme_results zr
+                  left join zweitstimme_results zr2 on zr2.election = greatest(zr.election-1,1) and zr2.wahlkreis = zr.wahlkreis and zr2.party = zr.party
+                  left join
+                    (select sum(count) as votes, zr3.election, zr3.wahlkreis
+                    from zweitstimme_results zr3
+                    group by zr3.election, zr3.wahlkreis) as votes_prev
+                  on votes_prev.election = zr2.election and votes_prev.wahlkreis = zr2.wahlkreis
+                WHERE zr.party = p.id
+                AND zr.election = votes.election
+                AND zr.wahlkreis = votes.wahlkreis
+                AND zr.wahlkreis = %s
+                AND zr.election = %s
+                order by zr.count desc
+                """,
+                (wk_id, election)
         )
         for party in cur.fetchall():
             wk_parties.append({
@@ -190,13 +190,13 @@ class Wahlkreise(object):
 
         # Get wahlbeteiligung
         cur.execute(
-            """
-            SELECT w.wahlbeteiligung
-            FROM wahlbeteiligung w
-            WHERE w.wahlkreis = %s
-            AND w.election = 2
-            """,  # TODO: FIX HARDCODED ELECTION!!!!
-            (wk_id,)
+                """
+                SELECT w.wahlbeteiligung
+                FROM wahlbeteiligung w
+                WHERE w.wahlkreis = %s
+                AND w.election = 2
+                """,  # TODO: FIX HARDCODED ELECTION!!!!
+                (wk_id,)
         )
         wahlbeteiligung = cur.fetchone()
 
@@ -227,12 +227,12 @@ class Overview(object):
         cur = conn.cursor()
 
         cur.execute(
-            """SELECT p.name, cast(seats as int)
-               FROM seats_by_party sp, party p
-               WHERE p.id = sp.party
-               AND election = %s
-               ORDER BY seats desc
-            """, (election,)
+                """SELECT p.name, cast(seats as int)
+                   FROM seats_by_party sp, party p
+                   WHERE p.id = sp.party
+                   AND election = %s
+                   ORDER BY seats desc
+                """, (election,)
         )
 
         data = []
@@ -259,17 +259,17 @@ class Overview(object):
             # we need to supply our own ordering as we want to show the bar chart in the canonical way:
             # CDU, CSU,SPD, LINKE, GRÜNE, FDP, AFD, Piraten
             cur.execute(
-                """
-                SELECT p.name, round((v.votes / t.total * 100),1) as percentage
-                FROM votesbyparty v, party p, totalvotes t,
-                  (VALUES ('CDU',1), ('CSU',2), ('SPD',3), ('DIE LINKE',4), ('GRÜNE',5), ('FDP',6), ('PIRATEN',7), ('AfD',8))
-                  AS porder (pname,ordering)
-                WHERE v.party = p.id
-                AND v.election = t.election
-                AND v.election = %s
-                AND p.name = pname
-                ORDER BY ordering ASC
-                """, (election,)
+                    """
+                    SELECT p.name, round((v.votes / t.total * 100),1) as percentage
+                    FROM votesbyparty v, party p, totalvotes t,
+                      (VALUES ('CDU',1), ('CSU',2), ('SPD',3), ('DIE LINKE',4), ('GRÜNE',5), ('FDP',6), ('PIRATEN',7), ('AfD',8))
+                      AS porder (pname,ordering)
+                    WHERE v.party = p.id
+                    AND v.election = t.election
+                    AND v.election = %s
+                    AND p.name = pname
+                    ORDER BY ordering ASC
+                    """, (election,)
             )
             e_result = cur.fetchall()
 
@@ -297,14 +297,14 @@ class ClosestWinners(object):
         cur = conn.cursor()
 
         cur.execute(
-            """
-            SELECT DISTINCT p.id, p.name
-            FROM party p, zweitstimme_results zw
-            WHERE p.id = zw.party
-            AND zw.count > 0
-            AND zw.election = %s
-            ORDER BY name
-            """, (election,)
+                """
+                SELECT DISTINCT p.id, p.name
+                FROM party p, zweitstimme_results zw
+                WHERE p.id = zw.party
+                AND zw.count > 0
+                AND zw.election = %s
+                ORDER BY name
+                """, (election,)
         )
 
         parties = cur.fetchall()
@@ -325,13 +325,13 @@ class ClosestWinners(object):
         cur = conn.cursor()
 
         cur.execute(
-            """
-            SELECT cw.firstname, cw.lastname, cw.wahlkreis, cw.wname, cw.difference
-            FROM closest_winners cw
-            WHERE cw.party = %s
-            AND cw.election = %s
-            LIMIT 10
-            """, (party, election))
+                """
+                SELECT cw.firstname, cw.lastname, cw.wahlkreis, cw.wname, cw.difference
+                FROM closest_winners cw
+                WHERE cw.party = %s
+                AND cw.election = %s
+                LIMIT 10
+                """, (party, election))
 
         closest = []
 
@@ -341,13 +341,13 @@ class ClosestWinners(object):
         else:
             # otherwise get 10 losers...
             cur.execute(
-                """
-              SELECT cl.firstname, cl.lastname, cl.wahlkreis, cl.wname, cl.difference
-              FROM closest_losers cl
-              WHERE cl.party = %s
-              AND cl.election = %s
-              LIMIT 10
-              """, (party, election))
+                    """
+                  SELECT cl.firstname, cl.lastname, cl.wahlkreis, cl.wname, cl.difference
+                  FROM closest_losers cl
+                  WHERE cl.party = %s
+                  AND cl.election = %s
+                  LIMIT 10
+                  """, (party, election))
             closest = cur.fetchall()
 
         result = []
@@ -375,13 +375,13 @@ class Overhang(object):
         cur = conn.cursor()
 
         cur.execute(
-            """
-              select b.name, p.name, overhang
-              from overhang_mandates om join bundesland b on b.id = om.bundesland
-                join party p on p.id = om.party
-              where election = %s
-              order by b.name
-            """, (election,)
+                """
+                  select b.name, p.name, overhang
+                  from overhang_mandates om join bundesland b on b.id = om.bundesland
+                    join party p on p.id = om.party
+                  where election = %s
+                  order by b.name
+                """, (election,)
         )
 
         result = []
@@ -394,3 +394,44 @@ class Overhang(object):
             })
 
         return result
+
+
+class Map(object):
+    @staticmethod
+    def get_results(election):
+        cur = conn.cursor()
+
+        cur.execute(
+                """
+                SELECT wk.id, wk.name, zweitstimme.zw_party, round(zweitstimme.count / votes.votes * 100,1) as percentage
+
+                FROM  wahlkreis wk
+                LEFT JOIN (SELECT zw.election, zw.wahlkreis, p2.name as zw_party, zw.count FROM zweitstimme_results zw , party p2
+                                                                       WHERE p2.id = zw.party
+                                                                       AND NOT EXISTS (SELECT * FROM zweitstimme_results zw2
+                                                                          WHERE zw2.wahlkreis = zw.wahlkreis
+                                                                          AND zw2.election = zw.election
+                                                                          AND zw2.count > zw.count)) as zweitstimme
+                ON zweitstimme.wahlkreis = wk.id
+                LEFT JOIN
+                  (select sum(count) as votes, zr2.election, zr2.wahlkreis
+                  from zweitstimme_results zr2
+                  group by zr2.election, zr2.wahlkreis) as votes
+                ON votes.election = zweitstimme.election
+                AND votes.wahlkreis = wk.id
+                WHERE zweitstimme.election = %s
+
+                """, (election,)
+        )
+
+        wahlkreise = []
+
+        for wk in cur.fetchall():
+            wahlkreise.append({
+                'wk_id': wk[0],
+                'wk_name': wk[1],
+                'wk_second': wk[2],
+                'wk_second_votes': wk[3]
+            })
+
+        return wahlkreise
