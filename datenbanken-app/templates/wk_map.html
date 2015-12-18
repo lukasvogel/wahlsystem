@@ -5,6 +5,7 @@
 
 {% block content %}
 
+    <!--suppress ALL -->
     <style>
 
         svg #Kreise path:hover {
@@ -63,12 +64,12 @@
                 'DIE LINKE': 'purple'
             };
 
-            var wk_winners = {;
-            {% for wk in results %} {{ wk.wk_id }} : '{{ wk.wk_second }}',;
+            var wk_winners = {
+            {% for wk in results %} {{ wk.wk_id }} : '{{ wk.wk_second }}',
             {% endfor %}
         }
-            var wk_votes = {;
-            {% for wk in results %} {{ wk.wk_id }} : '{{ wk.wk_second_votes }}',;
+            var wk_votes = {
+            {% for wk in results %} {{ wk.wk_id }} : '{{ wk.wk_second_votes }}',
             {% endfor %}
         }
             $(window).load(function () {
