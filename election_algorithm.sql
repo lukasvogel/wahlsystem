@@ -205,7 +205,6 @@ ALTER FUNCTION public.find_partydivisor()
 OWNER TO postgres;
 
 
-
 CREATE OR REPLACE VIEW seats_by_party AS
   WITH parties_in_bundestag AS /* Parties that may get seats in the bundestag */
   (SELECT

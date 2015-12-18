@@ -66,7 +66,8 @@ def addVotes(fileName, electionID, WahlkreisID):
 
                     print("Generating " + amount + " invalid erststimmen for wahlkreis: " + curWkID)
 
-                    cur.execute("SELECT * FROM generate_erststimmen(%s,%s,%s,%s,%s)",(True,None,curWkID,electionID,amount))
+                    cur.execute("SELECT * FROM generate_erststimmen(%s,%s,%s,%s,%s)",
+                                (True, '0', curWkID, electionID, amount))
                     conn.commit()
 
                 elif party.startswith('Invalid_S2'):
@@ -74,7 +75,8 @@ def addVotes(fileName, electionID, WahlkreisID):
 
                     print("Generating " + amount + " invalid zweitstimmen for wahlkreis: " + curWkID)
 
-                    cur.execute("SELECT * FROM generate_zweitstimmen(%s,%s,%s,%s,%s)",(True,None,curWkID,electionID,amount))
+                    cur.execute("SELECT * FROM generate_zweitstimmen(%s,%s,%s,%s,%s)",
+                                (True, '0', curWkID, electionID, amount))
                     conn.commit()
 
                 elif party.startswith('Valid_S2'):

@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS Voter CASCADE;
 DROP TABLE IF EXISTS Wahlkreis CASCADE;
 DROP TABLE IF EXISTS Bundesland CASCADE;
 DROP TABLE IF EXISTS Election CASCADE;
+DROP TABLE IF EXISTS Token CASCADE;
 
 CREATE TABLE Election
 (
@@ -50,6 +51,8 @@ CREATE TABLE Party
   Name            VARCHAR(30) NOT NULL,
   isMinorityParty BOOLEAN
 );
+INSERT INTO Party VALUES (0, 'dummy', FALSE);
+
 
 CREATE TABLE Candidate
 (
@@ -58,6 +61,8 @@ CREATE TABLE Candidate
   LastName  VARCHAR(60) NOT NULL,
   BirthYear SMALLINT    NOT NULL
 );
+
+INSERT INTO Candidate VALUES (0, 'dummy', 'dummy', '1900');
 
 CREATE TABLE Erststimme
 (

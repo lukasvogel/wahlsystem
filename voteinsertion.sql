@@ -77,7 +77,7 @@ $BODY$
 DECLARE
   cID INTEGER;
 BEGIN
-  SELECT d.Candidate
+  SELECT d.Candidate,'0'
   INTO cID
   FROM directmandate d, party p
   WHERE d.party = p.id
@@ -86,8 +86,8 @@ BEGIN
         AND p.name = pName;
 
   INSERT INTO erststimme (isInvalid, Candidate, Wahlkreis, Election)
-    (SELECT R.*
-     FROM (VALUES (isInvalid, cID, wkID, eID)) AS R, nats(count));
+    (SELECT isinvalid, COALESCE(cID,'0'), wkID, eID
+     FROM (VALUES (isInvalid,cID, wkID, eID)) AS R, nats(count));
 END;$BODY$
 LANGUAGE plpgsql VOLATILE
 COST 100;
@@ -106,14 +106,14 @@ $BODY$
 DECLARE
   pID INTEGER;
 BEGIN
-  SELECT p.id
+  SELECT  p.id
   INTO pID
   FROM party p
   WHERE p.Name = pName;
 
   INSERT INTO zweitstimme (isInvalid, Party, Wahlkreis, Election)
     (SELECT R.*
-     FROM (VALUES (isInvalid, pID, wkID, eID)) AS R, nats(count));
+     FROM (VALUES (isInvalid, COALESCE(pID,'0'), wkID, eID)) AS R, nats(count));
 
 END;$BODY$
 LANGUAGE plpgsql VOLATILE
@@ -150,7 +150,7 @@ BEGIN
     FOR i IN 0..candidates LOOP
       INSERT INTO erststimme (isInvalid, Candidate, Wahlkreis, Election)
         (SELECT R.*
-         FROM (VALUES (FALSE, cIDs [i], wkID, eID)) AS R, nats(count / candidates));
+         FROM (VALUES (FALSE, COALESCE(cIDs [i],'0'), wkID, eID)) AS R, nats(count / candidates));
     END LOOP;
 
     INSERT INTO erststimme (isInvalid, Candidate, Wahlkreis, Election)
