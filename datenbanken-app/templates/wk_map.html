@@ -54,46 +54,43 @@
 
             }, 'xml');
 
+            var color_mapping = {
+                'CDU': 'black',
+                'SPD': 'red',
+                'FDP': 'yellow',
+                'CSU': 'black',
+                'GRÜNE': 'green',
+                'DIE LINKE': 'purple'
+            };
+
+            var wk_winners = {;
+            {% for wk in results %} {{ wk.wk_id }} : '{{ wk.wk_second }}',;
+            {% endfor %}
+        }
+            var wk_votes = {;
+            {% for wk in results %} {{ wk.wk_id }} : '{{ wk.wk_second_votes }}',;
+            {% endfor %}
+        }
+            $(window).load(function () {
+                $("path").click(function () {
+                    window.location.href = "../wk/" + $(this).attr('id') + "/";
+                });
+                $("path").each(function () {
+
+                    id = $(this).attr('id');
+                    if (id >= 1 && id <= 300) {
+                        winner = wk_winners[id];
+                        $(this).attr("fill", color_mapping[winner]);
+                        $(this).attr("fill-opacity", wk_votes[id] / 70);
+                    }
+                    //
+
+                });
+            })
+
+
         });
 
-    </script>
-
-    <!--suppress UnterminatedStatementJS, BadExpressionStatementJS -->
-    <script>
-
-        var color_mapping = {
-            'CDU': 'black',
-            'SPD': 'red',
-            'FDP': 'yellow',
-            'CSU': 'black',
-            'GRÜNE': 'green',
-            'DIE LINKE': 'purple'
-        };
-
-        var wk_winners = {
-        {% for wk in results %} {{ wk.wk_id }} : '{{ wk.wk_second }}',
-        {% endfor %}
-        }
-        var wk_votes = {
-        {% for wk in results %} {{ wk.wk_id }} : '{{ wk.wk_second_votes }}',
-        {% endfor %}
-        }
-        $(window).load(function () {
-            $("path").click(function () {
-                window.location.href = "../wk/" + $(this).attr('id') + "/";
-            });
-            $("path").each(function () {
-
-                id = $(this).attr('id');
-                if (id >= 1 && id <= 300) {
-                    winner = wk_winners[id];
-                    $(this).attr("fill", color_mapping[winner]);
-                    $(this).attr("fill-opacity", wk_votes[id] / 70);
-                }
-                //
-
-            });
-        })
 
     </script>
 {% endblock %}
