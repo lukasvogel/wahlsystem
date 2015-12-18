@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.template import RequestContext
+
 from .models import BundestagMembers
 from .models import ClosestWinners
 from .models import Overhang
@@ -76,3 +77,11 @@ def overhang_overview(request, e_id):
     })
 
     return render(request, 'overhang_overview.html', context)
+
+
+def wk_map(request, e_id):
+    context = RequestContext(request, {
+        'election': e_id
+    })
+
+    return render(request, 'wk_map.html', context)

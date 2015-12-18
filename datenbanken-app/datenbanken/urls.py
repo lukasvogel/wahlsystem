@@ -14,10 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url
-from django.contrib import admin
+from django.views.generic import RedirectView
 
 urlpatterns = [
     url(r'^wahlanalyse/', include('wahlanalyse.urls')),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^wahl/', include('wahl.urls'))
+    url(r'^wahl/', include('wahl.urls')),
+    url(r'^$', RedirectView.as_view(url='/wahlanalyse/2/'))
 ]
