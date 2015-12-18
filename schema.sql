@@ -66,7 +66,7 @@ INSERT INTO Candidate VALUES (0, 'dummy', 'dummy', '1900');
 
 CREATE TABLE Erststimme
 (
-  ID        SERIAL PRIMARY KEY,
+  ID        SERIAL,
   isInvalid BOOLEAN NOT NULL,
   Candidate INTEGER REFERENCES Candidate,
   Wahlkreis INTEGER REFERENCES Wahlkreis,
@@ -75,7 +75,7 @@ CREATE TABLE Erststimme
 
 CREATE TABLE Zweitstimme
 (
-  ID        SERIAL PRIMARY KEY,
+  ID        SERIAL,
   isInvalid BOOLEAN NOT NULL,
   Party     INTEGER REFERENCES Party,
   Wahlkreis INTEGER REFERENCES Wahlkreis,

@@ -1,21 +1,3 @@
-CREATE OR REPLACE FUNCTION nats(NUMERIC)
-  RETURNS SETOF NUMERIC AS
-$BODY$
-DECLARE
-  i NUMERIC;
-BEGIN
-  FOR i IN 1..$1 LOOP
-  RETURN NEXT i;
-END loop;
-RETURN;
-END;
-$BODY$
-LANGUAGE plpgsql IMMUTABLE STRICT
-COST 100
-ROWS 100000;
-ALTER FUNCTION nats( NUMERIC )
-OWNER TO postgres;
-
 CREATE OR REPLACE FUNCTION generate_voters(
   wkid      INTEGER,
   election  INTEGER,
@@ -34,17 +16,17 @@ BEGIN
       (
         (SELECT R.*
          FROM
-           (VALUES ('FN', 'LN', BirthDate, 'AD', '?', wkid, election, election, NULL :: INTEGER)) AS R, nats(haveVoted))
+           (VALUES ('FN', 'LN', BirthDate, 'AD', '?', wkid, election, election, NULL :: INTEGER)) AS R, generate_series(1,haveVoted))
         UNION ALL
         (SELECT R.*
          FROM (VALUES ('FN', 'LN', BirthDate, 'AD', '?', wkid, election, NULL :: INTEGER, NULL :: INTEGER)) AS R,
-           nats(count - haveVoted))
+           generate_series(1,count - haveVoted))
       );
   ELSE
     INSERT INTO voter (FirstName, LastName, BirthDate, Address, Gender, Wahlkreis, FirstValidElection, LastVotedOn, LastValidElection)
       (SELECT R.*
        FROM (VALUES ('FN', 'LN', BirthDate, 'AD', '?', wkid, election, NULL :: INTEGER, NULL :: INTEGER)) AS R,
-         nats(count));
+         generate_series(1,count));
 
     UPDATE voter
     SET LastVotedOn = election
@@ -87,7 +69,7 @@ BEGIN
 
   INSERT INTO erststimme (isInvalid, Candidate, Wahlkreis, Election)
     (SELECT isinvalid, COALESCE(cID,'0'), wkID, eID
-     FROM (VALUES (isInvalid,cID, wkID, eID)) AS R, nats(count));
+     FROM (VALUES (isInvalid,cID, wkID, eID)) AS R, generate_series(1,count));
 END;$BODY$
 LANGUAGE plpgsql VOLATILE
 COST 100;
@@ -113,7 +95,7 @@ BEGIN
 
   INSERT INTO zweitstimme (isInvalid, Party, Wahlkreis, Election)
     (SELECT R.*
-     FROM (VALUES (isInvalid, COALESCE(pID,'0'), wkID, eID)) AS R, nats(count));
+     FROM (VALUES (isInvalid, COALESCE(pID,'0'), wkID, eID)) AS R, generate_series(1,count));
 
 END;$BODY$
 LANGUAGE plpgsql VOLATILE
@@ -150,12 +132,12 @@ BEGIN
     FOR i IN 0..candidates LOOP
       INSERT INTO erststimme (isInvalid, Candidate, Wahlkreis, Election)
         (SELECT R.*
-         FROM (VALUES (FALSE, COALESCE(cIDs [i],'0'), wkID, eID)) AS R, nats(count / candidates));
+         FROM (VALUES (FALSE, COALESCE(cIDs [i],'0'), wkID, eID)) AS R, generate_series(1,count / candidates));
     END LOOP;
 
     INSERT INTO erststimme (isInvalid, Candidate, Wahlkreis, Election)
       (SELECT R.*
-       FROM (VALUES (FALSE, cIDs [0], wkID, eID)) AS R, nats(count % candidates));
+       FROM (VALUES (FALSE, cIDs [0], wkID, eID)) AS R, generate_series(1,count % candidates));
   END IF;
 
 END;$BODY$
