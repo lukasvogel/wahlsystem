@@ -33,6 +33,7 @@ def main(argv):
     cur.execute("ALTER TABLE voter ENABLE TRIGGER ALL;")
     cur.execute("ALTER TABLE erststimme ENABLE TRIGGER ALL;")
     cur.execute("ALTER TABLE zweitstimme ENABLE TRIGGER ALL;")
+    conn.commit()
 
 
 def addVotes(fileName, electionID, WahlkreisID):

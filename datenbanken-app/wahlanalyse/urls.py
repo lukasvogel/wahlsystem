@@ -24,7 +24,11 @@ urlpatterns = [
     # /e_id/ueh/
     url(r'^(?P<e_id>[0-9]+)/ueh/', views.overhang_overview, name='overhang_overview'),
 
-    # /e_id/wkmap/
-    url(r'^(?P<e_id>[0-9]+)/wkmap/', views.wk_map, name='wk_map'),
+    # /e_id/wkmap/zweitstimmen
+    url(r'^(?P<e_id>[0-9]+)/wkmap/zweitstimmen/$', views.wk_map_zweitstimmen, name='wk_map_zweitstimmen'),
+
+    # /e_id/wkmap/zweitstimmen/p_id
+    url(r'^(?P<e_id>[0-9]+)/wkmap/zweitstimmen/(?P<party_id>[0-9]+)/$', views.wk_map_zweitstimmen_party,
+        name='wk_map_zweitstimmen_party'),
 
 ]

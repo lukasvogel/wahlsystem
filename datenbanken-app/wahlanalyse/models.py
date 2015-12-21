@@ -398,7 +398,7 @@ class Overhang(object):
 
 class Map(object):
     @staticmethod
-    def get_results(election):
+    def get_results_zweitstimmen(election):
         cur = conn.cursor()
 
         cur.execute(
@@ -422,6 +422,41 @@ class Map(object):
                 WHERE zweitstimme.election = %s
 
                 """, (election,)
+        )
+
+        wahlkreise = []
+
+        for wk in cur.fetchall():
+            wahlkreise.append({
+                'wk_id': wk[0],
+                'wk_name': wk[1],
+                'wk_second': wk[2],
+                'wk_second_votes': wk[3]
+            })
+
+        return wahlkreise
+
+    @staticmethod
+    def get_results_zweitstimmen_party(election, party):
+        cur = conn.cursor()
+
+        cur.execute(
+                """
+                SELECT wk.id, wk.name, p.name, round(zw.count / votes.votes * 100,1) as percentage
+                FROM  wahlkreis wk
+                LEFT JOIN  zweitstimme_results zw
+                ON zw.wahlkreis = wk.id
+                LEFT JOIN party p
+                ON p.id = zw.party
+                LEFT JOIN
+                  (select sum(count) as votes, zr2.election, zr2.wahlkreis
+                  from zweitstimme_results zr2
+                  group by zr2.election, zr2.wahlkreis) as votes
+                ON votes.election = zw.election
+                AND votes.wahlkreis = wk.id
+                WHERE zw.election = %s
+                AND zw.party = %s
+                """, (election, party)
         )
 
         wahlkreise = []

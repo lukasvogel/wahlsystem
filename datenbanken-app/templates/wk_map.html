@@ -74,16 +74,24 @@
                 {% endfor %}
             }
                 ;
+
+
+                maximum = 0;
+                for (var key in wk_votes) {
+                    maximum = Math.max(wk_votes[key], maximum);
+                }
+                ;
+
                 $("path").click(function () {
-                    window.location.href = "../wk/" + $(this).attr('id') + "/";
+                    window.location.href = "/wahlanalyse/{{ election }}/wk/" + $(this).attr('id') + "/";
                 });
                 $("path").each(function () {
 
                     id = $(this).attr('id');
-                    if (id >= 1 && id <= 300) {
+                    if (id >= 1 && id <= 299) {
                         winner = wk_winners[id];
-                        $(this).attr("fill", color_mapping[winner]);
-                        $(this).attr("fill-opacity", wk_votes[id] / 70);
+                        $(this).attr("fill", color_mapping[winner] || "#0000cc");
+                        $(this).attr("fill-opacity", wk_votes[id] / maximum);
                     }
 
                 });

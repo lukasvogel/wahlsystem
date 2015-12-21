@@ -12,9 +12,15 @@
                 <li><a href="/wahlanalyse/{{ election }}">Übersicht</a></li>
                 <li><a href="/wahlanalyse/{{ election }}/abgeordnete/">Abgeordnete</a></li>
                 <li><a href="/wahlanalyse/{{ election }}/wk/">Wahlkreise</a></li>
-                <li><a href="/wahlanalyse/{{ election }}/wkmap">Wahlkreiskarte</a></li>
                 <li><a href="/wahlanalyse/{{ election }}/ks/">Knappste Ausgänge</a></li>
                 <li><a href="/wahlanalyse/{{ election }}/ueh">Überhangmandate</a></li>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Karten</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/wahlanalyse/{{ election }}/wkmap/erststimmen">Gewinner Erststimmen</a></li>
+                        <li><a href="/wahlanalyse/{{ election }}/wkmap/zweitstimmen">Gewinner Zweitstimmen</a></li>
+                    </ul>
+                </li>
+
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

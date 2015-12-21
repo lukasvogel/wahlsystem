@@ -80,10 +80,19 @@ def overhang_overview(request, e_id):
     return render(request, 'overhang_overview.html', context)
 
 
-def wk_map(request, e_id):
+def wk_map_zweitstimmen(request, e_id):
     context = RequestContext(request, {
         'election': e_id,
-        'results': Map.get_results(e_id)
+        'results': Map.get_results_zweitstimmen(e_id)
+    })
+
+    return render(request, 'wk_map.html', context)
+
+
+def wk_map_zweitstimmen_party(request, e_id, party_id):
+    context = RequestContext(request, {
+        'election': e_id,
+        'results': Map.get_results_zweitstimmen_party(e_id, party_id)
     })
 
     return render(request, 'wk_map.html', context)
