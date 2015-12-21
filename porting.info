@@ -1,0 +1,5 @@
+# extract line nomber of each "COPY ... \." sequence and writes them to grep.lines
+cat wahlsyste.sql.dump | egrep -n "COPY|\\\\\." | cut -d: -f 1 &> grep.lines
+
+# cuts 'wahlsyste.sql.dump' in the lines specified in 'grep.lines' and writes it to separate files
+cat grep.lines | while read a && read b ; do echo "$a , $b p" ;  (sed -n "$a , $b p" wahlsyste.sql.dump &> $a-$b.logs ) ; done
