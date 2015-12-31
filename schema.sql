@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS DirectMandate CASCADE;
-DROP TABLE IF EXISTS VotedOn CASCADE;
 DROP TABLE IF EXISTS Listenplatz CASCADE;
 DROP TABLE IF EXISTS Landesliste CASCADE;
 DROP TABLE IF EXISTS Zweitstimme CASCADE;
@@ -96,13 +95,6 @@ CREATE TABLE Listenplatz
   Candidate   INTEGER NOT NULL REFERENCES Candidate,
   Platz       INTEGER NOT NULL,
   PRIMARY KEY (Landesliste, Candidate)
-);
-
-CREATE TABLE VotedOn
-(
-  Election INTEGER NOT NULL REFERENCES Election,
-  Voter    INTEGER NOT NULL REFERENCES Voter,
-  PRIMARY KEY (Election, Voter)
 );
 
 CREATE TABLE DirectMandate

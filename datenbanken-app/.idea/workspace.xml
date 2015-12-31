@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="59e042f5-1ffd-4955-814c-828ca86d9e56" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="59e042f5-1ffd-4955-814c-828ca86d9e56" name="Default" comment="" />
     <ignored path="datenbanken.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -47,28 +45,28 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wahlanalyse/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23567921">
-              <caret line="208" column="42" selection-start-line="208" selection-start-column="42" selection-end-line="208" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.3584288">
+              <caret line="208" column="38" selection-start-line="208" selection-start-column="38" selection-end-line="208" selection-end-column="38" />
               <folding>
-                <marker date="1449323213278" expanded="true" signature="324:752" placeholder="SELECT mb.fi..members_of_bundestag..." />
-                <marker date="1449323213278" expanded="true" signature="1287:2311" placeholder="SELECT wk.id..wahlkreis..." />
-                <marker date="1449323213278" expanded="true" signature="1500:2105" placeholder="SELECT zw.el..zweitstimme_results..." />
-                <marker date="1449323213278" expanded="true" signature="1766:2104" placeholder="SELECT * FRO..zweitstimme_results..." />
-                <marker date="1449323213278" expanded="true" signature="2803:3066" placeholder="SELECT w.id,..wahlkreis..." />
-                <marker date="1449323213278" expanded="true" signature="3326:5309" placeholder="SELECT c.fir..directmandate..." />
-                <marker date="1449323213278" expanded="true" signature="4096:4292" placeholder="select sum(c..erststimme_results..." />
-                <marker date="1449323213278" expanded="true" signature="4880:5072" placeholder="select sum(c..erststimme_results..." />
-                <marker date="1449323213278" expanded="true" signature="5803:7014" placeholder="SELECT p.nam..party..." />
-                <marker date="1449323213278" expanded="true" signature="6136:6285" placeholder="select sum(c..zweitstimme_results..." />
-                <marker date="1449323213278" expanded="true" signature="6525:6678" placeholder="select sum(c..zweitstimme_results..." />
-                <marker date="1449323213278" expanded="true" signature="7388:7513" placeholder="SELECT w.wah..wahlbeteiligung..." />
-                <marker date="1449323213278" expanded="true" signature="8409:8594" placeholder="SELECT p.nam..seats_by_party..." />
-                <marker date="1449323213278" expanded="true" signature="9377:9861" placeholder="SELECT p.nam..votesbyparty..." />
-                <marker date="1449323213278" expanded="true" signature="10617:10816" placeholder="SELECT DISTI..party..." />
-                <marker date="1449323213278" expanded="true" signature="11201:11394" placeholder="SELECT cw.fi..closest_winners..." />
-                <marker date="1449323213278" expanded="true" signature="11696:11896" placeholder="SELECT cl.fi..closest_losers..." />
-                <marker date="1449323213278" expanded="true" signature="12283:12321" placeholder="SELECT name ..party..." />
-                <marker date="1449323213278" expanded="true" signature="12590:12813" placeholder="select b.nam..overhang_mandates..." />
+                <marker date="1450092594744" expanded="true" signature="323:751" placeholder="SELECT mb.fi..members_of_bundestag..." />
+                <marker date="1450092594744" expanded="true" signature="1284:2308" placeholder="SELECT wk.id..wahlkreis..." />
+                <marker date="1450092594744" expanded="true" signature="1497:2102" placeholder="SELECT zw.el..zweitstimme_results..." />
+                <marker date="1450092594744" expanded="true" signature="1763:2101" placeholder="SELECT * FRO..zweitstimme_results..." />
+                <marker date="1450092594744" expanded="true" signature="2800:3063" placeholder="SELECT w.id,..wahlkreis..." />
+                <marker date="1450092594744" expanded="true" signature="3323:5306" placeholder="SELECT c.fir..directmandate..." />
+                <marker date="1450092594744" expanded="true" signature="4093:4289" placeholder="select sum(c..erststimme_results..." />
+                <marker date="1450092594744" expanded="true" signature="4877:5069" placeholder="select sum(c..erststimme_results..." />
+                <marker date="1450092594744" expanded="true" signature="5800:7011" placeholder="SELECT p.nam..party..." />
+                <marker date="1450092594744" expanded="true" signature="6133:6282" placeholder="select sum(c..zweitstimme_results..." />
+                <marker date="1450092594744" expanded="true" signature="6522:6675" placeholder="select sum(c..zweitstimme_results..." />
+                <marker date="1450092594744" expanded="true" signature="7385:7510" placeholder="SELECT w.wah..wahlbeteiligung..." />
+                <marker date="1450092594744" expanded="true" signature="8375:8560" placeholder="SELECT p.nam..seats_by_party..." />
+                <marker date="1450092594744" expanded="true" signature="9341:9825" placeholder="SELECT p.nam..votesbyparty..." />
+                <marker date="1450092594744" expanded="true" signature="10585:10784" placeholder="SELECT DISTI..party..." />
+                <marker date="1450092594744" expanded="true" signature="11169:11362" placeholder="SELECT cw.fi..closest_winners..." />
+                <marker date="1450092594744" expanded="true" signature="11664:11864" placeholder="SELECT cl.fi..closest_losers..." />
+                <marker date="1450092594744" expanded="true" signature="12251:12289" placeholder="SELECT name ..party..." />
+                <marker date="1450092594744" expanded="true" signature="12558:12783" placeholder="select b.nam..overhang_mandates..." />
               </folding>
             </state>
           </provider>
@@ -132,7 +130,7 @@
         <entry file="file://$PROJECT_DIR$/wahlanalyse/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="56" column="24" selection-start-line="56" selection-start-column="24" selection-end-line="56" selection-end-column="24" />
+              <caret line="56" column="6" selection-start-line="56" selection-start-column="6" selection-end-line="56" selection-end-column="6" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -182,7 +180,7 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1916" />
+    <option name="width" value="1910" />
     <option name="height" value="1050" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -210,6 +208,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -272,8 +272,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -286,126 +284,6 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/templates" />
     </key>
-  </component>
-  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
-    <UpdatedFiles>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Updated from server" />
-        <option name="myStatusName" value="Changed on server" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="CHANGED_ON_SERVER" />
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated" />
-          <option name="myStatusName" value="Changed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/datenbanken/settings.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/base.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/navigation.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/wk_detail.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/wahlanalyse/models.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/wahlanalyse/urls.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/wahlanalyse/views.py</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../election_algorithm.sql</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/../wahlkreis_analysis.sql</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Created" />
-          <option name="myStatusName" value="Created" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/static/wahlanalyse/style.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/overhang_overview.html</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Deleted" />
-          <option name="myStatusName" value="Deleted" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="true" />
-          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Restored" />
-          <option name="myStatusName" value="Will be restored" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="RESTORED" />
-        </FILE-GROUP>
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Modified" />
-        <option name="myStatusName" value="Modified" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MODIFIED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Skipped" />
-        <option name="myStatusName" value="Skipped" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SKIPPED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with conflicts" />
-        <option name="myStatusName" value="Will be merged with conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_CONFLICTS" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with tree conflicts" />
-        <option name="myStatusName" value="Merged with tree conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with property conflicts" />
-        <option name="myStatusName" value="Will be merged with property conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged" />
-        <option name="myStatusName" value="Will be merged" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Not in repository" />
-        <option name="myStatusName" value="Not in repository" />
-        <option name="mySupportsDeletion" value="true" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="UNKNOWN" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally added" />
-        <option name="myStatusName" value="Locally added" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_ADDED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally removed" />
-        <option name="myStatusName" value="Locally removed" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_REMOVED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Switched" />
-        <option name="myStatusName" value="Switched" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SWITCHED" />
-      </FILE-GROUP>
-    </UpdatedFiles>
   </component>
   <component name="RunManager" selected="Django server.datenbanken">
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
@@ -675,10 +553,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1916" height="1050" extended-state="4" />
-    <editor active="true" />
+    <frame x="0" y="0" width="1910" height="1050" extended-state="4" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.274109" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27392218" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32983193" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32878152" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -738,6 +616,60 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/wahlanalyse/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/overview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="45" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="45" />
+          <folding>
+            <element signature="e#142#178#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/wk_overview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="43" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/abgeordnete.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="48" selection-start-line="0" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wahlanalyse/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="56" column="6" selection-start-line="56" selection-start-column="6" selection-end-line="56" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/datenbanken/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -751,25 +683,25 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1449323213278" expanded="true" signature="324:752" placeholder="SELECT mb.fi..members_of_bundestag..." />
-            <marker date="1449323213278" expanded="true" signature="1287:2311" placeholder="SELECT wk.id..wahlkreis..." />
-            <marker date="1449323213278" expanded="true" signature="1500:2105" placeholder="SELECT zw.el..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="1766:2104" placeholder="SELECT * FRO..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="2803:3066" placeholder="SELECT w.id,..wahlkreis..." />
-            <marker date="1449323213278" expanded="true" signature="3326:5309" placeholder="SELECT c.fir..directmandate..." />
-            <marker date="1449323213278" expanded="true" signature="4096:4292" placeholder="select sum(c..erststimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="4880:5072" placeholder="select sum(c..erststimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="5803:7014" placeholder="SELECT p.nam..party..." />
-            <marker date="1449323213278" expanded="true" signature="6136:6285" placeholder="select sum(c..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="6525:6678" placeholder="select sum(c..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="7388:7513" placeholder="SELECT w.wah..wahlbeteiligung..." />
-            <marker date="1449323213278" expanded="true" signature="8409:8594" placeholder="SELECT p.nam..seats_by_party..." />
-            <marker date="1449323213278" expanded="true" signature="9377:9861" placeholder="SELECT p.nam..votesbyparty..." />
-            <marker date="1449323213278" expanded="true" signature="10617:10816" placeholder="SELECT DISTI..party..." />
-            <marker date="1449323213278" expanded="true" signature="11201:11394" placeholder="SELECT cw.fi..closest_winners..." />
-            <marker date="1449323213278" expanded="true" signature="11696:11896" placeholder="SELECT cl.fi..closest_losers..." />
-            <marker date="1449323213278" expanded="true" signature="12283:12321" placeholder="SELECT name ..party..." />
-            <marker date="1449323213278" expanded="true" signature="12590:12813" placeholder="select b.nam..overhang_mandates..." />
+            <marker date="1450092594744" expanded="true" signature="323:751" placeholder="SELECT mb.fi..members_of_bundestag..." />
+            <marker date="1450092594744" expanded="true" signature="1284:2308" placeholder="SELECT wk.id..wahlkreis..." />
+            <marker date="1450092594744" expanded="true" signature="1497:2102" placeholder="SELECT zw.el..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="1763:2101" placeholder="SELECT * FRO..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="2800:3063" placeholder="SELECT w.id,..wahlkreis..." />
+            <marker date="1450092594744" expanded="true" signature="3323:5306" placeholder="SELECT c.fir..directmandate..." />
+            <marker date="1450092594744" expanded="true" signature="4093:4289" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="4877:5069" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="5800:7011" placeholder="SELECT p.nam..party..." />
+            <marker date="1450092594744" expanded="true" signature="6133:6282" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="6522:6675" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="7385:7510" placeholder="SELECT w.wah..wahlbeteiligung..." />
+            <marker date="1450092594744" expanded="true" signature="8375:8560" placeholder="SELECT p.nam..seats_by_party..." />
+            <marker date="1450092594744" expanded="true" signature="9341:9825" placeholder="SELECT p.nam..votesbyparty..." />
+            <marker date="1450092594744" expanded="true" signature="10585:10784" placeholder="SELECT DISTI..party..." />
+            <marker date="1450092594744" expanded="true" signature="11169:11362" placeholder="SELECT cw.fi..closest_winners..." />
+            <marker date="1450092594744" expanded="true" signature="11664:11864" placeholder="SELECT cl.fi..closest_losers..." />
+            <marker date="1450092594744" expanded="true" signature="12251:12289" placeholder="SELECT name ..party..." />
+            <marker date="1450092594744" expanded="true" signature="12558:12783" placeholder="select b.nam..overhang_mandates..." />
           </folding>
         </state>
       </provider>
@@ -841,25 +773,25 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1449323213278" expanded="true" signature="324:752" placeholder="SELECT mb.fi..members_of_bundestag..." />
-            <marker date="1449323213278" expanded="true" signature="1287:2311" placeholder="SELECT wk.id..wahlkreis..." />
-            <marker date="1449323213278" expanded="true" signature="1500:2105" placeholder="SELECT zw.el..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="1766:2104" placeholder="SELECT * FRO..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="2803:3066" placeholder="SELECT w.id,..wahlkreis..." />
-            <marker date="1449323213278" expanded="true" signature="3326:5309" placeholder="SELECT c.fir..directmandate..." />
-            <marker date="1449323213278" expanded="true" signature="4096:4292" placeholder="select sum(c..erststimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="4880:5072" placeholder="select sum(c..erststimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="5803:7014" placeholder="SELECT p.nam..party..." />
-            <marker date="1449323213278" expanded="true" signature="6136:6285" placeholder="select sum(c..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="6525:6678" placeholder="select sum(c..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="7388:7513" placeholder="SELECT w.wah..wahlbeteiligung..." />
-            <marker date="1449323213278" expanded="true" signature="8409:8594" placeholder="SELECT p.nam..seats_by_party..." />
-            <marker date="1449323213278" expanded="true" signature="9377:9861" placeholder="SELECT p.nam..votesbyparty..." />
-            <marker date="1449323213278" expanded="true" signature="10617:10816" placeholder="SELECT DISTI..party..." />
-            <marker date="1449323213278" expanded="true" signature="11201:11394" placeholder="SELECT cw.fi..closest_winners..." />
-            <marker date="1449323213278" expanded="true" signature="11696:11896" placeholder="SELECT cl.fi..closest_losers..." />
-            <marker date="1449323213278" expanded="true" signature="12283:12321" placeholder="SELECT name ..party..." />
-            <marker date="1449323213278" expanded="true" signature="12590:12813" placeholder="select b.nam..overhang_mandates..." />
+            <marker date="1450092594744" expanded="true" signature="323:751" placeholder="SELECT mb.fi..members_of_bundestag..." />
+            <marker date="1450092594744" expanded="true" signature="1284:2308" placeholder="SELECT wk.id..wahlkreis..." />
+            <marker date="1450092594744" expanded="true" signature="1497:2102" placeholder="SELECT zw.el..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="1763:2101" placeholder="SELECT * FRO..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="2800:3063" placeholder="SELECT w.id,..wahlkreis..." />
+            <marker date="1450092594744" expanded="true" signature="3323:5306" placeholder="SELECT c.fir..directmandate..." />
+            <marker date="1450092594744" expanded="true" signature="4093:4289" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="4877:5069" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="5800:7011" placeholder="SELECT p.nam..party..." />
+            <marker date="1450092594744" expanded="true" signature="6133:6282" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="6522:6675" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="7385:7510" placeholder="SELECT w.wah..wahlbeteiligung..." />
+            <marker date="1450092594744" expanded="true" signature="8375:8560" placeholder="SELECT p.nam..seats_by_party..." />
+            <marker date="1450092594744" expanded="true" signature="9341:9825" placeholder="SELECT p.nam..votesbyparty..." />
+            <marker date="1450092594744" expanded="true" signature="10585:10784" placeholder="SELECT DISTI..party..." />
+            <marker date="1450092594744" expanded="true" signature="11169:11362" placeholder="SELECT cw.fi..closest_winners..." />
+            <marker date="1450092594744" expanded="true" signature="11664:11864" placeholder="SELECT cl.fi..closest_losers..." />
+            <marker date="1450092594744" expanded="true" signature="12251:12289" placeholder="SELECT name ..party..." />
+            <marker date="1450092594744" expanded="true" signature="12558:12783" placeholder="select b.nam..overhang_mandates..." />
           </folding>
         </state>
       </provider>
@@ -931,25 +863,25 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="73" column="48" selection-start-line="73" selection-start-column="48" selection-end-line="73" selection-end-column="48" />
           <folding>
-            <marker date="1449323213278" expanded="true" signature="324:752" placeholder="SELECT mb.fi..members_of_bundestag..." />
-            <marker date="1449323213278" expanded="true" signature="1287:2311" placeholder="SELECT wk.id..wahlkreis..." />
-            <marker date="1449323213278" expanded="true" signature="1500:2105" placeholder="SELECT zw.el..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="1766:2104" placeholder="SELECT * FRO..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="2803:3066" placeholder="SELECT w.id,..wahlkreis..." />
-            <marker date="1449323213278" expanded="true" signature="3326:5309" placeholder="SELECT c.fir..directmandate..." />
-            <marker date="1449323213278" expanded="true" signature="4096:4292" placeholder="select sum(c..erststimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="4880:5072" placeholder="select sum(c..erststimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="5803:7014" placeholder="SELECT p.nam..party..." />
-            <marker date="1449323213278" expanded="true" signature="6136:6285" placeholder="select sum(c..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="6525:6678" placeholder="select sum(c..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="7388:7513" placeholder="SELECT w.wah..wahlbeteiligung..." />
-            <marker date="1449323213278" expanded="true" signature="8409:8594" placeholder="SELECT p.nam..seats_by_party..." />
-            <marker date="1449323213278" expanded="true" signature="9377:9861" placeholder="SELECT p.nam..votesbyparty..." />
-            <marker date="1449323213278" expanded="true" signature="10617:10816" placeholder="SELECT DISTI..party..." />
-            <marker date="1449323213278" expanded="true" signature="11201:11394" placeholder="SELECT cw.fi..closest_winners..." />
-            <marker date="1449323213278" expanded="true" signature="11696:11896" placeholder="SELECT cl.fi..closest_losers..." />
-            <marker date="1449323213278" expanded="true" signature="12283:12321" placeholder="SELECT name ..party..." />
-            <marker date="1449323213278" expanded="true" signature="12590:12813" placeholder="select b.nam..overhang_mandates..." />
+            <marker date="1450092594744" expanded="true" signature="323:751" placeholder="SELECT mb.fi..members_of_bundestag..." />
+            <marker date="1450092594744" expanded="true" signature="1284:2308" placeholder="SELECT wk.id..wahlkreis..." />
+            <marker date="1450092594744" expanded="true" signature="1497:2102" placeholder="SELECT zw.el..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="1763:2101" placeholder="SELECT * FRO..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="2800:3063" placeholder="SELECT w.id,..wahlkreis..." />
+            <marker date="1450092594744" expanded="true" signature="3323:5306" placeholder="SELECT c.fir..directmandate..." />
+            <marker date="1450092594744" expanded="true" signature="4093:4289" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="4877:5069" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="5800:7011" placeholder="SELECT p.nam..party..." />
+            <marker date="1450092594744" expanded="true" signature="6133:6282" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="6522:6675" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="7385:7510" placeholder="SELECT w.wah..wahlbeteiligung..." />
+            <marker date="1450092594744" expanded="true" signature="8375:8560" placeholder="SELECT p.nam..seats_by_party..." />
+            <marker date="1450092594744" expanded="true" signature="9341:9825" placeholder="SELECT p.nam..votesbyparty..." />
+            <marker date="1450092594744" expanded="true" signature="10585:10784" placeholder="SELECT DISTI..party..." />
+            <marker date="1450092594744" expanded="true" signature="11169:11362" placeholder="SELECT cw.fi..closest_winners..." />
+            <marker date="1450092594744" expanded="true" signature="11664:11864" placeholder="SELECT cl.fi..closest_losers..." />
+            <marker date="1450092594744" expanded="true" signature="12251:12289" placeholder="SELECT name ..party..." />
+            <marker date="1450092594744" expanded="true" signature="12558:12783" placeholder="select b.nam..overhang_mandates..." />
           </folding>
         </state>
       </provider>
@@ -1030,25 +962,25 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="38" column="37" selection-start-line="38" selection-start-column="37" selection-end-line="38" selection-end-column="37" />
           <folding>
-            <marker date="1449323213278" expanded="true" signature="324:752" placeholder="SELECT mb.fi..members_of_bundestag..." />
-            <marker date="1449323213278" expanded="true" signature="1287:2311" placeholder="SELECT wk.id..wahlkreis..." />
-            <marker date="1449323213278" expanded="true" signature="1500:2105" placeholder="SELECT zw.el..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="1766:2104" placeholder="SELECT * FRO..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="2803:3066" placeholder="SELECT w.id,..wahlkreis..." />
-            <marker date="1449323213278" expanded="true" signature="3326:5309" placeholder="SELECT c.fir..directmandate..." />
-            <marker date="1449323213278" expanded="true" signature="4096:4292" placeholder="select sum(c..erststimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="4880:5072" placeholder="select sum(c..erststimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="5803:7014" placeholder="SELECT p.nam..party..." />
-            <marker date="1449323213278" expanded="true" signature="6136:6285" placeholder="select sum(c..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="6525:6678" placeholder="select sum(c..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="7388:7513" placeholder="SELECT w.wah..wahlbeteiligung..." />
-            <marker date="1449323213278" expanded="true" signature="8409:8594" placeholder="SELECT p.nam..seats_by_party..." />
-            <marker date="1449323213278" expanded="true" signature="9377:9861" placeholder="SELECT p.nam..votesbyparty..." />
-            <marker date="1449323213278" expanded="true" signature="10617:10816" placeholder="SELECT DISTI..party..." />
-            <marker date="1449323213278" expanded="true" signature="11201:11394" placeholder="SELECT cw.fi..closest_winners..." />
-            <marker date="1449323213278" expanded="true" signature="11696:11896" placeholder="SELECT cl.fi..closest_losers..." />
-            <marker date="1449323213278" expanded="true" signature="12283:12321" placeholder="SELECT name ..party..." />
-            <marker date="1449323213278" expanded="true" signature="12590:12813" placeholder="select b.nam..overhang_mandates..." />
+            <marker date="1450092594744" expanded="true" signature="323:751" placeholder="SELECT mb.fi..members_of_bundestag..." />
+            <marker date="1450092594744" expanded="true" signature="1284:2308" placeholder="SELECT wk.id..wahlkreis..." />
+            <marker date="1450092594744" expanded="true" signature="1497:2102" placeholder="SELECT zw.el..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="1763:2101" placeholder="SELECT * FRO..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="2800:3063" placeholder="SELECT w.id,..wahlkreis..." />
+            <marker date="1450092594744" expanded="true" signature="3323:5306" placeholder="SELECT c.fir..directmandate..." />
+            <marker date="1450092594744" expanded="true" signature="4093:4289" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="4877:5069" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="5800:7011" placeholder="SELECT p.nam..party..." />
+            <marker date="1450092594744" expanded="true" signature="6133:6282" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="6522:6675" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="7385:7510" placeholder="SELECT w.wah..wahlbeteiligung..." />
+            <marker date="1450092594744" expanded="true" signature="8375:8560" placeholder="SELECT p.nam..seats_by_party..." />
+            <marker date="1450092594744" expanded="true" signature="9341:9825" placeholder="SELECT p.nam..votesbyparty..." />
+            <marker date="1450092594744" expanded="true" signature="10585:10784" placeholder="SELECT DISTI..party..." />
+            <marker date="1450092594744" expanded="true" signature="11169:11362" placeholder="SELECT cw.fi..closest_winners..." />
+            <marker date="1450092594744" expanded="true" signature="11664:11864" placeholder="SELECT cl.fi..closest_losers..." />
+            <marker date="1450092594744" expanded="true" signature="12251:12289" placeholder="SELECT name ..party..." />
+            <marker date="1450092594744" expanded="true" signature="12558:12783" placeholder="select b.nam..overhang_mandates..." />
           </folding>
         </state>
       </provider>
@@ -1195,7 +1127,7 @@
     <entry file="file://$PROJECT_DIR$/wahlanalyse/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="56" column="24" selection-start-line="56" selection-start-column="24" selection-end-line="56" selection-end-column="24" />
+          <caret line="56" column="6" selection-start-line="56" selection-start-column="6" selection-end-line="56" selection-end-column="6" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
@@ -1222,28 +1154,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/wahlanalyse/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23567921">
-          <caret line="208" column="42" selection-start-line="208" selection-start-column="42" selection-end-line="208" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.3584288">
+          <caret line="208" column="38" selection-start-line="208" selection-start-column="38" selection-end-line="208" selection-end-column="38" />
           <folding>
-            <marker date="1449323213278" expanded="true" signature="324:752" placeholder="SELECT mb.fi..members_of_bundestag..." />
-            <marker date="1449323213278" expanded="true" signature="1287:2311" placeholder="SELECT wk.id..wahlkreis..." />
-            <marker date="1449323213278" expanded="true" signature="1500:2105" placeholder="SELECT zw.el..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="1766:2104" placeholder="SELECT * FRO..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="2803:3066" placeholder="SELECT w.id,..wahlkreis..." />
-            <marker date="1449323213278" expanded="true" signature="3326:5309" placeholder="SELECT c.fir..directmandate..." />
-            <marker date="1449323213278" expanded="true" signature="4096:4292" placeholder="select sum(c..erststimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="4880:5072" placeholder="select sum(c..erststimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="5803:7014" placeholder="SELECT p.nam..party..." />
-            <marker date="1449323213278" expanded="true" signature="6136:6285" placeholder="select sum(c..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="6525:6678" placeholder="select sum(c..zweitstimme_results..." />
-            <marker date="1449323213278" expanded="true" signature="7388:7513" placeholder="SELECT w.wah..wahlbeteiligung..." />
-            <marker date="1449323213278" expanded="true" signature="8409:8594" placeholder="SELECT p.nam..seats_by_party..." />
-            <marker date="1449323213278" expanded="true" signature="9377:9861" placeholder="SELECT p.nam..votesbyparty..." />
-            <marker date="1449323213278" expanded="true" signature="10617:10816" placeholder="SELECT DISTI..party..." />
-            <marker date="1449323213278" expanded="true" signature="11201:11394" placeholder="SELECT cw.fi..closest_winners..." />
-            <marker date="1449323213278" expanded="true" signature="11696:11896" placeholder="SELECT cl.fi..closest_losers..." />
-            <marker date="1449323213278" expanded="true" signature="12283:12321" placeholder="SELECT name ..party..." />
-            <marker date="1449323213278" expanded="true" signature="12590:12813" placeholder="select b.nam..overhang_mandates..." />
+            <marker date="1450092594744" expanded="true" signature="323:751" placeholder="SELECT mb.fi..members_of_bundestag..." />
+            <marker date="1450092594744" expanded="true" signature="1284:2308" placeholder="SELECT wk.id..wahlkreis..." />
+            <marker date="1450092594744" expanded="true" signature="1497:2102" placeholder="SELECT zw.el..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="1763:2101" placeholder="SELECT * FRO..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="2800:3063" placeholder="SELECT w.id,..wahlkreis..." />
+            <marker date="1450092594744" expanded="true" signature="3323:5306" placeholder="SELECT c.fir..directmandate..." />
+            <marker date="1450092594744" expanded="true" signature="4093:4289" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="4877:5069" placeholder="select sum(c..erststimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="5800:7011" placeholder="SELECT p.nam..party..." />
+            <marker date="1450092594744" expanded="true" signature="6133:6282" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="6522:6675" placeholder="select sum(c..zweitstimme_results..." />
+            <marker date="1450092594744" expanded="true" signature="7385:7510" placeholder="SELECT w.wah..wahlbeteiligung..." />
+            <marker date="1450092594744" expanded="true" signature="8375:8560" placeholder="SELECT p.nam..seats_by_party..." />
+            <marker date="1450092594744" expanded="true" signature="9341:9825" placeholder="SELECT p.nam..votesbyparty..." />
+            <marker date="1450092594744" expanded="true" signature="10585:10784" placeholder="SELECT DISTI..party..." />
+            <marker date="1450092594744" expanded="true" signature="11169:11362" placeholder="SELECT cw.fi..closest_winners..." />
+            <marker date="1450092594744" expanded="true" signature="11664:11864" placeholder="SELECT cl.fi..closest_losers..." />
+            <marker date="1450092594744" expanded="true" signature="12251:12289" placeholder="SELECT name ..party..." />
+            <marker date="1450092594744" expanded="true" signature="12558:12783" placeholder="select b.nam..overhang_mandates..." />
           </folding>
         </state>
       </provider>
