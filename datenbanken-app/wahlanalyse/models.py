@@ -91,7 +91,6 @@ class Wahlkreise(object):
             (wk_id, election)
         )
 
-        # TODO: Was wenn party = None?
         wahlkreis = cur.fetchone()
 
         # Get the candidates trying to get a direct mandate
@@ -193,9 +192,161 @@ class Wahlkreise(object):
             SELECT w.wahlbeteiligung
             FROM wahlbeteiligung w
             WHERE w.wahlkreis = %s
-            AND w.election = 2
-            """,  # TODO: FIX HARDCODED ELECTION!!!!
-            (wk_id,)
+            AND w.election = %s
+            """,  # TODO : FIX VOTEINSERTION!!! THIS IS FAILING HARD IF NO VOTERS ARE VOTING FOR CURRENT ELECTION
+
+            (wk_id, election)
+        )
+        wahlbeteiligung = cur.fetchone()
+
+        return {'wk_id': wahlkreis[0],
+                'wk_name': wahlkreis[1],
+                'winner_fn': wahlkreis[2],
+                'winner_ln': wahlkreis[3],
+                'wahlbeteiligung': wahlbeteiligung[0],
+                'candidates': wk_candidates,
+                'parties': wk_parties}
+
+    @staticmethod
+    def get_details_unaggregated(wk_id, election):
+
+        cur = conn.cursor()
+
+        # Get infos on wahlkreis and direct mandate winner
+        cur.execute(
+            """SELECT w.id, w.name, c.firstname, c.lastname
+                FROM wahlkreis w,
+                     (SELECT
+                        w.id AS wahlkreis,
+                        d.candidate,
+                        d.election
+                     FROM (select candidate,wahlkreis,election,count(*) :: numeric from erststimme
+                                      group by candidate,wahlkreis,election) as er,
+                          wahlkreis w,
+                          directmandate d
+                     WHERE er.candidate = d.candidate
+                     AND d.election = er.election
+                     AND er.wahlkreis = w.id
+                     AND NOT (EXISTS
+                                (SELECT *
+                                FROM (select candidate,wahlkreis,election,count(*) :: numeric from erststimme
+                                      group by candidate,wahlkreis,election) as er2
+                                WHERE er2.wahlkreis = er.wahlkreis
+                                     AND er2.election = er.election
+                                     AND er2.count > er.count))) as dw,
+                     candidate c
+                WHERE dw.wahlkreis = w.id
+                AND c.id = dw.candidate
+                AND w.id = %s
+                AND dw.election = %s""",
+            (wk_id, election)
+        )
+
+        wahlkreis = cur.fetchone()
+
+        # Get the candidates trying to get a direct mandate
+        wk_candidates = []
+
+        cur.execute(
+            """
+            SELECT c.firstname, c.lastname, p.name, er.count,
+                    round(er.count / votes.votes  * 100,1) as percentage,
+                    (CASE WHEN d.election > 1
+                            THEN round((er.count / votes.votes - er_prev.count / votes_prev.votes) * 100,1)
+                         ELSE
+                            NULL
+                     END) as change
+            FROM candidate c
+                join directmandate d
+                    on c.id = d.candidate
+                join (select candidate,wahlkreis,election,count(*) :: numeric from erststimme
+                      group by candidate,wahlkreis,election) as er
+                    on er.candidate = d.candidate
+                    and er.election = d.election
+                    and er.wahlkreis = d.wahlkreis
+                left join party p
+                    on p.id = d.party
+                join (select count(*) :: numeric as votes, election, wahlkreis
+                      from erststimme
+                      group by wahlkreis,election) as votes
+                    on votes.election = d.election
+                    and votes.wahlkreis = d.wahlkreis
+                  left join directmandate d_prev
+                    on d_prev.party = d.party
+                    and d_prev.wahlkreis = d.wahlkreis
+                    and d_prev.election = GREATEST(d.election-1,1)
+                left join erststimme_results er_prev
+                    on er_prev.election = d_prev.election
+                    and er_prev.wahlkreis = d.wahlkreis
+                    and er_prev.candidate = d_prev.candidate
+                left join (select sum(count) :: numeric as votes, er3.election, er3.wahlkreis
+                                    from erststimme_results er3
+                                    group by er3.election, er3.wahlkreis) as votes_prev
+                    on votes_prev.election = d_prev.election
+                    and votes_prev.wahlkreis = d.wahlkreis
+            WHERE d.election = 2
+            AND d.wahlkreis = 1
+            order by er.count desc
+            """,
+            (election, wk_id)
+        )
+        for candidate in cur.fetchall():
+            wk_candidates.append({
+                'c_name': candidate[0] + ' ' + candidate[1],
+                'c_pname': candidate[2],
+                'c_votes': candidate[3],
+                'c_percentage': candidate[4],
+                'c_change': candidate[5]
+            })
+
+        # Get the results of the parties
+        wk_parties = []
+        cur.execute(
+            """
+            SELECT p.name, zr.count,
+              round(zr.count / votes.votes * 100,1) as percentage,
+              (CASE WHEN zr.election > 1
+                THEN round((zr.count / votes.votes - zr2.count / votes_prev.votes)*100,1)
+              ELSE
+                NULL
+              END) as change
+            FROM party p,
+              (select sum(count) as votes, zr2.election, zr2.wahlkreis
+              from zweitstimme_results zr2
+              group by zr2.election, zr2.wahlkreis) as votes,
+              zweitstimme_results zr
+              left join zweitstimme_results zr2 on zr2.election = greatest(zr.election-1,1) and zr2.wahlkreis = zr.wahlkreis and zr2.party = zr.party
+              left join
+                (select sum(count) as votes, zr3.election, zr3.wahlkreis
+                from zweitstimme_results zr3
+                group by zr3.election, zr3.wahlkreis) as votes_prev
+              on votes_prev.election = zr2.election and votes_prev.wahlkreis = zr2.wahlkreis
+            WHERE zr.party = p.id
+            AND zr.election = votes.election
+            AND zr.wahlkreis = votes.wahlkreis
+            AND zr.wahlkreis = %s
+            AND zr.election = %s
+            order by zr.count desc
+            """,
+            (wk_id, election)
+        )
+        for party in cur.fetchall():
+            wk_parties.append({
+                'p_name': party[0],
+                'p_votes': party[1],
+                'p_percentage': party[2],
+                'p_change': party[3]
+            })
+
+        # Get wahlbeteiligung
+        cur.execute(
+            """
+            SELECT w.wahlbeteiligung
+            FROM wahlbeteiligung w
+            WHERE w.wahlkreis = %s
+            AND w.election = %s
+            """,
+            (wk_id, election)
         )
         wahlbeteiligung = cur.fetchone()
 
