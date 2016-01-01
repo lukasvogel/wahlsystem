@@ -90,7 +90,7 @@
                     id = $(this).attr('id');
                     if (id >= 1 && id <= 299) {
                         winner = wk_winners[id];
-                        $(this).attr("fill", color_mapping[winner] || "#0000cc");
+                        $(this).attr("fill", color_mapping[winner] || "#ececec");
                         $(this).attr("fill-opacity", wk_votes[id] / maximum);
                     }
 
