@@ -64,13 +64,13 @@
                 };
 
                 var wk_winners = {
-                {% for wk in results %} {{ wk.wk_id }} : '{{ wk.wk_second }}',
+                {% for wk in results %} {{ wk.wk_id }} : '{{ wk.wk_party }}',
                 {% endfor %}
             }
                 ;
 
                 var wk_votes = {
-                {% for wk in results %} {{ wk.wk_id }} : '{{ wk.wk_second_votes }}',
+                {% for wk in results %} {{ wk.wk_id }} : '{{ wk.wk_party_percentage }}',
                 {% endfor %}
             }
                 ;

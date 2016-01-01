@@ -80,10 +80,20 @@
                 <li><a href="/wahlanalyse/{{ election }}/ueh">Überhangmandate</a></li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Karten</a>
                     <ul class="dropdown-menu" role="menu">
-                        <li>
-                            <a href="/wahlanalyse/{{ election }}/wkmap/erststimmen">Gewinner Erststimmen</a>
-                        </li>
 
+                        <li>
+                            <a class="trigger right-caret">Erststimmen</a>
+                            <ul class="dropdown-menu sub-menu">
+                                <li><a href="/wahlanalyse/{{ election }}/wkmap/erststimmen">Wahlkreissieger</a></li>
+                                <li><a href="/wahlanalyse/{{ election }}/wkmap/erststimmen/12/">CDU</a></li>
+                                <li><a href="/wahlanalyse/{{ election }}/wkmap/erststimmen/9/">CSU</a></li>
+                                <li><a href="/wahlanalyse/{{ election }}/wkmap/erststimmen/2/">SPD</a></li>
+                                <li><a href="/wahlanalyse/{{ election }}/wkmap/erststimmen/3/">DIE LINKE</a></li>
+                                <li><a href="/wahlanalyse/{{ election }}/wkmap/erststimmen/5/">GRÜNE</a></li>
+                                <li><a href="/wahlanalyse/{{ election }}/wkmap/erststimmen/4/">FDP</a></li>
+
+                            </ul>
+                        </li>
                         <li>
                             <a class="trigger right-caret">Zweitstimmen</a>
                             <ul class="dropdown-menu sub-menu">
