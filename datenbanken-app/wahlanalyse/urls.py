@@ -30,6 +30,9 @@ urlpatterns = [
     url(r'^(?P<e_id>[0-9]+)/wkmap/zweitstimmen/(?P<party_id>[0-9]+)/$', views.wk_map_zweitstimmen_party,
         name='wk_map_zweitstimmen_party'),
 
+    # /e_id/wkmap/erststimmen
+    url(r'^(?P<e_id>[0-9]+)/wkmap/erststimmen/$', views.wk_map_erststimmen, name='wk_map_erststimmen'),
+
     # /e_id/wkmap/erststimmen/p_id
     url(r'^(?P<e_id>[0-9]+)/wkmap/erststimmen/(?P<party_id>[0-9]+)/$', views.wk_map_erststimmen_party,
         name='wk_map_erststimmen_party')

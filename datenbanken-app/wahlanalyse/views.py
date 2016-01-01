@@ -97,6 +97,15 @@ def wk_map_zweitstimmen_party(request, e_id, party_id):
 
     return render(request, 'wk_map.html', context)
 
+def wk_map_erststimmen(request, e_id):
+    context = RequestContext(request, {
+        'election': e_id,
+        'results': Map.get_results_erststimmen(e_id)
+    })
+
+    return render(request, 'wk_map.html', context)
+
+
 def wk_map_erststimmen_party(request, e_id, party_id):
     context = RequestContext(request, {
         'election': e_id,

@@ -471,6 +471,45 @@ class Map(object):
         return wahlkreise
 
     @staticmethod
+    def get_results_erststimmen(election):
+        cur = conn.cursor()
+
+        cur.execute(
+            """
+            SELECT wk.id, wk.name, p.name, round(er.count / votes.votes * 100,1) as percentage
+            FROM (SELECT * FROM erststimme_results er
+		        WHERE NOT EXISTS (SELECT * FROM erststimme_results er2
+					WHERE er2.election = er.election
+					AND er2.wahlkreis = er.wahlkreis
+					AND er2.count > er.count)) as er
+            JOIN directmandate d
+            ON er.election = d.election AND er.wahlkreis = d.wahlkreis AND er.candidate = d.candidate
+            JOIN wahlkreis wk
+            ON wk.id = d.wahlkreis
+            JOIN party p
+            ON p.id = d.party
+            LEFT JOIN
+              (SELECT sum(count) AS votes, er2.election, er2.wahlkreis
+              FROM erststimme_results er2
+              GROUP BY er2.election, er2.wahlkreis) as votes
+            ON votes.election = er.election AND votes.wahlkreis = wk.id
+            WHERE er.election = %s
+           """, (election,)
+        )
+
+        wahlkreise = []
+
+        for wk in cur.fetchall():
+            wahlkreise.append({
+                'wk_id': wk[0],
+                'wk_name': wk[1],
+                'wk_party': wk[2],
+                'wk_party_percentage': wk[3]
+            })
+
+        return wahlkreise
+
+    @staticmethod
     def get_results_erststimmen_party(election, party):
         cur = conn.cursor()
 
