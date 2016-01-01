@@ -18,6 +18,7 @@ voters_total = {}
 def main(argv):
     # temporally disable foreign key constraints (immense speedup!)
     # this is okay as we know that our data is consistent
+    print("Disabling all foreign key constraints for faster insertions")
     cur.execute("ALTER TABLE voter DISABLE TRIGGER ALL;")
     cur.execute("ALTER TABLE erststimme DISABLE TRIGGER ALL;")
     cur.execute("ALTER TABLE zweitstimme DISABLE TRIGGER ALL;")
@@ -30,9 +31,18 @@ def main(argv):
     addVotes('data/kerg_modified_unicode.csv', 2, WToPopulate)
     addVotes('data/wkumrechnung2013_modified_unicode.csv', 1, WToPopulate)
 
+    cur.execute("Reenabling all foreign key constraints")
     cur.execute("ALTER TABLE voter ENABLE TRIGGER ALL;")
     cur.execute("ALTER TABLE erststimme ENABLE TRIGGER ALL;")
     cur.execute("ALTER TABLE zweitstimme ENABLE TRIGGER ALL;")
+
+
+    print("Creating index on zweitstimme for faster aggregation on raw data")
+    cur.execute("CREATE INDEX zw_index ON zweitstimme (election,wahlkreis,party);")
+
+    print("Creating index on erststimme for faster aggregation on raw data")
+    cur.execute("CREATE INDEX zw_index ON zweitstimme (election,wahlkreis,party);")
+
     conn.commit()
 
 
