@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.template import RequestContext
-
 from .models import BundestagMembers
 from .models import ClosestWinners
 from .models import Map
@@ -37,6 +36,15 @@ def wk_overview(request, e_id):
 def wk_detail(request, e_id, wk_id):
     context = RequestContext(request, {
         'details': Wahlkreise.get_details(wk_id, e_id),
+        'election': e_id
+    })
+
+    return render(request, 'wk_detail.html', context)
+
+
+def wk_detail_unaggregated(request, e_id, wk_id):
+    context = RequestContext(request, {
+        'details': Wahlkreise.get_details_unaggregated(wk_id, e_id),
         'election': e_id
     })
 
@@ -96,6 +104,7 @@ def wk_map_zweitstimmen_party(request, e_id, party_id):
     })
 
     return render(request, 'wk_map.html', context)
+
 
 def wk_map_erststimmen(request, e_id):
     context = RequestContext(request, {

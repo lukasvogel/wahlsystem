@@ -11,6 +11,9 @@ urlpatterns = [
     # /e_id/wk/5 : Query3
     url(r'^(?P<e_id>[0-9]+)/wk/(?P<wk_id>[0-9]+)/$', views.wk_detail, name='wk_detail'),
 
+    # /e_id/q7/wk:id ; Query7, unaggregated
+    url(r'^(?P<e_id>[0-9]+)/q7/(?P<wk_id>[0-9]+)/$', views.wk_detail_unaggregated, name='wk_detail_unaggregated'),
+
     # /e_id/wk/
     url(r'^(?P<e_id>[0-9]+)/wk/', views.wk_overview, name='wk_overview'),
 

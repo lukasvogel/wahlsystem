@@ -212,6 +212,9 @@ class Wahlkreise(object):
 
         cur = conn.cursor()
 
+        # the election we compare the results to
+        compare_to = max(int(election) - 1, 1)
+
         # Get infos on wahlkreis and direct mandate winner
         cur.execute(
             """SELECT w.id, w.name, c.firstname, c.lastname
@@ -220,8 +223,10 @@ class Wahlkreise(object):
                         w.id AS wahlkreis,
                         d.candidate,
                         d.election
-                     FROM (select candidate,wahlkreis,election,count(*) :: numeric from erststimme
-                                      group by candidate,wahlkreis,election) as er,
+                     FROM (select candidate,wahlkreis,election,count(*) :: numeric
+                            from erststimme
+                            where isInvalid = FALSE
+                            group by candidate,wahlkreis,election) as er,
                           wahlkreis w,
                           directmandate d
                      WHERE er.candidate = d.candidate
@@ -229,8 +234,10 @@ class Wahlkreise(object):
                      AND er.wahlkreis = w.id
                      AND NOT (EXISTS
                                 (SELECT *
-                                FROM (select candidate,wahlkreis,election,count(*) :: numeric from erststimme
-                                      group by candidate,wahlkreis,election) as er2
+                                FROM (select candidate,wahlkreis,election,count(*) :: numeric
+                                        from erststimme
+                                        where isInvalid = FALSE
+                                        group by candidate,wahlkreis,election) as er2
                                 WHERE er2.wahlkreis = er.wahlkreis
                                      AND er2.election = er.election
                                      AND er2.count > er.count))) as dw,
@@ -258,37 +265,50 @@ class Wahlkreise(object):
                      END) as change
             FROM candidate c
                 join directmandate d
-                    on c.id = d.candidate
-                join (select candidate,wahlkreis,election,count(*) :: numeric from erststimme
-                      group by candidate,wahlkreis,election) as er
-                    on er.candidate = d.candidate
-                    and er.election = d.election
-                    and er.wahlkreis = d.wahlkreis
-                left join party p
-                    on p.id = d.party
-                join (select count(*) :: numeric as votes, election, wahlkreis
+                on c.id = d.candidate
+                join
+                  (select candidate,wahlkreis,election,count(*) :: numeric
                       from erststimme
+                      where isInvalid = FALSE
+                      group by candidate,wahlkreis,election) as er
+                on er.candidate = d.candidate
+                  and er.election = d.election
+                  and er.wahlkreis = d.wahlkreis
+                left join
+                  party p
+                on p.id = d.party
+                join
+                  (select count(*) :: numeric as votes, election, wahlkreis
+                      from erststimme
+                      where isInvalid = FALSE
                       group by wahlkreis,election) as votes
-                    on votes.election = d.election
-                    and votes.wahlkreis = d.wahlkreis
-                  left join directmandate d_prev
-                    on d_prev.party = d.party
-                    and d_prev.wahlkreis = d.wahlkreis
-                    and d_prev.election = GREATEST(d.election-1,1)
-                left join erststimme_results er_prev
-                    on er_prev.election = d_prev.election
-                    and er_prev.wahlkreis = d.wahlkreis
-                    and er_prev.candidate = d_prev.candidate
-                left join (select sum(count) :: numeric as votes, er3.election, er3.wahlkreis
-                                    from erststimme_results er3
-                                    group by er3.election, er3.wahlkreis) as votes_prev
-                    on votes_prev.election = d_prev.election
-                    and votes_prev.wahlkreis = d.wahlkreis
-            WHERE d.election = 2
-            AND d.wahlkreis = 1
+                on votes.election = d.election
+                  and votes.wahlkreis = d.wahlkreis
+                left join
+                  directmandate d_prev
+                on d_prev.party = d.party
+                  and d_prev.wahlkreis = d.wahlkreis
+                  and d_prev.election = %s
+                left join
+                  (select candidate,wahlkreis,election,count(*) :: numeric
+                      from erststimme
+                      where isInvalid = FALSE
+                      group by candidate,wahlkreis,election) as er_prev
+                on er_prev.election = d_prev.election
+                  and er_prev.wahlkreis = d.wahlkreis
+                  and er_prev.candidate = d_prev.candidate
+                left join
+                  (select count(*) :: numeric as votes, election, wahlkreis
+                    from erststimme
+                    where isInvalid = FALSE
+                    group by election, wahlkreis) as votes_prev
+                on votes_prev.election = d_prev.election
+                  and votes_prev.wahlkreis = d.wahlkreis
+            WHERE d.election = %s
+            AND d.wahlkreis = %s
             order by er.count desc
             """,
-            (election, wk_id)
+            (compare_to,election, wk_id)
         )
         for candidate in cur.fetchall():
             wk_candidates.append({
@@ -306,21 +326,31 @@ class Wahlkreise(object):
             SELECT p.name, zr.count,
               round(zr.count / votes.votes * 100,1) as percentage,
               (CASE WHEN zr.election > 1
-                THEN round((zr.count / votes.votes - zr2.count / votes_prev.votes)*100,1)
+                THEN round((zr.count / votes.votes - zr_prev.count / votes_prev.votes)*100,1)
               ELSE
                 NULL
               END) as change
             FROM party p,
-              (select sum(count) as votes, zr2.election, zr2.wahlkreis
-              from zweitstimme_results zr2
-              group by zr2.election, zr2.wahlkreis) as votes,
-              zweitstimme_results zr
-              left join zweitstimme_results zr2 on zr2.election = greatest(zr.election-1,1) and zr2.wahlkreis = zr.wahlkreis and zr2.party = zr.party
+                (select count(*) as votes, election, wahlkreis
+                  from zweitstimme
+                  where isInvalid = FALSE
+                  group by election, wahlkreis) as votes,
+                (select election,wahlkreis,party,count(*) :: NUMERIC
+                  from zweitstimme
+                  where isInvalid = FALSE
+                  group by election,wahlkreis,party) as zr
               left join
-                (select sum(count) as votes, zr3.election, zr3.wahlkreis
-                from zweitstimme_results zr3
-                group by zr3.election, zr3.wahlkreis) as votes_prev
-              on votes_prev.election = zr2.election and votes_prev.wahlkreis = zr2.wahlkreis
+                (select election,wahlkreis,party, count(*) :: NUMERIC
+                 from zweitstimme
+                 where isInvalid = FALSE
+                 group by election,wahlkreis,party) as zr_prev
+              on zr_prev.election = %s and zr_prev.wahlkreis = zr.wahlkreis and zr_prev.party = zr.party
+              left join
+                (select count(*) as votes, election, wahlkreis
+                  from zweitstimme
+                  where isInvalid = FALSE
+                  group by election, wahlkreis) as votes_prev
+              on votes_prev.election = zr_prev.election and votes_prev.wahlkreis = zr.wahlkreis
             WHERE zr.party = p.id
             AND zr.election = votes.election
             AND zr.wahlkreis = votes.wahlkreis
@@ -328,7 +358,7 @@ class Wahlkreise(object):
             AND zr.election = %s
             order by zr.count desc
             """,
-            (wk_id, election)
+            (compare_to, wk_id, election)
         )
         for party in cur.fetchall():
             wk_parties.append({
@@ -356,7 +386,8 @@ class Wahlkreise(object):
                 'winner_ln': wahlkreis[3],
                 'wahlbeteiligung': wahlbeteiligung[0],
                 'candidates': wk_candidates,
-                'parties': wk_parties}
+                'parties': wk_parties
+                }
 
 
 class Overview(object):

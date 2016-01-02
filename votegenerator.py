@@ -42,7 +42,7 @@ def main(argv):
     conn.commit()
 
     print("Creating index on erststimme for faster aggregation on raw data")
-    cur.execute("CREATE INDEX zw_index ON zweitstimme (election,wahlkreis,party);")
+    cur.execute("CREATE INDEX er_index ON erststimmme (election,wahlkreis,candidate);")
     conn.commit()
 
 
