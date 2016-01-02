@@ -11,6 +11,9 @@ DROP TABLE IF EXISTS Bundesland CASCADE;
 DROP TABLE IF EXISTS Election CASCADE;
 DROP TABLE IF EXISTS Token CASCADE;
 
+DROP INDEX IF EXISTS zw_index CASCADE;
+DROP INDEX IF EXISTS er_index CASCADE;
+
 CREATE TABLE Election
 (
   ID   SERIAL PRIMARY KEY,
@@ -172,5 +175,6 @@ CREATE MATERIALIZED VIEW wahlberechtigte AS
         AND e.id <= coalesce(v.lastvalidelection, e.id)
   GROUP BY e.id, v.wahlkreis;
 
-
+/*
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";
+*/

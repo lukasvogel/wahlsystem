@@ -192,10 +192,10 @@ class Wahlkreise(object):
             SELECT w.wahlbeteiligung
             FROM wahlbeteiligung w
             WHERE w.wahlkreis = %s
-            AND w.election = %s
+            AND w.election = 2
             """,  # TODO : FIX VOTEINSERTION!!! THIS IS FAILING HARD IF NO VOTERS ARE VOTING FOR CURRENT ELECTION
 
-            (wk_id, election)
+            (wk_id,)
         )
         wahlbeteiligung = cur.fetchone()
 

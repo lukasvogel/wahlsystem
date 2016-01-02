@@ -150,5 +150,6 @@ CREATE OR REPLACE VIEW overhang_mandates AS (
         AND pd.election = mpb.election
         AND mpb.mandates > pd.seats
 );
-
+/*
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";
+*/

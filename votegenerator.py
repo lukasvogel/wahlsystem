@@ -31,7 +31,7 @@ def main(argv):
     addVotes('data/kerg_modified_unicode.csv', 2, WToPopulate)
     addVotes('data/wkumrechnung2013_modified_unicode.csv', 1, WToPopulate)
 
-    cur.execute("Reenabling all foreign key constraints")
+    print("Reenabling all foreign key constraints")
     cur.execute("ALTER TABLE voter ENABLE TRIGGER ALL;")
     cur.execute("ALTER TABLE erststimme ENABLE TRIGGER ALL;")
     cur.execute("ALTER TABLE zweitstimme ENABLE TRIGGER ALL;")
@@ -39,10 +39,31 @@ def main(argv):
 
     print("Creating index on zweitstimme for faster aggregation on raw data")
     cur.execute("CREATE INDEX zw_index ON zweitstimme (election,wahlkreis,party);")
+    conn.commit()
 
     print("Creating index on erststimme for faster aggregation on raw data")
     cur.execute("CREATE INDEX zw_index ON zweitstimme (election,wahlkreis,party);")
+    conn.commit()
 
+
+    print("Refreshing materialized views: erststimme")
+    cur.execute("REFRESH MATERIALIZED VIEW erststimme_results;")
+    conn.commit()
+
+    print("Refreshing materialized views: zweitstimme")
+    cur.execute("REFRESH MATERIALIZED VIEW zweitstimme_results;")
+    conn.commit()
+
+    print("Refreshing materialized views: erststimme_invalid")
+    cur.execute("REFRESH MATERIALIZED VIEW erststimme_invalid;")
+    conn.commit()
+
+    print("Refreshing materialized views: zweitstimme_ivnalid")
+    cur.execute("REFRESH MATERIALIZED VIEW zweitstimme_invalid;")
+    conn.commit()
+
+    print("Refreshing materialized views: wahlberechtigte")
+    cur.execute("REFRESH MATERIALIZED VIEW wahlberechtigte;")
     conn.commit()
 
 
