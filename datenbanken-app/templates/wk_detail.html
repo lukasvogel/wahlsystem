@@ -50,7 +50,14 @@
                         <td style="text-align: right">{{ candidate.c_votes }}</td>
                         <td style="text-align: right">{{ candidate.c_percentage }}%</td>
                         <td style="text-align: right">{% if candidate.c_change != None %}
-                            {{ candidate.c_change }}%
+                            {% if candidate.c_change > 0 %}
+                                +{{ candidate.c_change }}%
+                            {% elif candidate.c_change == 0 %}
+                                ±{{ candidate.c_change }}%
+
+                            {% else %}
+                                {{ candidate.c_change }}%
+                            {% endif %}
                         {% else %}
                             -
                         {% endif %}</td>
@@ -91,7 +98,14 @@
                         <td style="text-align: right">{{ party.p_votes }}</td>
                         <td style="text-align: right">{{ party.p_percentage }}%</td>
                         <td style="text-align: right">{% if party.p_change != None %}
-                            {{ party.p_change }}%
+                            {% if party.p_change > 0 %}
+                                +{{ party.p_change }}%
+                            {% elif party.p_change == 0 %}
+                                ±{{ party.p_change }}%
+                            {% else %}
+                                {{ party.p_change }}%
+                            {% endif %}
+
                         {% else %}
                             -
                         {% endif %}</td>

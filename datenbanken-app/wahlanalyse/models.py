@@ -726,3 +726,56 @@ class Map(object):
             })
 
         return wahlkreise
+
+
+    @staticmethod
+    def popularity(election):
+        cur = conn.cursor()
+
+        # The relative difference between erststimmen for the candidate
+        # and zweitstimmen for the party of the candidate
+        # candidates that have more first votes than their party has second votes
+        # than the average candidate have a popularity > 0
+        cur.execute(
+            """
+            SELECT wk.id, wk.name, p.name, (((er.count - zw.count) / avg(er.count - zw.count) OVER ())
+					) / 4 * 100 - 20 as popularity
+            FROM (SELECT * FROM erststimme_results er
+		        WHERE NOT EXISTS (SELECT * FROM erststimme_results er2
+					WHERE er2.election = er.election
+					AND er2.wahlkreis = er.wahlkreis
+					AND er2.count > er.count)) as er
+            JOIN directmandate d
+            ON er.election = d.election AND er.wahlkreis = d.wahlkreis AND er.candidate = d.candidate
+            JOIN wahlkreis wk
+            ON wk.id = d.wahlkreis
+            JOIN party p
+            ON p.id = d.party
+            JOIN zweitstimme_results zw
+            ON zw.election = er.election
+              AND zw.wahlkreis = er.wahlkreis
+              AND zw.party = p.id
+            WHERE er.election = %s
+           """, (election,)
+        )
+
+
+        wahlkreise = []
+
+        for wk in cur.fetchall():
+
+            # Ugly hack to get the right color!
+            # I am not proud of this
+            wk_color_of = 'SPD'
+
+            if wk[3] > 0:
+                wk_color_of = 'GRÜNE'
+
+            wahlkreise.append({
+                'wk_id': wk[0],
+                'wk_name': wk[1],
+                'wk_party': wk_color_of,
+                'wk_party_percentage': abs(wk[3])
+            })
+
+        return wahlkreise
