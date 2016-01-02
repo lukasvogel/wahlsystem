@@ -381,7 +381,7 @@ class Overview(object):
                FROM seats_by_party sp, party p
                WHERE p.id = sp.party
                AND election = %s
-               ORDER BY seats desc
+               ORDER BY name asc
             """, (election,)
         )
 
