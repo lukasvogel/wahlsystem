@@ -2,7 +2,7 @@ import uuid
 
 import psycopg2
 
-conn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
+conn = psycopg2.connect("host=localhost dbname=wahlsystem user=analyse")
 conn.autocommit = True
 
 votingconn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")

@@ -416,6 +416,5 @@ CREATE OR REPLACE VIEW members_of_bundestag AS (
   ORDER BY lastname
 );
 
-/*
+
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";
-*/

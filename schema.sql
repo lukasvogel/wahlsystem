@@ -175,6 +175,7 @@ CREATE MATERIALIZED VIEW wahlberechtigte AS
         AND e.id <= coalesce(v.lastvalidelection, e.id)
   GROUP BY e.id, v.wahlkreis;
 
-/*
+
+CREATE ROLE "analyse" WITH LOGIN;
+
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";
-*/
