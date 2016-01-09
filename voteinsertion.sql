@@ -35,6 +35,8 @@ BEGIN
       FROM (
              SELECT id
              FROM voter
+             WHERE LastVotedOn < election
+             AND wahlkreis = wkid
              LIMIT haveVoted
            ) tmp
     );
@@ -44,6 +46,36 @@ END;$BODY$
 LANGUAGE plpgsql VOLATILE
 COST 100;
 ALTER FUNCTION generate_voters( INTEGER, INTEGER, INTEGER, INTEGER )
+OWNER TO postgres;
+;
+
+
+CREATE OR REPLACE FUNCTION kill_voters(
+  wkid      INTEGER,
+  lastElectionAlive  INTEGER,
+  count     INTEGER
+  )
+  RETURNS VOID AS
+$BODY$
+DECLARE
+BEGIN
+    UPDATE voter
+    SET LastValidElection = lastElectionAlive
+    WHERE id IN (
+      SELECT id
+      FROM (
+             SELECT id
+             FROM voter
+             WHERE LastVotedOn <= lastElectionAlive
+             AND FirstValidElection <= lastElectionAlive
+             AND wahlkreis = wkid
+             LIMIT count
+           ) tmp
+    );
+END;$BODY$
+LANGUAGE plpgsql VOLATILE
+COST 100;
+ALTER FUNCTION kill_voters( INTEGER, INTEGER, INTEGER )
 OWNER TO postgres;
 ;
 

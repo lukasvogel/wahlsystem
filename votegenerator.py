@@ -28,8 +28,8 @@ def main(argv):
     if len(argv) == 2:
         WToPopulate = int(argv[1])
     print("Will only populate Wahlkreis: " + str(WToPopulate))
-    addVotes('data/kerg_modified_unicode.csv', 2, WToPopulate)
     addVotes('data/wkumrechnung2013_modified_unicode.csv', 1, WToPopulate)
+    addVotes('data/kerg_modified_unicode.csv', 2, WToPopulate)
 
     print("Reenabling all foreign key constraints")
     cur.execute("ALTER TABLE voter ENABLE TRIGGER ALL;")
@@ -42,7 +42,7 @@ def main(argv):
     conn.commit()
 
     print("Creating index on erststimme for faster aggregation on raw data")
-    cur.execute("CREATE INDEX er_index ON erststimmme (election,wahlkreis,candidate);")
+    cur.execute("CREATE INDEX er_index ON erststimme (election,wahlkreis,candidate);")
     conn.commit()
 
 
@@ -96,10 +96,13 @@ def addVotes(fileName, electionID, WahlkreisID):
             if (voters > voters_total[curWkID]):
                 voters = voters - voters_total[curWkID]
                 print("Generating " + str(voters) + " voters for wahlkreis: " + curWkID)
-
                 cur.execute("SELECT * FROM generate_voters(%s,%s,%s,%s)", (curWkID, electionID, voters, voted))
                 conn.commit()
                 voters_total[curWkID] += voters
+            elif (voters < voters_total[curWkID]):
+                voters_to_kill = voters_total[curWkID] - voters
+                print("Killing " + str(voters_to_kill) + " voters")
+                cur.execute("SELECT * FROM kill_voters(%s,%s,%s)", (curWkID,electionID-1,voters_to_kill))
 
             for party, amount in row.items():
 

@@ -171,11 +171,9 @@ CREATE MATERIALIZED VIEW wahlberechtigte AS
     v.wahlkreis,
     count(v.id)
   FROM election e, voter v
-  WHERE e.id >= v.firstvalidelection
+  WHERE e.id >= coalesce(v.firstvalidelection, 1)
         AND e.id <= coalesce(v.lastvalidelection, e.id)
   GROUP BY e.id, v.wahlkreis;
 
-
-CREATE ROLE "analyse" WITH LOGIN;
 
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "analyse";
