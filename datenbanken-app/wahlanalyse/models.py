@@ -2,7 +2,7 @@ import json
 from decimal import Decimal
 import psycopg2
 
-conn = psycopg2.connect("host=localhost dbname=wahlsystem user=analyse")
+conn = psycopg2.connect("host=localhost dbname=wahlsystem user=analyse password=Password01")
 conn.autocommit = True
 
 

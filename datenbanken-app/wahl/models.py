@@ -2,7 +2,7 @@ import uuid
 
 import psycopg2
 
-conn = psycopg2.connect("host=localhost dbname=wahlsystem user=analyse")
+conn = psycopg2.connect("host=localhost dbname=wahlsystem user=analyse password=Password01")
 conn.autocommit = True
 
 votingconn = psycopg2.connect("host=localhost dbname=wahlsystem user=postgres password=Password01")
@@ -159,7 +159,7 @@ class TokenGenerator(object):
 
         tokens = []
         for i in range(no):
-            token = uuid.uuid4()
+            token = str(uuid.uuid4())
             tokens.append(token)
             cur.execute(
                     'INSERT INTO token VALUES ( %s, %s, %s ) ', (elid, wkid, token)
