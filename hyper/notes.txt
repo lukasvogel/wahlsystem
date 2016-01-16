@@ -1,0 +1,33 @@
+1) SERIAL for PK's in posgres is not recognised by hyper (needs to be manually replace by INTERGER)
+
+2) 
+CREATE TABLE erststimme_results AS
+(
+	SELECT
+	candidate,
+	wahlkreis,
+	election,
+	COUNT(*)
+	FROM erststimme
+	WHERE isInvalid = FALSE
+	GROUP BY candidate, wahlkreis, election
+);
+
+crashes the database
+
+// if result is to large, hyper crashes:
+hyper> INSERT INTO erststimme_results 
+raul-# (
+raul(#     SELECT
+raul(#       candidate,
+raul(#       wahlkreis,
+raul(#       election,
+raul(#       COUNT(*)
+raul(#     FROM erststimme
+raul(#     WHERE isInvalid = FALSE
+raul(#     GROUP BY candidate, wahlkreis, election
+raul(# );
+STATEMENT 5025
+hyper> select * from erststimme_results;
+SSL error: wrong version number
+The connection to the server was lost. Attempting reset: Failed.
