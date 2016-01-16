@@ -185,6 +185,11 @@ class VoterVerifier(object):
                         (voterId, )
                 )
         elections = cur.fetchone()
+
+        #invalid voter, BAIL!
+        if elections is None:
+            return False
+
         firstVe = elections[0]
         lastVe = elections[1]
         lastVo = elections[2]
