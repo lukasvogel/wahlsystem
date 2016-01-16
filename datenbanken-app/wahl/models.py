@@ -51,9 +51,6 @@ class VoteHandler(object):
         )
 
         result = cur.fetchone()
-        # Do we have to check whether multiple tokens with the same key exist?
-        # my guess: no. If our system generates colliding tokens we have other problems to worry about
-        # ... really encouraging to have comments like this in an application like this, isn't it?
 
         if result is None:
             print('token falsch')
@@ -155,8 +152,10 @@ class VoteHandler(object):
 class TokenGenerator(object):
     @staticmethod
     def generatetokens(no, wkid, elid):
+        #voting cursor is neede to insert in table
         cur = votingconn.cursor()
 
+        # generate no votes for wahlkreis wkid and election eid
         tokens = []
         for i in range(no):
             token = str(uuid.uuid4())
@@ -164,5 +163,43 @@ class TokenGenerator(object):
             cur.execute(
                     'INSERT INTO token VALUES ( %s, %s, %s ) ', (elid, wkid, token)
             )
+
         votingconn.commit()
         return tokens
+
+class VoterVerifier(object):
+    @staticmethod
+    def verifyVoter(currentElection, voterId):
+
+        #assume cannot vote
+        canVote = False
+        cur = votingconn.cursor()
+
+        #no current election, BAIL!
+        if currentElection is None:
+            return False
+
+        #get voting data for voter
+        cur.execute(
+                        'select FirstValidElection, LastValidElection, LastVotedOn from voter where id = %s ',
+                        (voterId, )
+                )
+        elections = cur.fetchone()
+        firstVe = elections[0]
+        lastVe = elections[1]
+        lastVo = elections[2]
+
+        #interval checks
+        if int(firstVe) <= int(currentElection) and (lastVe is None or int(lastVe) > int(currentElection) ) and (lastVo is None or int(lastVo) < int (currentElection)):
+                canVote = True
+                lastVo = currentElection
+
+        if canVote:
+            #update voting info:
+            cur.execute(
+                        'update voter set LastVotedOn = %s WHERE id = %s ',
+                        ( lastVo, voterId )
+                )
+            votingconn.commit()
+
+        return canVote

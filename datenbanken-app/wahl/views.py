@@ -6,6 +6,7 @@ from .forms import BallotForm
 from .models import Ballot
 from .models import VoteHandler
 from .models import TokenGenerator
+from .models import VoterVerifier
 
 
 def vote(request, e_id, wk_id):
@@ -78,8 +79,16 @@ def success(request, e_id, wk_id):
 
     return render(request, 'success.html', context)
 
+
 def generatetokens(request, e_id, wk_id, token_no):
     context = {}
     context['uuids'] = TokenGenerator.generatetokens(int(token_no), wk_id, e_id)
 
     return render(request, 'tokens.html', context)
+
+
+def verifyvoter(request,e_id, v_id):
+    if VoterVerifier.verifyVoter(e_id, v_id):
+        return render(request, 'validvoter.html')
+    else:
+        return render(request, 'invalidvoter.html')

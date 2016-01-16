@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Wahl{% endblock %}</title>
+
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+
+    {% block javascript %}
+        {% bootstrap_javascript %}
+    {% endblock %}
+
+
+</head>
+
+
+<body>
+<div class="container container-table panel panel-default">
+    <div class="text-center">
+        <h1><b>Voter could not pe verified!</b></h1>
+    </div>
+    <p>
+        One of the following possibilities might be the cause:
+    <ul>
+        <li>the voterid given is invalid</li>
+        <li>the person with the voterid has already voted this election</li>
+    </ul>
+    </p>
+</div>
+
+
+</body>
+
+
+</html>
