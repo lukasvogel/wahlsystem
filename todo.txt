@@ -1,7 +1,0 @@
-- q7 richtig implementieren
-- Datengenerierung: Wahlbeteiligung kommt falsch heraus
-- Erst tokens neu generieren, wenn alle aufgebraucht wurden
-- Wahlbewerber von 2009 an falschen wahlkreisen
-- Wahlkreisänderungen beachten
-- Performance?
-- Hyper?

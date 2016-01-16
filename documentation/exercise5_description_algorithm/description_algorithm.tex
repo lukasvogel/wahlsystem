@@ -1,0 +1,41 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\author{Raul Persa, Lukas Vogel}
+\title{Short Description of the Seating Algorithm}
+\begin{document}
+
+\maketitle
+
+To guarantee the best possible performance we decided against an iterative method for seat assignment and used the method illustrated in \\ \texttt{http://www.wahlrecht.de/bundestag/index.htm}.
+
+The algorithm is fully implemented in SQL and does not depend on any application logic. Parts that cannot be expressed by pure SQL-Queries are implemented as plpgsql-functions. This guarantees a clean interface between the database and the application layer.
+
+The algorithm generates views for a variation of sub-tasks:
+\begin{itemize}
+		\item The winners of a direct mandate as \verb|directmandate_winners|
+		\item The parties eligible for seats in the Bundestag as \verb|parties_in_bundestag|
+		\item A Bundesdivisor, specifying the amount of votes needed to gain a seat in the Bundestag as \verb|bundesdivisor|
+		\item The amount of seats for each party in the Bundestag as \verb|total_num_seats| calculated with the Sainte-Lague method and the Bundesdivisor.
+\end{itemize}
+
+A plpgsql-function \verb|find_partydivisor| algorithmically determines a party divisor for each party. The divisor is used to distribute the seats by party back to each bundesland and the correspondent landesliste. A binary search is used for performance reasons.
+
+The view \verb|members_of_bundestag| finally specifies all members of the Bundestag, consisting of:
+
+\begin{itemize}
+	\item All \verb|directmandate_winners|
+	\item All candidates (that have not already won via direct mandate) \\
+	 specified by \verb|remaining_cand_on_ll|.
+	 They are a member if they are on a landesliste with a listenplatz lower than the number of remaining seats for a party in a bundesland.
+\end{itemize}
+
+
+The algorithm needs about 200ms to calculate the whole Bundstag-composition on commodity hardware (Laptop with Intel i5-4210U, Postgres 9.5, default settings).
+
+
+
+\end{document}

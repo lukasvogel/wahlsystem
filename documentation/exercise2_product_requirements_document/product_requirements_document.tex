@@ -1,0 +1,105 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\author{Raul Persa, Lukas Vogel}
+\title{Exercise 2 - Product Requirements Document}
+\begin{document}
+	\maketitle
+	
+	
+	\section*{Functional Requirements}
+	
+	\begin{itemize}
+		\item Analysis of current election
+			\begin{itemize}
+				\item Composition of the Bundestag by party, taking into consideration: Direkt-, \"Uberhangs- and Ausgleichsmandate
+				\item Direktmandate by party
+				\item Overview for each Wahlkreis
+				\item Each vote has to be stored separately but can be aggregated on Wahlkreis-level for faster analysis.
+			\end{itemize}
+		\item Comparison to former elections
+			\begin{itemize}
+				\item Compare results of current elections to former elections, especially those from 2009 and 2013
+				\item Votes from former elections are not kept.
+			\end{itemize}
+		\item Voting
+			\begin{itemize}
+				\item Accept and store votes from people who are eligible to vote.
+				\item Only one first and second vote per person allowed
+			\end{itemize}
+	\end{itemize}
+	
+	\section*{Nonfunctional Requirements}
+	
+	\begin{description}
+		\item[Performance] Voting, evaluation and analysis has to happen in near real-time. 
+		\textit{Acceptance criteria \ref{perf}}
+		
+		\item[Scalability] The system must handle the votes of 60 Million Wahlberechtigte on election day.
+		\textit{Acceptance criteria \ref{scala}}
+		
+		After the election has closed, the system has to present analytics in real-time to all interested citizens. \textit{Acceptance criteria \ref{scala}}
+		
+		\item[Information privacy] The personal information of all voters and candidates has to be secure under all circumstances. 
+		\textit{Acceptance criteria \ref{privacy}}
+		
+		\item[Robustness] Loss of power, hardware or software crashes must not lead to a loss of votes. 
+		\textit{Acceptance criteria \ref{rob}}
+		
+		\item[Security] The system has to be safe from intrusion. Only Wahlberechtigte are allowed to vote. They may vote exactly once per election. 
+		\textit{Acceptance criteria \ref{safe}}
+		
+		\item[Compliance] The system has to be compliant with the Bundeswahlger\"ateverordnung (BWahlGV). 
+		
+	\end{description}
+	
+	\section*{User Interface}
+	
+	\begin{itemize}
+		\item Voting
+			\begin{itemize}
+				\item The first vote and/or the second vote can be marked as invalid individually.
+				\item Order of first and second vote not specified
+				\item Neutral presentation of all options (i.e. no default values)
+			\end{itemize}
+		\item Analysis
+			\begin{itemize}
+				\item An easy to use web application allows the user to view statistics of the election as well as the items specified in the analysis-part of the functional requirements.
+			\end{itemize}
+	\end{itemize}
+	
+	\section*{Acceptance Criteria}
+	\begin{enumerate}
+		\item \label{fuctio} All functional requirements are fulfilled.
+		\item  \label{scala} Scalability
+			\begin{itemize}
+				\item An input of 150 million votes can be handled in 12 hours.
+				\item Over the next 6 hours after voting has ended: 200,000 requests per minute can be handled at peak. 
+			\end{itemize} 
+		\item  \label{perf} Performance
+			\begin{itemize}
+				\item The average vote has to be registered in less than 5 seconds, worst case: 15 seconds.
+				\item Calculation of the partial election results in less than 10 minutes.
+				\item A web-page, showing the current election status has to be served in less than 2 seconds.
+			\end{itemize}
+		\item  \label{rob} Robustness
+			\begin{itemize}
+				\item Consistent state even after power loss or resetting of the system.
+			\end{itemize}
+			
+		\item \label{safe} Security
+			\begin{itemize}
+				\item The system has to reasonably resist attempts of intrusion or disruption (e.g. DDoS, SQL-Injections, \dots)
+			\end{itemize}
+		
+		\item \label{privacy} Privacy
+			\begin{itemize}
+				\item Votes have to be completely anonymous.
+				\item Access to sensitive information (voters, adresses, names, \dots) is to be restricted in such a way as to guarantee privacy.
+				\item Reports are only generated when data sizes are large enough to guarantee anonymity.
+			\end{itemize}
+	\end{enumerate}
+\end{document}
