@@ -1,0 +1,71 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\author{Raul Persa, Lukas Vogel}
+\title{Setup Description}
+\begin{document}
+	\maketitle
+	
+\section*{Used Technology}
+
+\begin{description}
+	\item[DBMS:] \textbf{Postgres}  \\
+	We used materialized views for data-aggregation. To refresh them without downtime (by using the \texttt{concurrently} keyword), at least version 9.4 is required. \\
+	An alternative version of vote-aggregation uses a trigger-based approach. It depends on the new upsert-feature of the postgres 9.5 beta. It is meant as a proof of concept and therefore not enabled by default.
+	
+	\item[Backend:] \textbf{Django} \\
+	Django 1.8.6 with Python 3.5 was used during development. Earlier versions should work aswell.
+	Our project also depends on the sslserver and bootstrap3 django packages.
+
+	\item[Database-Adapter:] \textbf{psycopg2} \\
+	We decided against using the Django Object-relational mapper, as it wouldn't give us enough control over our queries. We used the psycopg2 module to talk to the database instead.
+	
+	\item[Frontend:] \textbf{jQuery and Bootstrap}
+	
+	\item[Load testing:] \textbf{locust} \\
+	Locust is a Python-module only running on Python 2.
+\end{description}
+	
+\section*{Loading Data Into The Database}
+
+\begin{description}
+	\item[Setting up the schema and static data] \hfill \\
+		The database schema is defined in the file
+		\texttt{schema.sql}. It can be directly imported into postgres. 
+		An easier way to setup the schema is by running the Python3 script \texttt{setup.py}. It automatically imports the schema and handles all of the following tasks:
+	
+	\begin{description}
+		\item[Setting up the vote-insertion functions] \hfill \\
+		The data is imported via \texttt{plpgsql}-functions. They are defined in the toplevel-file \texttt{voteinsertion.sql}.
+	
+		\item[Importing views for election algorithm] \hfill \\
+		The views and \texttt{plpgsql}-functions needed for the algorithm are defined in the file \texttt{election-algorithm.sql}.
+		
+		\item[Importing views for analysis of Wahlkreise] \hfill \\
+		Some assorted views to facilitate queries for the Wahlkreis-Overview web page are defined in the file \texttt{wahlkreis-analysis.sql}. 
+		
+		\item[Importing static data]
+		Data like parties, Bundesländer, Wahlkreise, Candidates, etc. is extracted from the files in the \texttt{data/} directory and imported by \texttt{setup.py}.
+	\end{description}	
+	
+	\item[Generate votes] \hfill \\
+		The Python3 script \texttt{votegenerator.py} generates the right amount of voters and votes for the elections of 2009 and 2013 and imports them into the database. It takes advance of the \texttt{plpgsql}-functions defined in \texttt{voteinsertion.sql} already imported by \texttt{setup.py}.
+
+	
+\end{description}
+
+
+\section*{Running the Wahlsystem}
+The subdirectory \texttt{datenbanken-app} is a django-project. It consists of the two applications \texttt{wahlanalyse} handling the analysis part of the system and \texttt{wahl} handling the actual voting.
+
+It can be started by executing: \\
+\texttt{python datenbanken-app/manage.py runserver localhost:8000}
+
+The Wahlinformationssystem should then be reachable at: \\
+\texttt{localhost:8000/wahlanalyse/2/} or just: \texttt{localhost:8000}\\
+where 2 is the election id. 
+
+\end{document}

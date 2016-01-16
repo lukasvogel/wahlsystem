@@ -82,7 +82,6 @@ def addVotes(fileName, electionID, WahlkreisID):
 
             curUebrige = row['Übrige_S1']
             if curUebrige != "":
-                # TODO: Actually doesn't create invalid votes, as party = NULL != party IS NULL
                 # in postgres function generate_erststimmen
 
                 print("Generating " + curUebrige + " votes for a partyless candidate in wahlkreis " + curWkID)

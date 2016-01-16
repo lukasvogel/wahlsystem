@@ -38,23 +38,23 @@ def main():
     f = open('schema.sql','r')
     setupSQL = f.read()
     cur.execute(setupSQL)
-    f.close
+    f.close()
 
     f = open('voteinsertion.sql','r')
     voteinsertion = f.read()
     cur.execute(voteinsertion)
-    f.close
+    f.close()
 
     f = open('election_algorithm.sql','r')
     elecalg = f.read()
     cur.execute(elecalg)
-    f.close
+    f.close()
 
 
     f = open('wahlkreis_analysis.sql','r')
     elecalg = f.read()
     cur.execute(elecalg)
-    f.close
+    f.close()
 
 
     ### FILLING DATABASE ###
@@ -223,7 +223,7 @@ def addCandidates(csvfile):
                     cur.execute("INSERT INTO DirectMandate VALUES (%s,%s,%s,%s)",(int(electionID[0]),cID[0],wahlkreis,int(partyID[0])))
                 else:
                     cur.execute("INSERT INTO DirectMandate VALUES (%s,%s,%s)",(int(electionID[0]),cID[0],wahlkreis))
-            else: raise Error("a direct mandate couldn't be added, the database is missing an election key")
+            else: raise Exception("a direct mandate couldn't be added, the database is missing an election key")
 
         # check whether candidate is on a landesliste
         if candidate['Partei'] != "" and candidate['Bundesland'] != "":
@@ -242,8 +242,8 @@ def addCandidates(csvfile):
 
                 if ListID != None:
                     cur.execute("INSERT INTO listenplatz VALUES (%s,%s,%s)",(ListID[0],cID[0],candidate['Listenplatz']))
-                else: raise Error("a listenplatz couldn't be added, the database is missing a landesliste")
-            else: raise Error("a listenplatz couldn't be added, the database is missing an election/party/bundesland")
+                else: raise Exception("a listenplatz couldn't be added, the database is missing a landesliste")
+            else: raise Exception("a listenplatz couldn't be added, the database is missing an election/party/bundesland")
 
     conn.commit()
 
